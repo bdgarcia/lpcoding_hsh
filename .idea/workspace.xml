@@ -2,47 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8de66319-dc92-4b43-9f71-256367736120" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/application/templates/base.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application/templates/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/staticfiles/css/bootstrap-grid.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/staticfiles/css/bootstrap-grid.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/staticfiles/css/bootstrap-grid.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/staticfiles/css/bootstrap-grid.min.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/staticfiles/css/bootstrap-reboot.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/staticfiles/css/bootstrap-reboot.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/staticfiles/css/bootstrap-reboot.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/staticfiles/css/bootstrap-reboot.min.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/staticfiles/css/bootstrap.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/staticfiles/css/bootstrap.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/staticfiles/css/bootstrap.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/staticfiles/css/bootstrap.min.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/staticfiles/js/bootstrap.bundle.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/staticfiles/js/bootstrap.bundle.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/staticfiles/js/bootstrap.bundle.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/staticfiles/js/bootstrap.bundle.min.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/staticfiles/js/bootstrap.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/staticfiles/js/bootstrap.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/staticfiles/js/bootstrap.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/staticfiles/js/bootstrap.min.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gettingstarted/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/application/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gettingstarted/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gettingstarted/static/humans.txt" beforeDir="false" afterPath="$PROJECT_DIR$/config/static/humans.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gettingstarted/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gettingstarted/wsgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/wsgi.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hello/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/application/migrations/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hello/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/application/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hello/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/application/migrations/0001_initial.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hello/migrations/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hello/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/application/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hello/static/lang-logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/application/static/lang-logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hello/templates/base.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hello/templates/db.html" beforeDir="false" afterPath="$PROJECT_DIR$/application/templates/db.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hello/templates/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hello/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/application/tests.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hello/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/application/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/manage.py" beforeDir="false" afterPath="$PROJECT_DIR$/manage.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Procfile" beforeDir="false" afterPath="$PROJECT_DIR$/Procfile" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -56,55 +16,42 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/config/settings.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="156">
-              <caret line="68" column="10" selection-start-line="68" selection-start-column="10" selection-end-line="68" selection-end-column="10" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/templates/db.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" column="5" lean-forward="true" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="1" column="5" selection-start-line="1" selection-start-column="5" selection-end-line="1" selection-end-column="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/staticfiles/css/bootstrap.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="901">
-              <caret line="53" column="13" selection-start-line="53" selection-start-column="13" selection-end-line="53" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/staticfiles/staticfiles.json">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret column="22" lean-forward="true" selection-start-column="22" selection-end-column="22" />
+              <caret column="21" selection-start-column="21" selection-end-column="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Procfile.windows">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/application/models.py">
+        <entry file="file://$PROJECT_DIR$/Procfile">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="17">
-              <caret line="1" selection-start-line="1" selection-end-line="1" />
+              <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/config/wsgi.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
             </state>
           </provider>
         </entry>
@@ -139,11 +86,13 @@
         <option value="$PROJECT_DIR$/config/urls.py" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/staticfiles/staticfiles.json" />
+        <option value="$PROJECT_DIR$/config/settings.py" />
         <option value="$PROJECT_DIR$/application/models.py" />
+        <option value="$PROJECT_DIR$/Procfile" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="2322" />
     <option name="y" value="-21" />
     <option name="width" value="1400" />
@@ -167,17 +116,6 @@
             <path>
               <item name="lpcoding_hsh" type="b2602c69:ProjectViewProjectNode" />
               <item name="lpcoding_hsh" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="lpcoding_hsh" type="b2602c69:ProjectViewProjectNode" />
-              <item name="lpcoding_hsh" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="lpcoding_hsh" type="b2602c69:ProjectViewProjectNode" />
-              <item name="lpcoding_hsh" type="462c0819:PsiDirectoryNode" />
               <item name="config" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -190,27 +128,6 @@
               <item name="lpcoding_hsh" type="b2602c69:ProjectViewProjectNode" />
               <item name="lpcoding_hsh" type="462c0819:PsiDirectoryNode" />
               <item name="staticfiles" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="lpcoding_hsh" type="b2602c69:ProjectViewProjectNode" />
-              <item name="lpcoding_hsh" type="462c0819:PsiDirectoryNode" />
-              <item name="staticfiles" type="462c0819:PsiDirectoryNode" />
-              <item name="legacy" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="lpcoding_hsh" type="b2602c69:ProjectViewProjectNode" />
-              <item name="lpcoding_hsh" type="462c0819:PsiDirectoryNode" />
-              <item name="staticfiles" type="462c0819:PsiDirectoryNode" />
-              <item name="legacy" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="lpcoding_hsh" type="b2602c69:ProjectViewProjectNode" />
-              <item name="lpcoding_hsh" type="462c0819:PsiDirectoryNode" />
-              <item name="staticfiles" type="462c0819:PsiDirectoryNode" />
-              <item name="legacy" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-              <item name="admin" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -284,12 +201,12 @@
       <option name="presentableId" value="Default" />
       <updated>1556473219908</updated>
       <workItem from="1556473223037" duration="436000" />
-      <workItem from="1556846692015" duration="3079000" />
+      <workItem from="1556846692015" duration="3869000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3515000" />
+    <option name="totallyTimeSpent" value="4305000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="-8" width="1382" height="744" extended-state="6" />
@@ -347,19 +264,6 @@
     <entry file="file://$PROJECT_DIR$/config/static/humans.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/config/wsgi.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Procfile">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Procfile.windows">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
@@ -387,30 +291,6 @@
     <entry file="file://$PROJECT_DIR$/config/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/manage.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="20" column="36" lean-forward="true" selection-start-line="20" selection-start-column="36" selection-end-line="20" selection-end-column="36" />
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="68" column="10" selection-start-line="68" selection-start-column="10" selection-end-line="68" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
@@ -424,14 +304,7 @@
     <entry file="file://$PROJECT_DIR$/staticfiles/lang-logo.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/templates/db.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="5" lean-forward="true" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/staticfiles/legacy/css/base.ae33e6383baa.css">
+    <entry file="file://$PROJECT_DIR$/staticfiles/admin/css/base.ae33e6383baa.css">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/staticfiles/css/bootstrap.css">
@@ -441,17 +314,65 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/staticfiles/staticfiles.json">
+    <entry file="file://$PROJECT_DIR$/config/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="22" lean-forward="true" selection-start-column="22" selection-end-column="22" />
+        <state relative-caret-position="221">
+          <caret line="35" column="27" selection-start-line="35" selection-start-column="27" selection-end-line="35" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="18" column="46" selection-start-line="18" selection-start-column="46" selection-end-line="18" selection-end-column="46" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/templates/db.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="5" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/application/models.py">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/wsgi.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/manage.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/staticfiles/staticfiles.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="21" selection-start-column="21" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Procfile.windows">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Procfile">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
+          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
         </state>
       </provider>
     </entry>
