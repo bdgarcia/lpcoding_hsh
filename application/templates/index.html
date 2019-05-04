@@ -2,10 +2,25 @@
 {% load staticfiles %}
 
 {% block content %}
-
 <div class="jumbotron text-center">
   <div class="container">
     <h1>Home Switch Home</h1>
   </div>
+</div>
+<link rel="stylesheet" href="{% static 'hsh_css/index.css' %}"/>
+<div class="container container-catalogo">
+{% for residencia in residencias %}
+    <div class="card row">
+        <div class="foto-catalogo">
+            <img src="{% static 'test.jpg' %}">
+        </div>
+        <div class="texto-catalogo">
+            {{ residencia.item.nombre }}
+            {{ residencia.item.ubicacion }}
+            {{ residencia.item.precio }}
+            {{ residencia.item.descripcion }}
+        </div>
+    </div>
+{% endfor %}
 </div>
 {% endblock %}
