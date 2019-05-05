@@ -13,7 +13,7 @@
     <div class="container-cards">
         <div class="card row">
             <div class="foto-catalogo">
-                <img src="{% static 'media/' %}{{ residencia.codigo }}.jpg">
+                <img src="{% static 'media/' %}{{ residencia.nombre }}-{{ residencia.ubicacion }}.jpg">
             </div>
             <div class="texto-catalogo">
                 Nombre de la residencia: <b>{{ residencia.nombre }}</b><br>
