@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+<html>
+    <head>
+        <title>Home Switch Home</title>
+    </head>
+    <body> 
+        
+        <div class="content container">
+            <div class="row">
+
+
+                <div class="col-md-8">
+                    {% block content %}
+                    <h1>Ingrese los datos de la residencia: </h1>
+                    <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+                        {{form.as_p}}
+                        <button type='submit'>Guardar residencia</button>
+                    </form>
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>
