@@ -1,22 +1,23 @@
-from django.db import models
+from django.db import models 
+import os
 
 # Create your models here.
+
+def get_file_path(instance, filename):
+    """Cambia el nombre del archivo a el nombre y la ubicacion"""
+    ext = filename.split('.')[-1]
+    filename = "%s-%s.%s" % (instance.nombre, instance.ubicacion, ext)
+    return os.path.join(filename)
 
 class Residencia (models.Model):
     codigo = models.AutoField(primary_key = True)
     nombre = models.CharField(max_length =50)
-    ubicacion = models.CharField(max_length = 100)
+    ubicacion = models.CharField(max_length = 100, unique = True)
     descripcion = models.TextField()
     precio = models.FloatField()
     monto_minimo_subasta = models.FloatField()
-    foto = models.FileField(default=None, blank=True, null=True) 
+    foto = models.FileField(upload_to=get_file_path,default=None, blank=True, null=True) 
     borrado_logico = models.BooleanField(default=False)
-
-    def content_file_name(instance, filename):
-        import os
-        ext = filename.split('.')[-1]
-        filename = "%s.%s" % (instance.codigo, ext)
-        return os.path.join('uploads', filename)
 
 class Usuario (models.Model):
     nombre = models.CharField(max_length = 30)
