@@ -3,13 +3,13 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from .models import Greeting
-from .models import ItemsCatalogo
+from modelos.models import Residencia
 
 
 # Create your views here.
 def index(request):
 
-    residencias = ItemsCatalogo()
+    residencias = Residencia.objects.all()
 
     return render(request, "index.html", {"residencias": residencias})
 

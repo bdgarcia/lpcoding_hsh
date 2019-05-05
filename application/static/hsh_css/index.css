@@ -1,14 +1,20 @@
 
 .card {
-    padding: 30px;
+    padding: 2%;
     font-size: 20px;
     border: 1px solid black;
-    color: black
+    color: black;
+    height: 200px;
+    box-shadow: 5px 5px 2px dimgrey;
 }
 
 .container-catalogo {
     padding-left: 5%;
     padding-right: 5%;
+}
+
+.container-cards {
+    padding-bottom: 15px;
 }
 
 .foto-catalogo {
@@ -19,10 +25,14 @@
 }
 
 img {
-    max-width: 400px;
-    height: auto;
+    width: auto;
+    max-height: 160px;
 }
 
 .texto-catalogo {
     float: left;
+}
+
+.p {
+    text: bold;
 }
