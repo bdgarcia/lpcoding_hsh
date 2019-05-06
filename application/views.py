@@ -10,7 +10,7 @@ from .forms import ResidenciaForm
 # Create your views here.
 def index(request):
 
-    residencias = Residencia.objects.all()
+    residencias = Residencia.objects.filter(borrado_logico=False)
 
     return render(request, "index.html", {"residencias": residencias})
 
