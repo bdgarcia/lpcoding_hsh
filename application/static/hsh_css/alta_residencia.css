@@ -1,0 +1,24 @@
+.container-form {
+    padding-left: 2.5%;
+    padding-top:0px;
+    padding-bottom:5%
+}
+
+.container-field{
+    padding-bottom: 10px;
+}
+
+.container-widget{
+    padding-left: 5%;
+    padding-top: 10px;
+}
+
+.submitButton{
+    background-color: dodgerblue; 
+    color: black;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+

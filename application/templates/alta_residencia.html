@@ -1,26 +1,31 @@
 {% extends "base.html" %}
 {% load static %}
 <html>
-    <head>
-        <title>Home Switch Home</title>
-    </head>
-    <body> 
-        
-        <div class="content container">
-            <div class="row">
 
+<head>
+    <title>Home Switch Home</title>
+</head>
 
-                <div class="col-md-8">
-                    {% block content %}
-                    <h1>Ingrese los datos de la residencia: </h1>
-                    <form method="POST" enctype="multipart/form-data">{% csrf_token %}
-                        {{form.as_p}}
-                        <button type='submit'>Guardar residencia</button>
-                    </form>
-                    {% endblock %}
+<body>
+
+    {% block content %}
+    <link rel="stylesheet" href="{% static 'hsh_css/alta_residencia.css' %}" />
+    <div class=" container-form">
+        <h1>Ingrese los datos de la residencia: </h1><br>
+        <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+            <!--    {{form.as_p}} //queda reemplazado temporalmente por el css-->
+            {% for field in form %}
+            <div class="container-field">
+                <strong>{{field.label}}: </strong>
+                <div class="container-widget">
+                    {{field}}
                 </div>
             </div>
-        </div>
+            {% endfor %}
+            <button type='submit' class="submitButton">Guardar residencia</button>
+    </div>
+    </form>
+    {% endblock %}
 
-    </body>
+</body>
 </html>
