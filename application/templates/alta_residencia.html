@@ -10,20 +10,22 @@
 
     {% block content %}
     <link rel="stylesheet" href="{% static 'hsh_css/alta_residencia.css' %}" />
-    <div class=" container-form">
+    
+        <div class="titulo">
         <h1>Ingrese los datos de la residencia: </h1><br>
-        <form method="POST" enctype="multipart/form-data">{% csrf_token %}
-            <!--    {{form.as_p}} //queda reemplazado temporalmente por el css-->
+        </div>
+        <form method="POST" enctype="multipart/form-data" class="container-form">{% csrf_token %}
+
             {% for field in form %}
             <div class="container-field">
-                <strong>{{field.label}}: </strong>
-                <div class="container-widget">
-                    {{field}}
-                </div>
+                {{field.label}}:
             </div>
+            <div class="container-widget">
+                {{field}}
+            </div>            
             {% endfor %}
+            
             <button type='submit' class="submitButton">Guardar residencia</button>
-    </div>
     </form>
     {% endblock %}
 
