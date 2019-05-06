@@ -8,6 +8,11 @@
     box-shadow: 5px 5px 2px dimgrey;
 }
 
+.boton-detalle {
+    padding-right: 5px;
+    color: red;
+}
+
 .container-catalogo {
     padding-left: 5%;
     padding-right: 5%;

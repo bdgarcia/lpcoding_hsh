@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-
+<script type="text/javascript" src="{% static '/js/main.js' %}"></script>
 {% block content %}
 <div class="jumbotron text-center">
   <div class="container">
@@ -19,10 +19,15 @@
                 Nombre de la residencia: <b>{{ residencia.nombre }}</b><br>
                 Ubicación de la residencia: <b>{{ residencia.ubicacion }}</b><br>
                 Precio del alquiler por semana: <b>{{ residencia.precio }}</b><br>
-                Decsripción: <b>{{ residencia.descripcion }}</b>
+                Descripción: <b>{{ residencia.descripcion }}</b>
+            </div>
+            <div class="boton-detalle" id="detalleResidencia">
+                <button>Ver Detalle</button>
             </div>
         </div>
     </div>
+
 {% endfor %}
 </div>
 {% endblock %}
+
