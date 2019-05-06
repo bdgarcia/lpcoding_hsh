@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "application",
+    "modelos",
 ]
 
 MIDDLEWARE = [
@@ -115,5 +116,9 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "/static/"
+
+#Ruta a la carpeta donde se almacenaran las imagenes
+MEDIA_ROOT = os.path.join(BASE_DIR, 'application', 'static', 'media')
+MEDIA_URL = '/media/'
 
 django_heroku.settings(locals())
