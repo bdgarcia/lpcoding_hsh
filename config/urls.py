@@ -20,4 +20,5 @@ urlpatterns = [
     path("db/", application.views.db, name="db"),
     path("test/", application.views.test, name="test"),
     path("admin/", admin.site.urls),
+    path("auth/", include('django.contrib.auth.urls')),
 ]

@@ -21,12 +21,18 @@
                 Precio del alquiler por semana: <b>{{ residencia.precio }}</b><br>
                 Descripción: <b>{{ residencia.descripcion }}</b>
             </div>
-            <div class="boton-detalle" id="detalleResidencia">
-                <button>Ver Detalle</button>
+            <div class="button-container">
+                <div id="detalleResidencia">
+                    <button class="boton-detalle">Ver Detalle</button>
+                </div>
+                {% if user.type == "comun" or user.type == "premium" %}
+                    <div id="verSubasta">
+                        <button class="boton-detalle">Ver Subasta</button>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
-
 {% endfor %}
 </div>
 {% endblock %}
