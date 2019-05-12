@@ -6,11 +6,27 @@
     color: black;
     height: 200px;
     box-shadow: 5px 5px 2px dimgrey;
+    position: relative;
 }
 
+.button-container {
+    position: absolute;
+    right: 2%;
+    bottom: 6%;
+}
 .boton-detalle {
     padding-right: 5px;
-    color: red;
+    background-color: dodgerblue;
+    color: white;
+    font-family: Calibri;
+    float: right;
+    width: 160px;
+    margin-top: 4px;
+}
+
+.right-nav {
+    position: absolute;
+    right: 0%;
 }
 
 .container-catalogo {
