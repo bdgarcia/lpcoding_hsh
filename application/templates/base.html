@@ -9,8 +9,7 @@
     .jumbotron {
         background: dodgerblue;
         color: white;
-        padding-top: 30px;
-        padding-bottom: 40px
+        padding-bottom: 80px
     }
     .jumbotron .btn-primary {
         background: #845ac7;
@@ -32,8 +31,8 @@
         background: #b01302;
         border-radius: 50%;
         overflow: hidden;
-        width: 60px;
-        height: 60px;
+        width: 100px;
+        height: 100px;
         margin: auto;
         border: 2px solid white
     }
@@ -50,21 +49,10 @@
         <a href="/"><span class="glyphicon glyphicon-home"></span> Home</a>
       </li>
     </ul>
-  {% if user.is_authenticated %}
-    <ul class="nav navbar-nav right-nav">
-      <li>
-        <a href="{% url 'logout' %}"><span class="glyphicon"></span> Logout</a>
-      </li>
-    </ul>
-  {% else %}
-    <ul class="nav navbar-nav right-nav">
-      <li class="active">
-        <a href="{% url 'login' %}"><span class="glyphicon"></span> Login</a>
-      </li>
-    </ul>
-  {% endif %}
   </div>
 </nav>
+
 {% block content %}{% endblock %}
+
 </body>
 </html>
