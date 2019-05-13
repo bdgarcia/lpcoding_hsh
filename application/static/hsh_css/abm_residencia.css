@@ -1,0 +1,34 @@
+.container-form {
+    padding-left:2.5%;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    grid-row-gap:16px;
+    grid-auto-rows:auto;
+}
+
+.titulo{
+    padding-left:2.5%
+}
+
+.container-field{
+    font-weight:bold;
+    grid-column: 1 / 2;
+    grid-row:auto/auto;
+}
+
+.container-widget{
+    grid-row:auto/auto;
+    grid-column: 2/3;
+}
+
+.submitButton{
+    font-weight:bold;
+    grid-column:2/3;
+    width: 300px;
+    background-color: dodgerblue; 
+    color: black;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
