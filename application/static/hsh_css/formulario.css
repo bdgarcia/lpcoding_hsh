@@ -23,7 +23,6 @@
 
 .submitButton{
     font-weight:bold;
-    grid-column:2/3;
     width: 300px;
     background-color: dodgerblue; 
     color: black;
