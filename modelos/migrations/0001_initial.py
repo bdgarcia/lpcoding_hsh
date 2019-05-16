@@ -104,6 +104,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='alquila',
             name='email_usuario',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='modelos.Usuario'),
         ),
     ]
