@@ -29,6 +29,7 @@ class Usuario (AbstractUser):
     #membresia
     creditos = models.IntegerField()
     type = models.CharField(max_length = 30)
+    REQUIRED_FIELDS = ['fecha_nacimiento', 'email', 'creditos']
 
 class Subasta (models.Model):
     codigo_residencia = models.ForeignKey("Residencia", on_delete=models.CASCADE)
