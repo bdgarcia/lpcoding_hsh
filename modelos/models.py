@@ -1,4 +1,5 @@
-from django.db import models 
+from django.contrib.auth.models import AbstractUser
+from django.db import models
 import os
 
 # Create your models here.
@@ -19,15 +20,16 @@ class Residencia (models.Model):
     foto = models.FileField(upload_to=get_file_path,default=None, blank=True, null=True) 
     borrado_logico = models.BooleanField(default=False)
 
-class Usuario (models.Model):
+class Usuario (AbstractUser):
     nombre = models.CharField(max_length = 30)
     apellido = models.CharField(max_length = 30)
     email = models.EmailField(max_length = 100)
     fecha_nacimiento = models.DateField()
-    contraseña = models.CharField(max_length = 30)
     tarjeta_credito = models.CharField(max_length = 30)
     #membresia
     creditos = models.IntegerField()
+    type = models.CharField(max_length = 30)
+    REQUIRED_FIELDS = ['fecha_nacimiento', 'email', 'creditos']
 
 class Subasta (models.Model):
     codigo_residencia = models.ForeignKey("Residencia", on_delete=models.CASCADE)

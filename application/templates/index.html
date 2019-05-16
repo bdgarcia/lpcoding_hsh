@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-
+<script type="text/javascript" src="{% static '/js/main.js' %}"></script>
 {% block content %}
 <div class="jumbotron text-center">
   <div class="container">
@@ -13,16 +13,27 @@
     <div class="container-cards">
         <div class="card row">
             <div class="foto-catalogo">
-                <img src="{% static 'media/' %}{{ residencia.codigo }}.jpg">
+                <img src="{% static 'media/' %}{{ residencia.nombre }}-{{ residencia.ubicacion }}.jpg">
             </div>
             <div class="texto-catalogo">
                 Nombre de la residencia: <b>{{ residencia.nombre }}</b><br>
                 Ubicación de la residencia: <b>{{ residencia.ubicacion }}</b><br>
                 Precio del alquiler por semana: <b>{{ residencia.precio }}</b><br>
-                Decsripción: <b>{{ residencia.descripcion }}</b>
+                Descripción: <b>{{ residencia.descripcion }}</b>
+            </div>
+            <div class="button-container">
+                <div id="detalleResidencia">
+                    <button class="boton-detalle">Ver Detalle</button>
+                </div>
+                {% if user.type == "comun" or user.type == "premium" %}
+                    <div id="verSubasta">
+                        <button class="boton-detalle">Ver Subasta</button>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
 {% endfor %}
 </div>
 {% endblock %}
+

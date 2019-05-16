@@ -16,7 +16,9 @@ import application.views
 
 urlpatterns = [
     path("", application.views.index, name="index"),
+    path("alta_residencia/", application.views.alta_residencia, name="alta_residencia"),
     path("db/", application.views.db, name="db"),
     path("test/", application.views.test, name="test"),
     path("admin/", admin.site.urls),
+    path("auth/", include('django.contrib.auth.urls')),
 ]
