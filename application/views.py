@@ -1,5 +1,5 @@
 import requests
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 
 from .models import Greeting
@@ -34,6 +34,21 @@ def alta_residencia(request):
         form=ResidenciaForm
     return render(request,"alta_residencia.html", {'form':form})
 
+def mod_residencia(request, pk):
+                                    #Agregar redireccion a pagina no disponible en caso de que
+                                    #el usuario no sea admin.
+    residencia = get_object_or_404(Residencia, pk=pk)
+    if request.method == "POST":
+        form = ResidenciaForm(request.POST, instance=post)
+        if form.is_valid():
+            residencia = form.save(commit=False)
+            #post.author = request.user
+            #post.published_date = timezone.now()
+            residencia.save()
+            return redirect('/')   #Modificar a futuro para que muestre los detalles de la residencia dada de alta
+    else:
+        form = ResidenciaForm(instance=residencia)
+    return render(request, 'alta_residencia.html', {'form': form})
 
 def db(request):
 
