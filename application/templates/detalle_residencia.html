@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+<script type="text/javascript" src="{% static '/js/main.js' %}"></script>
+{% block content %}
+<div class="jumbotron text-center">
+  <div class="container">
+    <h1>Home Switch Home</h1>
+  </div>
+</div>
+<link rel="stylesheet" href="{% static 'hsh_css/index.css' %}"/>
+
+
+<div class="container-fluid">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="media">
+                    <img style='height: 100%; width: 100%; object-fit: contain' alt="Responsive image" class="img-fluid.max-width:100"  src = "{% static 'media/' %}{{ residencia.nombre }}-{{ residencia.ubicacion }}.jpg" />
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="jumbotron">
+                    <h2>
+                        <b>{{residencia.nombre}}</b> <br>
+                    </h2>
+                    <p>
+                        <ul>
+                            <li class="list-item">
+
+                                <b> {{ residencia.ubicacion }} </b> <br>
+                            </li>
+                            <li class="list-item">
+                                <b> {{ residencia.descripcion }} </b> <br>
+                            </li>
+                            <li class="list-item">
+                                <b> Precio: ${{ residencia.precio }} </b> <br>                           
+                            </li>
+                        </ul>
+
+                    </p>
+                        <p>
+                        <a class="btn btn-primary btn-large" href="#"> Ver subasta</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}

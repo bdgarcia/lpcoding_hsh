@@ -34,6 +34,10 @@ def alta_residencia(request):
         form=ResidenciaForm
     return render(request,"alta_residencia.html", {'form':form})
 
+def detalle_residencia (request, cod):
+    residencia = Residencia.objects.get(codigo = cod)
+    return (render (request, "detalle_residencia.html", {"residencia": residencia}))
+
 
 def db(request):
 
