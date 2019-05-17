@@ -39,11 +39,9 @@ def mod_residencia(request, pk):
                                     #el usuario no sea admin.
     residencia = get_object_or_404(Residencia, pk=pk)
     if request.method == "POST":
-        form = ResidenciaForm(request.POST, instance=post)
+        form = ResidenciaForm(request.POST, instance=residencia)
         if form.is_valid():
             residencia = form.save(commit=False)
-            #post.author = request.user
-            #post.published_date = timezone.now()
             residencia.save()
             return redirect('/')   #Modificar a futuro para que muestre los detalles de la residencia dada de alta
     else:
