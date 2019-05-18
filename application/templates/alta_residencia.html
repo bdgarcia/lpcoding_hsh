@@ -25,7 +25,13 @@
             </div>            
             {% endfor %}
             
-            <button type='submit' class="container-widget submitButton">Guardar residencia</button>
+            
+            {% if form.instance.pk != None %}
+                <button type='submit' class="container-widget submitButton" name="btnModificar" onclick="return confirm('¿Modificar Residencia?')">Guardar residencia</button>
+                <button type='submit' class="container-widget submitButton" name="btnEliminar" onclick="return confirm('¿Eliminar Residencia?')">Eliminar residencia</button>
+            {% else %}
+                <button type='submit' class="container-widget submitButton" name="btnGuardar" >Guardar residencia</button> 
+            {% endif %}
     </form>
     {% endblock %}
 
