@@ -39,7 +39,7 @@ def mod_residencia(request, pk):
                                     #Agregar redireccion a pagina no disponible en caso de que
                                     #el usuario no sea admin.
     residencia = get_object_or_404(Residencia, pk=pk)
-    if request.method == "POST" and 'btnGuardar' in request.POST:
+    if request.method == "POST" and 'btnModificar' in request.POST:
         form = ResidenciaForm(request.POST, instance=residencia) 
         if form.is_valid():
             residencia = form.save(commit=False) #por si tengo que modificar datos
