@@ -52,6 +52,8 @@ def detalle_residencia (request, cod):
     residencia = Residencia.objects.get(codigo = cod)
     return (render (request, "detalle_residencia.html", {"residencia": residencia}))
 
+def administracion (request):   
+    return (render (request, "administracion.html"))
 
 def db(request):
 
