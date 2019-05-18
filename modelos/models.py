@@ -37,10 +37,11 @@ class Subasta (models.Model):
     monto_inicial = models.FloatField()
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
+    semana_alquila = models.DateField()
     codigo = models.AutoField(primary_key = True)
 
 class Puja (models.Model):
-    email = models.EmailField(max_length = 100)
+    usuario = models.ForeignKey("Usuario", on_delete=models.CASCADE)
     monto = models.FloatField()
     fecha_y_hora = models.DateTimeField()
     codigo_subasta = models.ForeignKey("Subasta", on_delete = models.CASCADE)

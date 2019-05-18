@@ -2,38 +2,15 @@
 {% load staticfiles %}
 <script type="text/javascript" src="{% static '/js/main.js' %}"></script>
 {% block content %}
-<div class="jumbotron text-center">
-  <div class="container">
-    <h1>Home Switch Home</h1>
-  </div>
-</div>
 <link rel="stylesheet" href="{% static 'hsh_css/index.css' %}"/>
-<div class="container container-catalogo">
-{% for residencia in residencias %}
-    <div class="container-cards">
-        <div class="card row">
-            <div class="foto-catalogo">
-                <img src="{% static 'media/' %}{{ residencia.nombre }}-{{ residencia.ubicacion }}.jpg" height="160">
-            </div>
-            <div class="texto-catalogo">
-                Nombre de la residencia: <b>{{ residencia.nombre }}</b><br>
-                <!-- Ubicación de la residencia: <b>{{ residencia.ubicacion }}</b><br> -->
-                Precio del alquiler por semana: <b>{{ residencia.precio }}</b><br>
-               <!--  Descripción: <b>{{ residencia.descripcion }}</b> -->
-            </div>
-            <div class="button-container">
-                {% if user.type == "comun" or user.type == "premium" %}
-                    <div id="verSubasta">
-                        <button class="boton-detalle">Ver Subasta</button>
-                    </div>
-                {% endif %}
-                <div id="detalleResidencia">
-                    <a href="{% url 'detalle_residencia' cod=residencia.codigo %}" > <button class="boton-detalle"> Ver detalle </button> </a>
-                </div>
-            </div>
-        </div>
-    </div>
-{% endfor %}
-</div>
+<div class="container">
+<ul>    
+    <li class="nav">
+        <button class="boton-admin">Listado de subastas</button> <span class="align-middle">Acceso al listado de administracion de subastas actuales</span>
+    </li>
+    <li class="nav">
+        <div class="align-middle"><button class="boton-admin">Listado de usuarios</button> Acceso al listado de administracion de usuarios</div>
+    </li>
+</ul>
 {% endblock %}
 
