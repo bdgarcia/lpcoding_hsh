@@ -29,6 +29,12 @@
     right: 0%;
 }
 
+.left-nav {
+    position: absolute;
+    left: 0%;
+    height: auto;
+}
+
 .container-catalogo {
     padding-left: 5%;
     padding-right: 5%;

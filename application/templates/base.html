@@ -46,11 +46,9 @@
 <body>
 <nav class="navbar navbar-default navbar-static-top navbar-inverse">
   <div class="container">
-    <ul class="nav navbar-nav">
+    <ul class="nav navbar-nav left-nav">
       <li class="active">
-        <a href="/"><span class="glyphicon">    
-          <img src="{% static 'media/' %}HSH-Logo.svg"
-          height="25px" /></span> </a>
+        <a href="/"><span class="glyphicon"></span> Home</a>
       </li>
       {% if user.type == "admin" %}
       <li class="active">
@@ -60,7 +58,7 @@
     </ul>
   {% if user.is_authenticated %}
     <ul class="nav navbar-nav right-nav">
-      <li>
+      <li class="active">
         <a href="{% url 'logout' %}"><span class="glyphicon"></span> Logout</a>
       </li>
     </ul>
