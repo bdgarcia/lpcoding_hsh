@@ -39,10 +39,11 @@
                             <h4 class="texto_detalle"> Monto actual subasta: <b>${{ subasta.monto_actual }}</b> </h4>
                         {% endif %}
                     {% if user.type == "comun" or user.type == "premium" %}
-                        <form action='/detalle_residencia/{{ residencia.codigo }}' method='post'>{% csrf_token %}
-                            <input name="monto" placeholder="Ingrese el monto">
-                            <button type='submit' class="container-widget submitButton boton-puja" name="btnGuardar" >Pujar</button>
-                        </form>
+                            <form action='/detalle_residencia/{{ residencia.codigo }}' method='post'>{% csrf_token %}
+                                <input class="texto_detalle" name="monto" type="number" placeholder="Ingrese el monto" value=0></input>
+                                {{field}}
+                                <button type='submit' class="container-widget submitButton boton-puja" name="btnGuardar" >Pujar</button>
+                            </form>
                         </div>
                     {% endif %}
                     {% if user.type == "admin" %}

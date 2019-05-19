@@ -6,7 +6,7 @@ from modelos.models import Subasta
 from modelos.models import Puja
 
 from .forms import ResidenciaForm
-
+from .forms import TestForm
 # Create your views here.
 def index(request):
 
@@ -62,6 +62,38 @@ def mod_residencia(request, pk):
 
 
 # Muestra el detalle de la residencia que se pasa como parametro
+""" def detalle_residencia (request, cod):
+    residencia = Residencia.objects.get(codigo = cod)
+    try:
+        subasta = Subasta.objects.get(codigo_residencia = cod)
+    except Subasta.DoesNotExist:
+        subasta = None
+    finally:
+        if request.method == "POST":
+            form = request.POST.copy()
+
+            monto = float(form.get("monto"))
+            if monto < float(subasta.monto_actual) or monto < float(subasta.monto_inicial):
+                pass
+            else:
+                subasta.monto_actual = monto
+                subasta.save()
+                puja = Puja()
+                puja.usuario = request.user
+                from datetime import datetime
+                puja.fecha_y_hora = datetime.now()
+                puja.codigo_subasta = subasta
+                puja.monto = monto
+                puja.save()
+                return redirect ("/detalle_residencia/"+ str(cod))
+        else:
+            form = TestForm()
+    return (render (request, "detalle_residencia.html", {"residencia": residencia, "subasta": subasta, "form":form })) """
+
+# Redirecciona a la pagina de inicio si no se le pasan parametros a detalle_residencia
+def detalle_residencia_solo (request):
+    return redirect("index")
+
 def detalle_residencia (request, cod):
     residencia = Residencia.objects.get(codigo = cod)
     try:
@@ -72,17 +104,25 @@ def detalle_residencia (request, cod):
         if request.method == "POST":
             
             monto = request.POST.get("monto")
-            subasta.monto_actual = monto
-            subasta.save()
-            puja = Puja()
-            puja.usuario = request.user
-            from datetime import datetime
-            puja.fecha_y_hora = datetime.now()
-            puja.codigo_subasta = subasta
-            puja.monto = monto
-            puja.save()
-            return redirect ("/detalle_residencia/"+ str(cod))
+            if monto == "":
+                monto = 0
+            else:
+                monto = int(monto)
+            if monto < subasta.monto_actual or monto < subasta.monto_inicial:
+                pass
+            else:
+                subasta.monto_actual = monto
+                subasta.save()
+                puja = Puja()
+                puja.usuario = request.user
+                from datetime import datetime
+                puja.fecha_y_hora = datetime.now()
+                puja.codigo_subasta = subasta
+                puja.monto = monto
+                puja.save()
+                return redirect ("/detalle_residencia/"+ str(cod))
     return (render (request, "detalle_residencia.html", {"residencia": residencia, "subasta": subasta}))
+
 
 # Redirecciona a la pagina de inicio si no se le pasan parametros a detalle_residencia
 def detalle_residencia_solo (request):
