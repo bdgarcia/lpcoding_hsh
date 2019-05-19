@@ -16,8 +16,8 @@ import application.views
 
 urlpatterns = [
     path("", application.views.index, name="index"),
-    #path(r'^detalle_residencia/(?P<id_residencia>\d+)/$', application.views.detalle_residencia, name = "detalle_residencia"),
     path("detalle_residencia/<int:cod>", application.views.detalle_residencia, name= "detalle_residencia"),
+    path("detalle_residencia/", application.views.detalle_residencia_solo, name= "detalle_residencia_solo"),
     path("alta_residencia/", application.views.alta_residencia, name="alta_residencia"),
     path("residencia/<int:pk>/edit/", application.views.mod_residencia, name="mod_residencia"),
     path("administracion/", application.views.administracion, name="administracion"),
