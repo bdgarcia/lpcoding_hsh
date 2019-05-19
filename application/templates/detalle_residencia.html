@@ -41,10 +41,8 @@
                     {% if user.type == "comun" or user.type == "premium" %}
                             <form action='/detalle_residencia/{{ residencia.codigo }}' method='post'>{% csrf_token %}
                                 <input class="texto_detalle" name="monto" type="number" placeholder="Ingrese el monto" value=0></input>
-                                <div class="container-widget">
-                                        {{field}}
-                                        <button type='submit' class="container-widget submitButton boton-puja" name="btnGuardar" >Pujar</button>
-                                </div>
+                                {{field}}
+                                <button type='submit' class="container-widget submitButton boton-puja" name="btnGuardar" >Pujar</button>
                             </form>
                         </div>
                     {% endif %}
