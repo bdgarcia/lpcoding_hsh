@@ -33,7 +33,7 @@ class Usuario (AbstractUser):
 
 class Subasta (models.Model):
     codigo_residencia = models.ForeignKey("Residencia", on_delete=models.CASCADE)
-    monto_actual = models.FloatField()
+    monto_actual = models.FloatField(default=0.0)
     monto_inicial = models.FloatField()
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
