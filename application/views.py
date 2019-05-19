@@ -55,6 +55,12 @@ def detalle_residencia (request, cod):
 def administracion (request):   
     return (render (request, "administracion.html"))
 
+def listado_usuarios (request):
+    return (render (request, "administracion.html"))
+
+def listado_subastas (request):
+    return (render (request, "administracion.html"))
+
 def db(request):
 
     greeting = Greeting()
