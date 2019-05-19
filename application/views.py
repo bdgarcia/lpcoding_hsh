@@ -6,7 +6,6 @@ from modelos.models import Subasta
 from modelos.models import Puja
 
 from .forms import ResidenciaForm
-from .forms import PujaForm
 
 # Create your views here.
 def index(request):
@@ -70,15 +69,19 @@ def detalle_residencia (request, cod):
         subasta = None
     finally:
         if request.method == "POST":
-            form = PujaForm(request.POST)
-            puja = form.save(commit=False)
-            subasta.monto_actual = puja.monto
-            puja.save()
+            
+            monto = request.POST.get("monto")
+            subasta.monto_actual = monto
             subasta.save()
+            puja = Puja()
+            puja.usuario = request.user
+            from datetime import datetime
+            puja.fecha_y_hora = datetime.now()
+            puja.codigo_subasta = subasta
+            puja.monto = monto
+            puja.save()
             return redirect ("/detalle_residencia/"+ str(cod))
-        else:
-            form = PujaForm(request.POST)
-    return (render (request, "detalle_residencia.html", {"residencia": residencia, "subasta": subasta, "form": form}))
+    return (render (request, "detalle_residencia.html", {"residencia": residencia, "subasta": subasta}))
 
 # Redirecciona a la pagina de inicio si no se le pasan parametros a detalle_residencia
 def detalle_residencia_solo (request):
