@@ -9,6 +9,15 @@
     position: relative;
 }
 
+.container-detalles {
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-bottom: 100px;
+    padding: 1%;
+    box-shadow: 5px 5px 2px dimgrey;
+    border: 1px solid black;
+}
+
 .button-container {
     position: absolute;
     right: 2%;

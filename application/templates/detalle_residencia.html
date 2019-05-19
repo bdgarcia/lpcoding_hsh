@@ -3,33 +3,28 @@
 <script type="text/javascript" src="{% static '/js/main.js' %}"></script>
 {% block content %}
 <link rel="stylesheet" href="{% static 'hsh_css/index.css' %}"/>
-
-
 <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-5">
-                <div class="media">
-                    <img style='height: 100%; width: 100%; object-fit: contain' alt="Responsive image" class="img-fluid.max-width:100"  src = "{% static 'media/' %}{{ residencia.foto }}" />
-                </div>
+    <div class="row container-detalles">
+        <div class="col-md-5">
+            <div class="media">
+                <img style='height: 100%; width: 100%; object-fit: contain' alt="Responsive image" class="img-fluid.max-width:100"  src = "{% static 'media/' %}{{ residencia.foto }}" />
             </div>
-            <div class="col-md-7">
-                <div class="jumbotron">
-                    <h2>
-                        <b>{{residencia.nombre}}</b> <br>
-                    </h2>
-                    <p>
-                        <b class="texto_detalle"> {{ residencia.ubicacion }} </b> <br>
-                        <b class="texto_detalle"> {{ residencia.descripcion }} </b> <br>
-                        <b class="texto_detalle"> Precio: ${{ residencia.precio }} </b> <br>                      
-                        <a class="btn btn-primary btn-large" href="#"> Ver subasta</a><br>
-                        <b>Fechas disponibles: </b>
-                        <p>Date: <input type="text" id="datepicker"></p>
-                    </p>
-                </div>
+        </div>
+        <div class="col-md-7">
+            <div class="jumbotron">
+                <h2>
+                    <b>{{residencia.nombre}}</b> <br>
+                </h2>
+                <p>
+                    <b class="texto_detalle"> {{ residencia.ubicacion }} </b> <br>
+                    <b class="texto_detalle"> {{ residencia.descripcion }} </b> <br>
+                    <b class="texto_detalle"> Precio: ${{ residencia.precio }} </b> <br>
+                    <a class="btn btn-primary btn-large" href="#"> Ver subasta</a><br>
+                    <b>Fechas disponibles: </b>
+                    <p>Date: <input type="text" id="datepicker"></p>
+                </p>
             </div>
         </div>
     </div>
-
-
-
+</div>
 {% endblock %}
