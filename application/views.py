@@ -1,8 +1,6 @@
 import requests
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-
-from .models import Greeting
 from modelos.models import Residencia
 
 from .forms import ResidenciaForm
@@ -29,17 +27,57 @@ def alta_residencia(request):
         if form.is_valid():
             residencia = form.save()
             residencia.save()
-            return redirect('/')     #Modificar a futuro para que muestre los detalles de la residencia dada de alta.
+            return redirect("/detalle_residencia/"+ str(residencia.pk))
     else:
         form=ResidenciaForm
     return render(request,"alta_residencia.html", {'form':form})
 
+# Formulario modificacion/baja de residencia
+def mod_residencia(request, pk):
+                                    #Agregar redireccion a pagina no disponible en caso de que
+                                    #el usuario no sea admin.
+    residencia = get_object_or_404(Residencia, pk=pk)
+    if request.method == "POST" and 'btnModificar' in request.POST:
+        form = ResidenciaForm(request.POST, instance=residencia) 
+        if form.is_valid():
+            residencia = form.save(commit=False) #por si tengo que modificar datos
+            residencia.save()
+            return redirect("/detalle_residencia/"+ str(residencia.pk))
+    elif request.method =="POST" and "btnEliminar" in request.POST:
+        form=ResidenciaForm(request.POST, instance=residencia)
+        residencia=form.save(commit=False)
+        residencia.borrado_logico=True
+        residencia.save()
+        return redirect('/')
+    else:
+        form = ResidenciaForm(instance=residencia)
+    return render(request, 'alta_residencia.html', {'form': form})
 
-def db(request):
+def detalle_residencia (request, cod):
+    residencia = Residencia.objects.get(codigo = cod)
+    return (render (request, "detalle_residencia.html", {"residencia": residencia}))
+def detalle_residencia_solo (request):
+    return redirect("index")
 
-    greeting = Greeting()
-    greeting.save()
+def administracion (request):   
+    return render (request, "administracion.html")
 
-    greetings = Greeting.objects.all()
+def listado_usuarios (request):
+    return render (request, "administracion.html")
 
-    return render(request, "db.html", {"greetings": greetings})
+def listado_subastas (request):
+    from modelos.models import Subasta
+    subastas = Subasta.objects.all()
+    return render (request, "subastas.html", {"subastas": subastas})
+
+def run_cerrar_subastas (request):
+    from django.http import HttpResponseRedirect
+    from django.urls import reverse
+    from modelos.models import Subasta
+    from application.cerrar_subasta import cerrarSubasta
+    if request.method == "POST":
+        codigo_subasta = request.POST.get("codigo", "")
+        subasta = list(Subasta.objects.filter(codigo=codigo_subasta))
+        print("cerrando subasta: ", subasta[0].codigo)
+        cerrarSubasta(subasta[0])
+    return HttpResponseRedirect(reverse('subastas'))

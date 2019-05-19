@@ -24,9 +24,34 @@
     margin-top: 4px;
 }
 
+.boton-detalle-tabla {
+    padding-right: 5px;
+    background-color: dodgerblue;
+    color: white;
+    font-family: Calibri;
+    float: right;
+    width: 160px;
+    margin-top: 4px;
+}
+
+.boton-admin {
+    background-color: dodgerblue;
+    color: white;
+    font-family: Calibri;
+    float: right;
+    width: 160px;
+    margin-top: 4px;
+}
+
 .right-nav {
     position: absolute;
     right: 0%;
+}
+
+.left-nav {
+    position: absolute;
+    left: 0%;
+    height: auto;
 }
 
 .container-catalogo {
@@ -41,19 +66,24 @@
 .foto-catalogo {
     float: left;
     margin-right: 2%;
-    max-width: 100%;
-    max-height: 100%;
+    width: auto;
+    max-height: 160px;
+}
+
+.foto-detalle {
+    width: auto;
+    height: auto;
 }
 
 img {
     width: auto;
-    max-height: 160px;
+    max-height: 100%;
 }
 
 .texto-catalogo {
     float: left;
 }
 
-.p {
-    text: bold;
+.texto_detalle {
+    color: white
 }
