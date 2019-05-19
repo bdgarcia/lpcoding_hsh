@@ -34,9 +34,12 @@
                             
                             {% endif %}   
                             <form action='/detalle_residencia/{{ residencia.codigo }}' method='post'>{% csrf_token %}
-                            <input name="monto" placeholder="Ingrese el monto"></input>
-                            <button type='submit' class="container-widget submitButton" name="btnGuardar" >Pujar</button>
-                        </form>
+                                <input class="texto_detalle" name="monto" type="number" placeholder="Ingrese el monto" value=0></input>
+                                <div class="container-widget">
+                                        {{field}}
+                                        <button type='submit' class="container-widget submitButton" name="btnGuardar" >Pujar</button>
+                                </div>
+                            </form>
 
                             {% endif %}
                         {% else %}
