@@ -3,3 +3,4 @@ venv
 .env
 .idea/*
 .idea/workspace.xml
+db.sqlite3

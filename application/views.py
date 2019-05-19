@@ -1,8 +1,6 @@
 import requests
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-
-from .models import Greeting
 from modelos.models import Residencia
 from modelos.models import Subasta
 from modelos.models import Puja
@@ -90,19 +88,24 @@ def detalle_residencia_solo (request):
 
 
 def administracion (request):   
-    return (render (request, "administracion.html"))
+    return render (request, "administracion.html")
 
 def listado_usuarios (request):
-    return (render (request, "administracion.html"))
+    return render (request, "administracion.html")
 
 def listado_subastas (request):
-    return (render (request, "administracion.html"))
+    from modelos.models import Subasta
+    subastas = Subasta.objects.all()
+    return render (request, "subastas.html", {"subastas": subastas})
 
-def db(request):
-
-    greeting = Greeting()
-    greeting.save()
-
-    greetings = Greeting.objects.all()
-
-    return render(request, "db.html", {"greetings": greetings})
+def run_cerrar_subastas (request):
+    from django.http import HttpResponseRedirect
+    from django.urls import reverse
+    from modelos.models import Subasta
+    from application.cerrar_subasta import cerrarSubasta
+    if request.method == "POST":
+        codigo_subasta = request.POST.get("codigo", "")
+        subasta = list(Subasta.objects.filter(codigo=codigo_subasta))
+        print("cerrando subasta: ", subasta[0].codigo)
+        cerrarSubasta(subasta[0])
+    return HttpResponseRedirect(reverse('subastas'))

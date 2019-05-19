@@ -1,5 +1,4 @@
-from modelos.models import (Puja, Alquila, Subasta)
-
+from modelos.models import (Puja, Alquila)
 
 def cerrarSubasta(subasta):
     pujas = list(Puja.objects.filter(codigo_subasta=subasta))
