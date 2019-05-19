@@ -21,19 +21,28 @@
 
                         <b class="texto_detalle"> {{ residencia.ubicacion }} </b> <br>
                         <b class="texto_detalle"> {{ residencia.descripcion }} </b> <br>
-                        <b class="texto_detalle"> Precio: ${{ residencia.precio }} </b> <br>                      
-                        <a class="btn btn-primary btn-large" href="#"> Ver subasta</a><br>
-                        <b>Fechas disponibles: </b>
-                               
-                              <p>Date: <input type="text" id="datepicker"></p>
-
-                        
-                               
-                               
-                              </body>
-
-
+                        <b class="texto_detalle"> Precio: ${{ residencia.precio }} </b> <br>
                     </p>
+                        {% if user.is_authenticated %}
+     
+                            {% if subasta %}        
+                            
+                                {% if subasta.monto_actual == 0 %}
+                                <h4 class="texto_detalle"> Monto actual subasta ${{ subasta.monto_inicial }} </h4>
+                                {% else %}
+                                <h4 class="texto_detalle"> Monto actual subasta ${{ subasta.monto_actual }}</h4>
+                            
+                            {% endif %}   
+                            <form method="POST" enctype="multipart/form-data" class="container-form">
+                            
+                                <!-- Poner boton e input de monto -->
+
+                            </form>
+
+                            {% endif %}
+                        {% else %}
+                            <a href="{% url 'login' %}"><span class="glyphicon"></span> Para pujar debes iniciar sesion</a>
+                        {% endif %}
                 </div>
             </div>
         </div>

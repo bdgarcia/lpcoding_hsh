@@ -4,8 +4,11 @@ from django.http import HttpResponse
 
 from .models import Greeting
 from modelos.models import Residencia
+from modelos.models import Subasta
+from modelos.models import Puja
 
 from .forms import ResidenciaForm
+from .forms import PujaForm
 
 # Create your views here.
 def index(request):
@@ -34,6 +37,9 @@ def alta_residencia(request):
         form=ResidenciaForm
     return render(request,"alta_residencia.html", {'form':form})
 
+
+
+
 # Formulario modificacion/baja de residencia
 def mod_residencia(request, pk):
                                     #Agregar redireccion a pagina no disponible en caso de que
@@ -55,11 +61,33 @@ def mod_residencia(request, pk):
         form = ResidenciaForm(instance=residencia)
     return render(request, 'alta_residencia.html', {'form': form})
 
+
+
+# Muestra el detalle de la residencia que se pasa como parametro
 def detalle_residencia (request, cod):
     residencia = Residencia.objects.get(codigo = cod)
-    return (render (request, "detalle_residencia.html", {"residencia": residencia}))
+    try:
+        subasta = Subasta.objects.get(codigo_residencia = cod)
+    except Subasta.DoesNotExist:
+        subasta = None
+    finally:
+        if request.method == "POST":
+            form = PujaForm(request.POST)
+            puja = form.save(commit=False)
+            subasta.monto_actual = puja.monto
+            puja.save()
+            subasta.save()
+            return redirect ("/detalle_residencia/"+ str(cod))
+        else:
+            form = PujaForm(request.POST)
+    return (render (request, "detalle_residencia.html", {"residencia": residencia, "subasta": subasta, "form": form}))
+
+# Redirecciona a la pagina de inicio si no se le pasan parametros a detalle_residencia
 def detalle_residencia_solo (request):
     return redirect("index")
+
+
+
 
 def administracion (request):   
     return (render (request, "administracion.html"))
