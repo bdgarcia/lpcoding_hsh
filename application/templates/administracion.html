@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+<script type="text/javascript" src="{% static '/js/main.js' %}"></script>
+{% block content %}
+<link rel="stylesheet" href="{% static 'hsh_css/index.css' %}"/>
+<div class="container">
+<ul>    
+    <li class="nav">
+        <button class="boton-admin">Listado de subastas</button> <span class="align-middle">Acceso al listado de administracion de subastas actuales</span>
+    </li>
+    <li class="nav">
+        <div class="align-middle"><button class="boton-admin">Listado de usuarios</button> Acceso al listado de administracion de usuarios</div>
+    </li>
+</ul>
+{% endblock %}
+

@@ -24,9 +24,24 @@
     margin-top: 4px;
 }
 
+.boton-admin {
+    background-color: dodgerblue;
+    color: white;
+    font-family: Calibri;
+    float: right;
+    width: 160px;
+    margin-top: 4px;
+}
+
 .right-nav {
     position: absolute;
     right: 0%;
+}
+
+.left-nav {
+    position: absolute;
+    left: 0%;
+    height: auto;
 }
 
 .container-catalogo {
@@ -57,10 +72,6 @@ img {
 
 .texto-catalogo {
     float: left;
-}
-
-.p {
-    text: bold;
 }
 
 .texto_detalle {
