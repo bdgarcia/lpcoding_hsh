@@ -24,6 +24,16 @@
     margin-top: 4px;
 }
 
+.boton-detalle-tabla {
+    padding-right: 5px;
+    background-color: dodgerblue;
+    color: white;
+    font-family: Calibri;
+    float: right;
+    width: 160px;
+    margin-top: 4px;
+}
+
 .boton-admin {
     background-color: dodgerblue;
     color: white;

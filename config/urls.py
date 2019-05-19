@@ -21,10 +21,10 @@ urlpatterns = [
     path("alta_residencia/", application.views.alta_residencia, name="alta_residencia"),
     path("residencia/<int:pk>/edit/", application.views.mod_residencia, name="mod_residencia"),
     path("administracion/", application.views.administracion, name="administracion"),
-    path("db/", application.views.db, name="db"),
     path("test/", application.views.test, name="test"),
     path("admin/", admin.site.urls),
     path("auth/", include('django.contrib.auth.urls')),
     path("usuarios/", application.views.listado_usuarios, name="usuarios"),
     path("subastas/", application.views.listado_subastas, name="subastas"),
+    path("subastas/cerrar_subasta/", application.views.run_cerrar_subastas, name="cerrar_subastas")
 ]
