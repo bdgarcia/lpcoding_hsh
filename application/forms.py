@@ -1,6 +1,5 @@
 from django import forms
 from modelos.models import Residencia
-from modelos.models import Puja
 
 
 class ResidenciaForm(forms.ModelForm):
@@ -13,7 +12,3 @@ class ResidenciaForm(forms.ModelForm):
             'monto_minimo_subasta': 'Monto mínimo de subasta',
         }
         
-class PujaForm(forms.ModelForm):
-    class Meta:
-        model = Puja
-        monto = forms.FloatField(label="Monto" )
