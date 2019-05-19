@@ -73,3 +73,7 @@ img {
 .texto-catalogo {
     float: left;
 }
+
+.texto_detalle {
+    color: white
+}

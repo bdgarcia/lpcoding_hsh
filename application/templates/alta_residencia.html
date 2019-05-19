@@ -1,21 +1,28 @@
 {% extends "base.html" %}
-{% load staticfiles %}
+{% load static %}
 {% block content %}
 <link rel="stylesheet" href="{% static 'hsh_css/formulario.css' %}" />
 <link rel="stylesheet" href="{% static 'hsh_css/index.css' %}" />
-<div class="titulo">
+    <div class="titulo">
     <h1>Ingrese los datos de la residencia: </h1><br>
-</div>
-<form method="POST" enctype="multipart/form-data" class="container-form">{% csrf_token %}
-    {% for field in form %}
+    </div>
+    <form method="POST" enctype="multipart/form-data" class="container-form">{% csrf_token %}
+
+        {% for field in form %}
         <div class="container-field">
             {{field.label}}:
         </div>
         <div class="container-widget">
             {{field}}
         </div>
-    {% endfor %}
-    <button type='submit' class="container-widget submitButton">Guardar residencia</button>
+        {% endfor %}
+
+
+        {% if form.instance.pk != None %}
+            <button type='submit' class="container-widget submitButton" name="btnModificar" onclick="return confirm('¿Modificar Residencia?')">Guardar residencia</button>
+            <button type='submit' class="container-widget submitButton" name="btnEliminar" onclick="return confirm('¿Eliminar Residencia?')">Eliminar residencia</button>
+        {% else %}
+            <button type='submit' class="container-widget submitButton" name="btnGuardar" >Guardar residencia</button>
+        {% endif %}
 </form>
 {% endblock %}
-

@@ -29,21 +29,28 @@ def alta_residencia(request):
         if form.is_valid():
             residencia = form.save()
             residencia.save()
-            return redirect('/')     #Modificar a futuro para que muestre los detalles de la residencia dada de alta.
+            return redirect("/detalle_residencia/"+ str(residencia.pk))
     else:
         form=ResidenciaForm
     return render(request,"alta_residencia.html", {'form':form})
 
+# Formulario modificacion/baja de residencia
 def mod_residencia(request, pk):
                                     #Agregar redireccion a pagina no disponible en caso de que
                                     #el usuario no sea admin.
     residencia = get_object_or_404(Residencia, pk=pk)
-    if request.method == "POST":
-        form = ResidenciaForm(request.POST, instance=residencia)
+    if request.method == "POST" and 'btnModificar' in request.POST:
+        form = ResidenciaForm(request.POST, instance=residencia) 
         if form.is_valid():
-            residencia = form.save(commit=False)
+            residencia = form.save(commit=False) #por si tengo que modificar datos
             residencia.save()
-            return redirect('/')   #Modificar a futuro para que muestre los detalles de la residencia dada de alta
+            return redirect("/detalle_residencia/"+ str(residencia.pk))
+    elif request.method =="POST" and "btnEliminar" in request.POST:
+        form=ResidenciaForm(request.POST, instance=residencia)
+        residencia=form.save(commit=False)
+        residencia.borrado_logico=True
+        residencia.save()
+        return redirect('/')
     else:
         form = ResidenciaForm(instance=residencia)
     return render(request, 'alta_residencia.html', {'form': form})
@@ -51,6 +58,8 @@ def mod_residencia(request, pk):
 def detalle_residencia (request, cod):
     residencia = Residencia.objects.get(codigo = cod)
     return (render (request, "detalle_residencia.html", {"residencia": residencia}))
+def detalle_residencia_solo (request):
+    return redirect("index")
 
 def administracion (request):   
     return (render (request, "administracion.html"))
