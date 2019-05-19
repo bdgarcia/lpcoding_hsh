@@ -25,7 +25,7 @@
             {% if user.type == "admin" %}
                 <div class="button-container">
                     <div id="detalleResidencia">
-                        <a href="/" > <button class="boton-detalle"> Modificar Residencia </button> </a>
+                        <a href="{% url 'mod_residencia' pk=residencia.pk %}" > <button class="boton-detalle"> Modificar Residencia </button> </a>
                     </div>
                 </div>
             {% endif %}

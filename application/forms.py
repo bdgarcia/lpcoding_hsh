@@ -1,5 +1,6 @@
 from django import forms
 from modelos.models import Residencia
+from django.core.exceptions import NON_FIELD_ERRORS
 
 
 class ResidenciaForm(forms.ModelForm):
@@ -11,6 +12,21 @@ class ResidenciaForm(forms.ModelForm):
             'descripcion': 'Descripción',
             'monto_minimo_subasta': 'Monto mínimo de subasta',
         }
+  
+    def clean(self):
+        cleaned_data = super().clean()
+
+        if Residencia.objects.filter(nombre = cleaned_data['nombre']).exists() and Residencia.objects.filter(ubicacion = cleaned_data['ubicacion']).exists():
+            residencias=Residencia.objects.filter(nombre=cleaned_data['nombre'])
+            for r in residencias.values():
+                if r['ubicacion']==cleaned_data['ubicacion']:
+                    self.add_error(None, forms.ValidationError('Ya existe una residencia con ese nombre y ubicacion', code="unique_together"))
+        
         
 class TestForm(forms.Form):
     monto = forms.FloatField()
+        
+
+
+
+            
