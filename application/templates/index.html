@@ -2,12 +2,6 @@
 {% load staticfiles %}
 <script type="text/javascript" src="{% static '/js/main.js' %}"></script>
 {% block content %}
-<div class="jumbotron text-center">
-  <div class="container">
-    <a href="/"><img src="{% static 'media/' %}HSH-Text.svg"
-        height="70px" /></a>
-  </div>
-</div>
 <link rel="stylesheet" href="{% static 'hsh_css/index.css' %}"/>
 <div class="container container-catalogo">
 {% for residencia in residencias %}
