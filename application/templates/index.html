@@ -21,14 +21,23 @@
                 </div>
             </div>
             <div class="button-container">
+                {% if user.is_authenticated %}
+                    {% if user.type == "admin" %}
+                        <div id="detalleResidencia">
+                            <a href="/" > <button class="boton-detalle"> Editar Residencia </button> </a>
+                        </div>
+                    {% endif %}
+                    {% for subasta in subastas %}
+                        {% if residencia == subasta.codigo_residencia %}
+                            <div id="verSubasta">
+                                <button class="boton-detalle">Ver Subasta</button>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
                 <div id="detalleResidencia">
                     <a href="{% url 'detalle_residencia' cod=residencia.codigo %}" > <button class="boton-detalle"> Ver detalle </button> </a>
                 </div>
-                {% if user.type == "comun" or user.type == "premium" %}
-                    <div id="verSubasta">
-                        <button class="boton-detalle">Ver Subasta</button>
-                    </div>
-                {% endif %}
             </div>
         </div>
     </div>

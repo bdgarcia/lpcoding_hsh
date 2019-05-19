@@ -11,8 +11,9 @@ from .forms import ResidenciaForm
 def index(request):
 
     residencias = Residencia.objects.filter(borrado_logico=False)
+    subastas = Subasta.objects.all()
 
-    return render(request, "index.html", {"residencias": residencias})
+    return render(request, "index.html", {"residencias": residencias, "subastas": subastas})
 
 # Create your views here.
 def test(request):
@@ -86,9 +87,6 @@ def detalle_residencia (request, cod):
 # Redirecciona a la pagina de inicio si no se le pasan parametros a detalle_residencia
 def detalle_residencia_solo (request):
     return redirect("index")
-
-
-
 
 def administracion (request):   
     return render (request, "administracion.html")

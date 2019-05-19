@@ -16,6 +16,12 @@
     padding: 1%;
     box-shadow: 5px 5px 2px dimgrey;
     border: 1px solid black;
+    position: relative;
+}
+
+.container-puja {
+    background-color: #c3e6cb;
+    width: 30%;
 }
 
 .button-container {
@@ -31,6 +37,16 @@
     float: right;
     width: 160px;
     margin-top: 4px;
+}
+
+.boton-puja {
+    padding-right: 5px;
+    background-color: dodgerblue;
+    color: white;
+    font-family: Calibri;
+    width: 80px;
+    padding-top: 5px;
+    padding-bottom: 2px;
 }
 
 .boton-detalle-tabla {
