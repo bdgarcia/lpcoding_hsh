@@ -12,8 +12,11 @@ class ResidenciaForm(forms.ModelForm):
             'descripcion': 'Descripción',
             'monto_minimo_subasta': 'Monto mínimo de subasta',
         }
-        
+
+
 class PujaForm(forms.ModelForm):
     class Meta:
         model = Puja
-        monto = forms.FloatField(label="Monto" )
+        fields=('monto',)
+        monto = forms.FloatField(label="Monto")
+
