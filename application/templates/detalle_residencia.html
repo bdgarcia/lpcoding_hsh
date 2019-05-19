@@ -3,50 +3,58 @@
 <script type="text/javascript" src="{% static '/js/main.js' %}"></script>
 {% block content %}
 <link rel="stylesheet" href="{% static 'hsh_css/index.css' %}"/>
-
-
 <div class="container-fluid">
-        <div class="row">
+        <div class="row container-detalles">
             <div class="col-md-5">
                 <div class="media">
                     <img style='height: 100%; width: 100%; object-fit: contain' alt="Responsive image" class="img-fluid.max-width:100"  src = "{% static 'media/' %}{{ residencia.foto }}" />
                 </div>
             </div>
             <div class="col-md-7">
-                <div class="jumbotron">
+                <div>
                     <h2>
                         <b>{{residencia.nombre}}</b> <br>
                     </h2>
                     <p>
-
-                        <b class="texto_detalle"> {{ residencia.ubicacion }} </b> <br>
-                        <b class="texto_detalle"> {{ residencia.descripcion }} </b> <br>
-                        <b class="texto_detalle"> Precio: ${{ residencia.precio }} </b> <br>
+                        <b class="texto_detalle"> Ubicación: </b>{{ residencia.ubicacion }} <br>
+                        <b class="texto_detalle"> Descripción: </b> {{ residencia.descripcion }}<br>
+                        <b class="texto_detalle"> Precio:  </b> ${{ residencia.precio }}<br>
                     </p>
-                        {% if user.is_authenticated %}
-     
-                            {% if subasta %}        
-                            
-                                {% if subasta.monto_actual == 0 %}
-                                <h4 class="texto_detalle"> Monto actual subasta ${{ subasta.monto_inicial }} </h4>
-                                {% else %}
-                                <h4 class="texto_detalle"> Monto actual subasta ${{ subasta.monto_actual }}</h4>
-                            
-                            {% endif %}   
-                            <form action='/detalle_residencia/{{ residencia.codigo }}' method='post'>{% csrf_token %}
-                            <input name="monto" placeholder="Ingrese el monto"></input>
-                            <button type='submit' class="container-widget submitButton" name="btnGuardar" >Pujar</button>
-                        </form>
-
-                            {% endif %}
-                        {% else %}
-                            <a href="{% url 'login' %}"><span class="glyphicon"></span> Para pujar debes iniciar sesion</a>
-                        {% endif %}
                 </div>
             </div>
+            {% if user.type == "admin" %}
+                <div class="button-container">
+                    <div id="detalleResidencia">
+                        <a href="/" > <button class="boton-detalle"> Modificar Residencia </button> </a>
+                    </div>
+                </div>
+            {% endif %}
         </div>
-    </div>
-
-
-
+            {% if user.is_authenticated %}
+                {% if subasta %}
+                    <div class="row container-detalles container-puja">
+                        {% if subasta.monto_actual == 0 %}
+                            <h4 class="texto_detalle"> Monto inicial de subasta: <b>${{ subasta.monto_inicial }}</b></h4>
+                        {% else %}
+                            <h4 class="texto_detalle"> Monto actual subasta: <b>${{ subasta.monto_actual }}</b> </h4>
+                        {% endif %}
+                    {% if user.type == "comun" or user.type == "premium" %}
+                        <form action='/detalle_residencia/{{ residencia.codigo }}' method='post'>{% csrf_token %}
+                            <input name="monto" placeholder="Ingrese el monto">
+                            <button type='submit' class="container-widget submitButton boton-puja" name="btnGuardar" >Pujar</button>
+                        </form>
+                        </div>
+                    {% endif %}
+                    {% if user.type == "admin" %}
+                        <form action="/subastas/cerrar_subasta/" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="codigo" value="{{ subasta.codigo }}">
+                            <button type="submit" id="cerrarSubasta" class="boton-detalle-tabla">Cerrar subasta</button>
+                        </form>
+                    {% endif %}
+                {% endif %}
+            {% else %}
+                <a href="{% url 'login' %}"><span class="glyphicon"></span> Para pujar debes iniciar sesion</a>
+            {% endif %}
+</div>
 {% endblock %}
