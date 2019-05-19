@@ -23,22 +23,21 @@
                         <b>{{residencia.nombre}}</b> <br>
                     </h2>
                     <p>
-                        <ul>
-                            <li class="list-item">
 
-                                <b> {{ residencia.ubicacion }} </b> <br>
-                            </li>
-                            <li class="list-item">
-                                <b> {{ residencia.descripcion }} </b> <br>
-                            </li>
-                            <li class="list-item">
-                                <b> Precio: ${{ residencia.precio }} </b> <br>                           
-                            </li>
-                        </ul>
+                        <b class="texto_detalle"> {{ residencia.ubicacion }} </b> <br>
+                        <b class="texto_detalle"> {{ residencia.descripcion }} </b> <br>
+                        <b class="texto_detalle"> Precio: ${{ residencia.precio }} </b> <br>                      
+                        <a class="btn btn-primary btn-large" href="#"> Ver subasta</a><br>
+                        <b>Fechas disponibles: </b>
+                               
+                              <p>Date: <input type="text" id="datepicker"></p>
 
-                    </p>
-                        <p>
-                        <a class="btn btn-primary btn-large" href="#"> Ver subasta</a>
+                        
+                               
+                               
+                              </body>
+
+
                     </p>
                 </div>
             </div>
