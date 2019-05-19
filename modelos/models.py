@@ -13,7 +13,7 @@ def get_file_path(instance, filename):
 class Residencia (models.Model):
     codigo = models.AutoField(primary_key = True)
     nombre = models.CharField(max_length =50)
-    ubicacion = models.CharField(max_length = 100, unique = True)
+    ubicacion = models.CharField(max_length = 100)
     descripcion = models.TextField()
     precio = models.FloatField()
     monto_minimo_subasta = models.FloatField()
@@ -27,14 +27,14 @@ class Usuario (AbstractUser):
     fecha_nacimiento = models.DateField()
     tarjeta_credito = models.CharField(max_length = 30)
     #membresia
-    creditos = models.IntegerField()
+    creditos = models.IntegerField(default=2)
     type = models.CharField(max_length = 30)
     REQUIRED_FIELDS = ['fecha_nacimiento', 'email', 'creditos']
 
 class Subasta (models.Model):
     codigo_residencia = models.ForeignKey("Residencia", on_delete=models.CASCADE)
     monto_actual = models.FloatField(default=0.0)
-    monto_inicial = models.FloatField()
+    monto_inicial = models.FloatField(default=0.0)
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
     semana_alquila = models.DateField()
