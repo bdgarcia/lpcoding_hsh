@@ -1,39 +1,28 @@
 {% extends "base.html" %}
 {% load static %}
-<html>
+{% block content %}
+<link rel="stylesheet" href="{% static 'hsh_css/formulario.css' %}" />
+<link rel="stylesheet" href="{% static 'hsh_css/index.css' %}" />
+    <div class="titulo">
+    <h1>Ingrese los datos de la residencia: </h1><br>
+    </div>
+    <form method="POST" enctype="multipart/form-data" class="container-form">{% csrf_token %}
 
-<head>
-    <title>Home Switch Home</title>
-</head>
-
-<body>
-
-    {% block content %}
-    <link rel="stylesheet" href="{% static 'hsh_css/formulario.css' %}" />
-    
-        <div class="titulo">
-        <h1>Ingrese los datos de la residencia: </h1><br>
+        {% for field in form %}
+        <div class="container-field">
+            {{field.label}}:
         </div>
-        <form method="POST" enctype="multipart/form-data" class="container-form">{% csrf_token %}
+        <div class="container-widget">
+            {{field}}
+        </div>
+        {% endfor %}
 
-            {% for field in form %}
-            <div class="container-field">
-                {{field.label}}:
-            </div>
-            <div class="container-widget">
-                {{field}}
-            </div>            
-            {% endfor %}
-            
-            
-            {% if form.instance.pk != None %}
-                <button type='submit' class="container-widget submitButton" name="btnModificar" onclick="return confirm('¿Modificar Residencia?')">Guardar residencia</button>
-                <button type='submit' class="container-widget submitButton" name="btnEliminar" onclick="return confirm('¿Eliminar Residencia?')">Eliminar residencia</button>
-            {% else %}
-                <button type='submit' class="container-widget submitButton" name="btnGuardar" >Guardar residencia</button> 
-            {% endif %}
-    </form>
-    {% endblock %}
 
-</body>
-</html>
+        {% if form.instance.pk != None %}
+            <button type='submit' class="container-widget submitButton" name="btnModificar" onclick="return confirm('¿Modificar Residencia?')">Guardar residencia</button>
+            <button type='submit' class="container-widget submitButton" name="btnEliminar" onclick="return confirm('¿Eliminar Residencia?')">Eliminar residencia</button>
+        {% else %}
+            <button type='submit' class="container-widget submitButton" name="btnGuardar" >Guardar residencia</button>
+        {% endif %}
+</form>
+{% endblock %}
