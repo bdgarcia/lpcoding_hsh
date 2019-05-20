@@ -24,7 +24,9 @@
             </div>
             {% if user.type == "admin" %}
                 <div class="button-container">
-                    <a href="/" > <button class="boton-detalle"> Modificar Residencia </button> </a>
+                    <div id="detalleResidencia">
+                        <a href="{% url 'mod_residencia' pk=residencia.pk %}" > <button class="boton-detalle"> Modificar Residencia </button> </a>
+                    </div>
                 </div>
             {% endif %}
         </div>
@@ -57,7 +59,19 @@
                     {% endif %}
                 {% endif %}
             {% else %}
-                <a href="{% url 'login' %}"><span class="glyphicon"></span> Para pujar debes iniciar sesion</a>
+                <div class="row">
+                    <div class="col-md-2">
+                    </div>
+                    <div class="col-md-8">
+                            <div class="alert alert-dismissable alert-danger" text-align:center>
+                                    <strong>
+                                            <a href="{% url 'login' %}" class="alert-link"><span class="glyphicon" text-align: center></span>Para pujar debes iniciar sesion</a>
+                                    </strong>
+                            </div>
+                    </div>
+                    <div class="col-md-2">
+                    </div>
+                </div>
             {% endif %}
 </div>
 {% endblock %}

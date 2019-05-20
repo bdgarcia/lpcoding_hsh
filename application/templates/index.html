@@ -35,7 +35,7 @@
                 {% if user.is_authenticated %}
                     {% if user.type == "admin" %}
                         <div id="detalleResidencia">
-                            <a href="/" > <button class="boton-detalle"> Editar Residencia </button> </a>
+                            <a href="{% url 'mod_residencia' pk=residencia.pk %}"> <button class="boton-detalle"> Editar Residencia </button> </a>
                         </div>
                     {% endif %}
                 {% endif %}
