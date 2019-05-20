@@ -11,3 +11,6 @@ class ResidenciaForm(forms.ModelForm):
             'descripcion': 'Descripción',
             'monto_minimo_subasta': 'Monto mínimo de subasta',
         }
+        
+class TestForm(forms.Form):
+    monto = forms.FloatField()

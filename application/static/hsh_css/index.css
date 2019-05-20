@@ -9,6 +9,27 @@
     position: relative;
 }
 
+.container-detalles {
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-bottom: 10px;
+    padding: 1%;
+    box-shadow: 5px 5px 2px dimgrey;
+    border: 1px solid black;
+    position: relative;
+}
+
+.alert-container {
+    font-size: 15px;
+    width: 65%;
+    float: left;
+    margin-top: 50px;
+}
+
+.container-puja {
+    width: 40%;
+}
+
 .button-container {
     position: absolute;
     right: 2%;
@@ -22,6 +43,16 @@
     float: right;
     width: 160px;
     margin-top: 4px;
+}
+
+.boton-puja {
+    padding-right: 5px;
+    background-color: dodgerblue;
+    color: white;
+    font-family: Calibri;
+    width: 80px;
+    padding-top: 5px;
+    padding-bottom: 2px;
 }
 
 .boton-detalle-tabla {
@@ -85,5 +116,5 @@ img {
 }
 
 .texto_detalle {
-    color: white
+
 }

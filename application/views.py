@@ -2,15 +2,18 @@ import requests
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from modelos.models import Residencia
+from modelos.models import Subasta
+from modelos.models import Puja
 
 from .forms import ResidenciaForm
-
+from .forms import TestForm
 # Create your views here.
 def index(request):
 
     residencias = Residencia.objects.filter(borrado_logico=False)
+    subastas = Subasta.objects.all()
 
-    return render(request, "index.html", {"residencias": residencias})
+    return render(request, "index.html", {"residencias": residencias, "subastas": subastas})
 
 # Create your views here.
 def test(request):
@@ -31,6 +34,9 @@ def alta_residencia(request):
     else:
         form=ResidenciaForm
     return render(request,"alta_residencia.html", {'form':form})
+
+
+
 
 # Formulario modificacion/baja de residencia
 def mod_residencia(request, pk):
@@ -53,9 +59,77 @@ def mod_residencia(request, pk):
         form = ResidenciaForm(instance=residencia)
     return render(request, 'alta_residencia.html', {'form': form})
 
+
+
+# Muestra el detalle de la residencia que se pasa como parametro
+""" def detalle_residencia (request, cod):
+    residencia = Residencia.objects.get(codigo = cod)
+    try:
+        subasta = Subasta.objects.get(codigo_residencia = cod)
+    except Subasta.DoesNotExist:
+        subasta = None
+    finally:
+        if request.method == "POST":
+            form = request.POST.copy()
+
+            monto = float(form.get("monto"))
+            if monto < float(subasta.monto_actual) or monto < float(subasta.monto_inicial):
+                pass
+            else:
+                subasta.monto_actual = monto
+                subasta.save()
+                puja = Puja()
+                puja.usuario = request.user
+                from datetime import datetime
+                puja.fecha_y_hora = datetime.now()
+                puja.codigo_subasta = subasta
+                puja.monto = monto
+                puja.save()
+                return redirect ("/detalle_residencia/"+ str(cod))
+        else:
+            form = TestForm()
+    return (render (request, "detalle_residencia.html", {"residencia": residencia, "subasta": subasta, "form":form })) """
+
+# Redirecciona a la pagina de inicio si no se le pasan parametros a detalle_residencia
+def detalle_residencia_solo (request):
+    return redirect("index")
+
 def detalle_residencia (request, cod):
     residencia = Residencia.objects.get(codigo = cod)
-    return (render (request, "detalle_residencia.html", {"residencia": residencia}))
+    try:
+        subasta = Subasta.objects.get(codigo_residencia = cod)
+    except Subasta.DoesNotExist:
+        subasta = None
+    finally:
+        if request.method == "POST":
+            monto = request.POST.get("monto")
+            if monto == "":
+                monto = 0
+            else:
+                monto = int(monto)
+            if monto < subasta.monto_actual or monto < subasta.monto_inicial:
+                pass
+            else:
+                subasta.monto_actual = monto
+                subasta.save()
+                puja = Puja()
+                puja.usuario = request.user
+                from datetime import datetime
+                puja.fecha_y_hora = datetime.now()
+                puja.codigo_subasta = subasta
+                puja.monto = monto
+                puja.save()
+                return redirect ("/detalle_residencia/"+ str(cod))
+    pujas = list(Puja.objects.filter(codigo_subasta=subasta))
+    pujas.sort(key=lambda x: x.monto, reverse=True)
+    if len(pujas) > 0:
+        puja_alta = pujas[0]
+    else:
+        puja_alta = None
+    return (render (request, "detalle_residencia.html", {"residencia": residencia, "subasta": subasta, "puja": puja_alta}))
+
+
+# Redirecciona a la pagina de inicio si no se le pasan parametros a detalle_residencia
 def detalle_residencia_solo (request):
     return redirect("index")
 

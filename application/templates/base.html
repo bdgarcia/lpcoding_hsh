@@ -59,7 +59,7 @@
   {% if user.is_authenticated %}
     <ul class="nav navbar-nav right-nav">
       <li class="active">
-        <a href="{% url 'logout' %}"><span class="glyphicon"></span> Logout</a>
+        <a href="{% url 'logout' %}?next=/"><span class="glyphicon"></span> Logout</a>
       </li>
     </ul>
   {% else %}

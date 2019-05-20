@@ -10,6 +10,17 @@
     padding-left:2.5%
 }
 
+.container-alta-res {
+    margin-left: 50px;
+    margin-bottom: 100px;
+    padding: 2%;
+    font-size: 20px;
+    border: 1px solid black;
+    color: black;
+    width: 800px;
+    box-shadow: 5px 5px 2px dimgrey;
+}
+
 .container-field{
     font-weight:bold;
     grid-column: 1 / 2;
@@ -22,12 +33,16 @@
 }
 
 .submitButton{
-    font-weight:bold;
     width: 300px;
-    background-color: dodgerblue; 
-    color: black;
     padding: 12px 20px;
-    border: none;
     border-radius: 4px;
     cursor: pointer;
+    padding-right: 5px;
+    background-color: dodgerblue;
+    color: white;
+    font-family: Calibri;
+    font-size: 20px;
+    float: right;
+    margin-top: 4px;
+    margin-bottom: 40px;
 }
