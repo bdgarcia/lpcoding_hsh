@@ -33,10 +33,11 @@
             {% if user.is_authenticated %}
                 {% if subasta %}
                     <div class="row container-detalles container-puja">
+                        <h3>Subasta en curso para la semana del : {{ subasta.semana_alquila }}</h3>
                         {% if subasta.monto_actual == 0 %}
                             <h4 class="texto_detalle"> Monto inicial de subasta: <b>${{ subasta.monto_inicial }}</b></h4>
                         {% else %}
-                            <h4 class="texto_detalle"> Monto actual subasta: <b>${{ subasta.monto_actual }}</b> </h4>
+                            <h4 class="texto_detalle"> Puja mas alta en la subasta: <b>${{ subasta.monto_actual }}</b> </h4>
                         {% endif %}
                     {% if user.type == "comun" or user.type == "premium" %}
                             <form action='/detalle_residencia/{{ residencia.codigo }}' method='post'>{% csrf_token %}
@@ -44,18 +45,33 @@
                                 {{field}}
                                 <button type='submit' class="container-widget submitButton boton-puja" name="btnGuardar" >Pujar</button>
                             </form>
+                            {% if puja.usuario == user %}
+                                <p><b><u>Tu puja es la mas alta en esta subasta!</u></b></p>
+                            {% endif %}
                         </div>
                     {% endif %}
                     {% if user.type == "admin" %}
                         <form action="/subastas/cerrar_subasta/" method="post">
                             {% csrf_token %}
                             <input type="hidden" name="codigo" value="{{ subasta.codigo }}">
-                            <button type="submit" id="cerrarSubasta" class="boton-detalle-tabla">Cerrar subasta</button>
+                            <button type="submit" id="cerrarSubasta" class="boton-detalle">Cerrar subasta</button>
                         </form>
                     {% endif %}
                 {% endif %}
             {% else %}
-                <a href="{% url 'login' %}"><span class="glyphicon"></span> Para pujar debes iniciar sesion</a>
+                <div class="row">
+                    <div class="col-md-2">
+                    </div>
+                    <div class="col-md-8">
+                            <div class="alert alert-dismissable alert-danger" text-align:center>
+                                    <strong>
+                                            <a href="{% url 'login' %}" class="alert-link"><span class="glyphicon" text-align: center></span>Para pujar debes iniciar sesion</a>
+                                    </strong>
+                            </div>
+                    </div>
+                    <div class="col-md-2">
+                    </div>
+                </div>
             {% endif %}
 </div>
 {% endblock %}

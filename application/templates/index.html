@@ -17,8 +17,19 @@
                     Nombre de la residencia: <b>{{ residencia.nombre }}</b><br>
                     <!-- Ubicación de la residencia: <b>{{ residencia.ubicacion }}</b><br> -->
                     Precio del alquiler por semana: <b>{{ residencia.precio }}</b><br>
-                <!--  Descripción: <b>{{ residencia.descripcion }}</b> -->
+                    <!--  Descripción: <b>{{ residencia.descripcion }}</b> -->
                 </div>
+                {% if user.is_authenticated %}
+                    {% for subasta in subastas %}
+                        {% if residencia == subasta.codigo_residencia %}
+                            <div class="col-md-12">
+                                <div class="alert alert-success alert-container ">
+                                    En subasta para la semana del: {{ subasta.semana_alquila }}!
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
             </div>
             <div class="button-container">
                 {% if user.is_authenticated %}
@@ -27,13 +38,6 @@
                             <a href="{% url 'mod_residencia' pk=residencia.pk %}"> <button class="boton-detalle"> Editar Residencia </button> </a>
                         </div>
                     {% endif %}
-                    {% for subasta in subastas %}
-                        {% if residencia == subasta.codigo_residencia %}
-                            <div id="verSubasta">
-                                <button class="boton-detalle">Ver Subasta</button>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
                 {% endif %}
                 <div id="detalleResidencia">
                     <a href="{% url 'detalle_residencia' cod=residencia.codigo %}" > <button class="boton-detalle"> Ver detalle </button> </a>

@@ -26,6 +26,7 @@ def alta_residencia(request):
     if (not request.user.is_authenticated) or request.user.type != "admin":
         return redirect("/")
     else:
+        subasta=None
         if request.method == "POST":
             form=ResidenciaForm(request.POST, request.FILES)
             if form.is_valid():
@@ -34,7 +35,7 @@ def alta_residencia(request):
                 return redirect("/detalle_residencia/"+ str(residencia.pk))
         else:
             form=ResidenciaForm
-        return render(request,"alta_residencia.html", {'form':form})
+        return (render(request,"alta_residencia.html", {'form':form, 'subasta':subasta}))
     
 
 
@@ -46,21 +47,26 @@ def mod_residencia(request, pk):
         return redirect("/")
     else:
         residencia = get_object_or_404(Residencia, pk=pk)
-        if request.method == "POST" and 'btnModificar' in request.POST:
-            form = ResidenciaForm(request.POST, instance=residencia) 
-            if form.is_valid():
-                residencia = form.save(commit=False) #por si tengo que modificar datos
+        try:
+            subasta = Subasta.objects.get(codigo_residencia = residencia.pk)
+        except Subasta.DoesNotExist:
+            subasta = None
+        finally:
+            if request.method == "POST" and 'btnModificar' in request.POST:
+                form = ResidenciaForm(request.POST, instance=residencia) 
+                if form.is_valid():
+                    residencia = form.save(commit=False) #por si tengo que modificar datos
+                    residencia.save()
+                    return redirect("/detalle_residencia/"+ str(residencia.pk))
+            elif request.method =="POST" and "btnEliminar" in request.POST:
+                form=ResidenciaForm(request.POST, instance=residencia)
+                residencia=form.save(commit=False)
+                residencia.borrado_logico=True
                 residencia.save()
-                return redirect("/detalle_residencia/"+ str(residencia.pk))
-        elif request.method =="POST" and "btnEliminar" in request.POST:
-            form=ResidenciaForm(request.POST, instance=residencia)
-            residencia=form.save(commit=False)
-            residencia.borrado_logico=True
-            residencia.save()
-            return redirect('/')
-        else:
-            form = ResidenciaForm(instance=residencia)
-        return render(request, 'alta_residencia.html', {'form': form})
+                return redirect('/')
+            else:
+                form = ResidenciaForm(instance=residencia)
+            return (render(request, 'alta_residencia.html', {'form': form, "subasta": subasta}))
 
 
 
@@ -105,7 +111,6 @@ def detalle_residencia (request, cod):
         subasta = None
     finally:
         if request.method == "POST":
-            
             monto = request.POST.get("monto")
             if monto == "":
                 monto = 0
@@ -124,7 +129,13 @@ def detalle_residencia (request, cod):
                 puja.monto = monto
                 puja.save()
                 return redirect ("/detalle_residencia/"+ str(cod))
-    return (render (request, "detalle_residencia.html", {"residencia": residencia, "subasta": subasta}))
+    pujas = list(Puja.objects.filter(codigo_subasta=subasta))
+    pujas.sort(key=lambda x: x.monto, reverse=True)
+    if len(pujas) > 0:
+        puja_alta = pujas[0]
+    else:
+        puja_alta = None
+    return (render (request, "detalle_residencia.html", {"residencia": residencia, "subasta": subasta, "puja": puja_alta}))
 
 
 # Redirecciona a la pagina de inicio si no se le pasan parametros a detalle_residencia
