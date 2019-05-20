@@ -102,7 +102,6 @@ def detalle_residencia (request, cod):
         subasta = None
     finally:
         if request.method == "POST":
-            
             monto = request.POST.get("monto")
             if monto == "":
                 monto = 0
@@ -121,7 +120,13 @@ def detalle_residencia (request, cod):
                 puja.monto = monto
                 puja.save()
                 return redirect ("/detalle_residencia/"+ str(cod))
-    return (render (request, "detalle_residencia.html", {"residencia": residencia, "subasta": subasta}))
+    pujas = list(Puja.objects.filter(codigo_subasta=subasta))
+    pujas.sort(key=lambda x: x.monto, reverse=True)
+    if len(pujas) > 0:
+        puja_alta = pujas[0]
+    else:
+        puja_alta = None
+    return (render (request, "detalle_residencia.html", {"residencia": residencia, "subasta": subasta, "puja": puja_alta}))
 
 
 # Redirecciona a la pagina de inicio si no se le pasan parametros a detalle_residencia
