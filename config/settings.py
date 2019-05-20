@@ -119,6 +119,9 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "/static/"
+""" STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+] """
 
 #Ruta a la carpeta donde se almacenaran las imagenes
 MEDIA_ROOT = os.path.join(BASE_DIR, 'application', 'static', 'media')
