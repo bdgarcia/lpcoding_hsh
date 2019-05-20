@@ -19,9 +19,15 @@
     position: relative;
 }
 
+.alert-container {
+    font-size: 15px;
+    width: 65%;
+    float: left;
+    margin-top: 50px;
+}
+
 .container-puja {
-    background-color: #c3e6cb;
-    width: 30%;
+    width: 40%;
 }
 
 .button-container {
