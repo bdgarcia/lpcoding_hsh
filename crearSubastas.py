@@ -12,7 +12,7 @@ def cerrarSubastasDeLaSemana():
 def evaluarSubasta(res):
     print("evaluando: ", res.codigo, res.nombre)
     # 0=lunes, 2=miercoles
-    if 0 <= datetime.date.today().weekday() <= 7:
+    if 0 <= datetime.date.today().weekday() <= 2:
         if not Subasta.objects.filter(semana_alquila=lunesEn6Meses, codigo_residencia=res).exists() and not Alquila.objects.filter(fecha=lunesEn6Meses, codigo_residencia=res).exists():
             print("Creando: ", res.codigo)
             s = Subasta()
@@ -35,6 +35,5 @@ for res in residencias:
     evaluarSubasta(res)
 
 
-if 8 <= datetime.date.today().weekday():
+if 3 <= datetime.date.today().weekday():
     cerrarSubastasDeLaSemana()
-
