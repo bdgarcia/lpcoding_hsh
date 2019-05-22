@@ -1,5 +1,6 @@
 import requests
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from django.http import HttpResponse
 from modelos.models import Residencia
 from modelos.models import Subasta
@@ -32,6 +33,7 @@ def alta_residencia(request):
             if form.is_valid():
                 residencia = form.save()
                 residencia.save()
+                messages.success(request, 'La residencia fue creada correctamente.')
                 return redirect("/detalle_residencia/"+ str(residencia.pk))
         else:
             form=ResidenciaForm
@@ -57,12 +59,14 @@ def mod_residencia(request, pk):
                 if form.is_valid():
                     residencia = form.save(commit=False) #por si tengo que modificar datos
                     residencia.save()
+                    messages.success(request, 'La residencia fue modificada correctamente.')
                     return redirect("/detalle_residencia/"+ str(residencia.pk))
             elif request.method =="POST" and "btnEliminar" in request.POST:
                 form=ResidenciaForm(request.POST, instance=residencia)
                 residencia=form.save(commit=False)
                 residencia.borrado_logico=True
                 residencia.save()
+                messages.success(request, 'La residencia fue eliminada correctamente.')
                 return redirect('/')
             else:
                 form = ResidenciaForm(instance=residencia)
