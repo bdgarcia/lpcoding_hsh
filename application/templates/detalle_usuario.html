@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+<script type="text/javascript" src="{% static '/js/main.js' %}"></script>
+{% block content %}
+<link rel="stylesheet" href="{% static 'hsh_css/index.css' %}"/>
+
+<div class="container-fluid">
+   
+    
+        <div class="row container-detalles">                
+                <div>
+                    <h2>
+                        <b>Pagina de: {{usuario.nombre}} {{usuario.apellido}}</b> <br>
+                    </h2>
+                    <p>
+                        <b class="texto_detalle"> Email: </b>{{ usuario.email }} <br>
+                        <b class="texto_detalle"> Fecha de Nacimiento: </b> {{ usuario.fecha_nacimiento }}<br>
+                        <b class="texto_detalle"> Creditos disponibles:  </b> ${{ usuario.creditos }}<br>
+                    </p>
+                </div>
+            </div>
+    </div>
+</div>
+{% endblock %}

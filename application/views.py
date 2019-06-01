@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from modelos.models import Residencia
 from modelos.models import Subasta
 from modelos.models import Puja
+from modelos.models import Usuario
 
 from .forms import ResidenciaForm
 from .forms import TestForm
@@ -71,6 +72,10 @@ def mod_residencia(request, pk):
             else:
                 form = ResidenciaForm(instance=residencia)
             return (render(request, 'alta_residencia.html', {'form': form, "subasta": subasta}))
+
+def detalle_usuario (request, pk):
+    usuario= get_object_or_404(Usuario,pk=pk)
+    return (render(request, "detalle_usuario.html", {"usuario": usuario}))
 
 
 
