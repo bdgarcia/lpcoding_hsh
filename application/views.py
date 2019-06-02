@@ -12,6 +12,20 @@ def index(request):
 
     residencias = Residencia.objects.filter(borrado_logico=False)
     subastas = Subasta.objects.all()
+    if request.method == 'GET': # If the form is submitted
+        if request.GET.get('parametro'):
+            criteria = request.GET.get('criteria')
+            parametro = request.GET.get('parametro')
+            if criteria == "nombre":
+                residencias = residencias.filter(nombre=parametro)
+            if criteria == "ubicacion":
+                residencias = residencias.filter(ubicacion=parametro)
+
+        if request.GET.get('enSubasta'):
+            codigos_subasta = []
+            for subasta in subastas:
+                codigos_subasta.append(subasta.codigo_residencia.codigo)
+            residencias = residencias.filter(codigo__in=codigos_subasta)
 
     return render(request, "index.html", {"residencias": residencias, "subastas": subastas})
 
