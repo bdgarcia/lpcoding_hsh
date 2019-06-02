@@ -74,6 +74,14 @@
     margin-top: 4px;
 }
 
+.black {
+    background-color: #1b1e21;
+}
+
+.blue-grey {
+    background-color: aliceblue;
+}
+
 .right-nav {
     position: absolute;
     right: 0%;

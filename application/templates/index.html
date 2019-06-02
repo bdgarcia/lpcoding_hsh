@@ -3,6 +3,37 @@
 <script type="text/javascript" src="{% static '/js/main.js' %}"></script>
 {% block content %}
 <link rel="stylesheet" href="{% static 'hsh_css/index.css' %}"/>
+<style type="text/css">
+.spacing {
+    margin-right: 15px;
+    margin-top: 1px
+}
+</style>
+<!--Navbar-->
+<nav class="navbar navbar-expand-lg navbar-light blue-grey lighten-5 mb-4">
+    <ul class="navbar-nav mr-auto">
+      <!-- Dropdown -->
+      <li class="nav-item">
+       <a class="nav-link"><span>Buscar por:</span></a>
+      </li>
+      <li class="nav-item spacing">
+          <select class="browser-default custom-select">
+              <option>Nombre</option>
+              <option>Ubicacion</option>
+          </select>
+      </li>
+    <form class="form-inline nav-item">
+      <input class="form-control" type="text" placeholder="Buscar" aria-label="Search">
+    </form>
+      <li class="nav-item">
+       <a class="nav-link"><span>En subasta?</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link"><input type="checkbox"/></a>
+      </li>
+    </ul>
+</nav>
+<!--/.Navbar-->
 <div class="container container-catalogo">
 {% for residencia in residencias %}
     <div class="container-cards">
