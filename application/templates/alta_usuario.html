@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'hsh_css/formulario.css' %}" />
+<link rel="stylesheet" href="{% static 'hsh_css/index.css' %}" />
+
+{% if messages %}
+        {% for message in messages %}
+            <div class="col-md-12">
+                {% if message.tags == "error" %} 
+                <!--No muestra los mensajes de error con el alert de tipo success. Hacer un else que muestre los de error.-->
+                <div class="alert alert-dismissable alert-success">   
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                        ×
+                    </button>
+                    <strong>{{ message }}
+                </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    
+<form method="POST" enctype="multipart/form-data" class="container-form">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="container-field">
+        {{field.label}}:
+    </div>
+    <div class="container-widget">
+        {{field}}
+    </div>
+    {% endfor %}
+    <button type='submit' class="container-widget submitButton" name="btnGuardar" >Crear usuario</button>
+</form>
+
+{% endblock %}

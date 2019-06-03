@@ -8,7 +8,7 @@ from modelos.models import Puja
 from modelos.models import Usuario
 from modelos.models import Alquila
 
-from .forms import ResidenciaForm
+from .forms import ResidenciaForm, UsuarioForm
 from .forms import TestForm
 # Create your views here.
 def index(request):
@@ -42,7 +42,22 @@ def alta_residencia(request):
         return (render(request,"alta_residencia.html", {'form':form, 'subasta':subasta}))
     
 
+def alta_usuario(request):
+    if request.method=="POST":
+        form=UsuarioForm(request.POST, request.FILES)
+        if form.is_valid():
+            usuario=form.save(commit=False)
+            usuario.type="comun"
+            usuario.save()
+            #Si el usuario no es admin, login automatico a ese user
+            messages.success(request, 'El usuario fue creado correctamente')
+            return redirect("/usuario/"+str(usuario.pk))
+    else:
+            
+            form=UsuarioForm
+    return (render(request, "alta_usuario.html", {"form":form}))
 
+    
 
 
 # Formulario modificacion/baja de residencia
