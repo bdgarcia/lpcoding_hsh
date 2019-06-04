@@ -48,6 +48,7 @@ def alta_usuario(request):
         if form.is_valid():
             usuario=form.save(commit=False)
             usuario.type="comun"
+            usuario.set_password(usuario.password)
             usuario.save()
             #Si el usuario no es admin, login automatico a ese user
             messages.success(request, 'El usuario fue creado correctamente')

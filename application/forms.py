@@ -27,6 +27,7 @@ class UsuarioForm(forms.ModelForm):
            #"tarjeta_credito": "Tarjeta de credito:"
         }
         widgets={
+            "password": forms.PasswordInput(),
             "fecha_nacimiento":forms.SelectDateWidget(years=range(date.today().year, 1920, -1))
         }
 
