@@ -5,7 +5,23 @@
 <link rel="stylesheet" href="{% static 'hsh_css/index.css' %}"/>
 
 <div class="container-fluid">
-   
+    <div class=row>
+        {% if messages %}
+        {% for message in messages %}
+            <div class="col-md-12">
+                {% if message.tags == "success" %} 
+                <!--No muestra los mensajes de error con el alert de tipo success. Hacer un else que muestre los de error.-->
+                <div class="alert alert-dismissable alert-success">   
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                        ×
+                    </button>
+                    <strong>{{ message }}
+                </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        {% endif %}
+        </div>
     
         <div class="row container-detalles">                
                 <div>
@@ -13,33 +29,38 @@
                         <b>Pagina de: {{usuario.nombre}} {{usuario.apellido}}</b> <br>
                     </h2>
                     <p>
+                        <!--agregar fecha de creacion de cuenta (publico)
+                        agregar marca? de tarjeta de credito? (no el numero)-->
                         <b class="texto_detalle"> Email: </b>{{ usuario.email }} <br>
+                        {% if request.user == usuario or request.user.type == 'admin' %}
                         <b class="texto_detalle"> Fecha de Nacimiento: </b> {{ usuario.fecha_nacimiento }}<br>
                         <b class="texto_detalle"> Creditos disponibles:  </b> {{ usuario.creditos }}<br>
+                        {% endif %}
                         <b class="texto_detalle"> Tipo de Usuario:</b> {{ usuario.type}}
                     </p>
                 </div>
             </div>
-
-    <h2><b>Alquileres: </b></h2>
-    {% if alquileres %}
-        {% for alquiler in alquileres %}
+    {% if request.user == usuario or request.user.type == 'admin' %}
+        <h2><b>Alquileres: </b></h2>
+        {% if alquileres %}
+            {% for alquiler in alquileres %}
+                <div class="row container-detalles">
+                    <p>
+                        <h4><b>ResideSSncia: 
+                            <a href="{% url 'detalle_residencia' cod=alquiler.codigo_residencia.pk %}" >{{alquiler.codigo_residencia.nombre}}</a></b><br></h4>
+                        <b>Ubicacion de la residencia: </b>{{ alquiler.codigo_residencia.ubicacion }}<br>
+                        <b>Fecha alquiler: </b>{{ alquiler.fecha }}<br>
+                        <b>Precio de alquiler:</b>{{alquiler.precio}}<br>
+                    </p>
+                </div>
+            {% endfor %}
+        {% else %}
             <div class="row container-detalles">
-                <p>
-                    <h4><b>Residencia: 
-                        <a href="{% url 'detalle_residencia' cod=alquiler.codigo_residencia.pk %}" >{{alquiler.codigo_residencia.nombre}}</a></b><br></h4>
-                    <b>Ubicacion de la residencia: </b>{{ alquiler.codigo_residencia.ubicacion }}<br>
-                    <b>Fecha alquiler: </b>{{ alquiler.fecha }}<br>
-                    <b>Precio de alquiler:</b>{{alquiler.precio}}<br>
-                </p>
+                <b class:="texto_detalle">
+                    Aún no se ha alquilado ninguna residencia.
+                </b>
             </div>
-        {% endfor %}
-    {% else %}
-        <div class="row container-detalles">
-            <b class:="texto_detalle">
-                Aún no se ha alquilado ninguna residencia.
-            </b>
-        </div>
+        {% endif %}
     {% endif %}
 </div>
 {% endblock %}
