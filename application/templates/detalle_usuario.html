@@ -32,6 +32,7 @@
                         <!--agregar fecha de creacion de cuenta (publico)
                         agregar marca? de tarjeta de credito? (no el numero)-->
                         <b class="texto_detalle"> Email: </b>{{ usuario.email }} <br>
+                        <b class="texto_detalle"> Fecha de creación de cuenta:</b> {{ usuario.date_joined }}<br>
                         {% if request.user == usuario or request.user.type == 'admin' %}
                         <b class="texto_detalle"> Fecha de Nacimiento: </b> {{ usuario.fecha_nacimiento }}<br>
                         <b class="texto_detalle"> Creditos disponibles:  </b> {{ usuario.creditos }}<br>
