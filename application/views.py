@@ -149,7 +149,7 @@ def detalle_residencia (request, cod):
             else:
                 monto = int(monto)
             if monto < subasta.monto_actual or monto < subasta.monto_inicial:
-                pass
+                messages.error(request, "El monto debe ser mayor al de la subasta")
             else:
                 subasta.monto_actual = monto
                 subasta.save()
@@ -160,6 +160,7 @@ def detalle_residencia (request, cod):
                 puja.codigo_subasta = subasta
                 puja.monto = monto
                 puja.save()
+                messages.success(request, "Puja realizada con exito")
                 return redirect ("/detalle_residencia/"+ str(cod))
     pujas = list(Puja.objects.filter(codigo_subasta=subasta))
     pujas.sort(key=lambda x: x.monto, reverse=True)
