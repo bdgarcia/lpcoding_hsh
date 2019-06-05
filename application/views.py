@@ -7,6 +7,7 @@ from modelos.models import Subasta
 from modelos.models import Puja
 from modelos.models import Usuario
 from modelos.models import Alquila
+from django.contrib.auth import login
 
 from .forms import ResidenciaForm, UsuarioForm
 from .forms import TestForm
@@ -43,20 +44,24 @@ def alta_residencia(request):
     
 
 def alta_usuario(request):
-    if request.method=="POST":
-        form=UsuarioForm(request.POST, request.FILES)
-        if form.is_valid():
-            usuario=form.save(commit=False)
-            usuario.type="comun"
-            usuario.set_password(usuario.password)
-            usuario.save()
-            #Si el usuario no es admin, login automatico a ese user
-            messages.success(request, 'El usuario fue creado correctamente')
-            return redirect("/usuario/"+str(usuario.pk))
+    if request.user.is_authenticated and request.user.type != "admin":
+        return redirect("/")
     else:
-            
-            form=UsuarioForm
-    return (render(request, "alta_usuario.html", {"form":form}))
+        if request.method=="POST":
+            form=UsuarioForm(request.POST, request.FILES)
+            if form.is_valid():
+                usuario=form.save(commit=False)
+                #Para alta de admins: if usuario.type != admin:
+                usuario.type="comun"
+                usuario.set_password(usuario.password)
+                usuario.save()
+                if not request.user.is_authenticated:
+                    login(request, usuario)
+                messages.success(request, 'El usuario fue creado correctamente')
+                return redirect("/usuario/"+str(usuario.pk))
+        else:                
+                form=UsuarioForm
+        return (render(request, "alta_usuario.html", {"form":form}))
 
     
 
