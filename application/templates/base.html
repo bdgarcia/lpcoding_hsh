@@ -35,6 +35,9 @@
       {% endif %}
       {% if user.is_authenticated %}
       <li class="nav-item right-nav">
+        <a class="nav-link" href="{% url 'detalle_usuario' pk=user.pk %}">Ver Perfil</a>
+      </li>
+      <li class="nav-item right-nav">
         <a class="nav-link" href="{% url 'logout' %}?next=/">Logout</a>
       </li>
       {% else %}

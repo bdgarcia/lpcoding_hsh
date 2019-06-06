@@ -1,11 +1,15 @@
 import requests
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from django.http import HttpResponse
 from modelos.models import Residencia
 from modelos.models import Subasta
 from modelos.models import Puja
+from modelos.models import Usuario
 from modelos.models import Alquila
-from .forms import ResidenciaForm
+from django.contrib.auth import login
+
+from .forms import ResidenciaForm, UsuarioForm
 from datetime import date, timedelta, datetime
 # Create your views here.
 
@@ -84,11 +88,32 @@ def alta_residencia(request):
             if form.is_valid():
                 residencia = form.save()
                 residencia.save()
+                messages.success(request, 'La residencia fue creada correctamente.')
                 return redirect("/detalle_residencia/"+ str(residencia.pk))
         else:
             form=ResidenciaForm
         return (render(request,"alta_residencia.html", {'form':form, 'subasta':subasta}))
     
+
+def alta_usuario(request):
+    if request.user.is_authenticated and request.user.type != "admin":
+        return redirect("/")
+    else:
+        if request.method=="POST":
+            form=UsuarioForm(request.POST, request.FILES)
+            if form.is_valid():
+                usuario=form.save(commit=False)
+                #Para alta de admins: if usuario.type != admin:
+                usuario.type="comun"
+                usuario.set_password(usuario.password)
+                usuario.save()
+                if not request.user.is_authenticated:
+                    login(request, usuario)
+                messages.success(request, 'El usuario fue creado correctamente')
+                return redirect("/usuario/"+str(usuario.pk))
+        else:
+                form=UsuarioForm
+        return (render(request, "alta_usuario.html", {"form":form}))
 
 
 
@@ -109,16 +134,23 @@ def mod_residencia(request, pk):
                 if form.is_valid():
                     residencia = form.save(commit=False) #por si tengo que modificar datos
                     residencia.save()
+                    messages.success(request, 'La residencia fue modificada correctamente.')
                     return redirect("/detalle_residencia/"+ str(residencia.pk))
             elif request.method =="POST" and "btnEliminar" in request.POST:
                 form=ResidenciaForm(request.POST, instance=residencia)
                 residencia=form.save(commit=False)
                 residencia.borrado_logico=True
                 residencia.save()
+                messages.success(request, 'La residencia fue eliminada correctamente.')
                 return redirect('/')
             else:
                 form = ResidenciaForm(instance=residencia)
             return (render(request, 'alta_residencia.html', {'form': form, "subasta": subasta}))
+
+def detalle_usuario (request, pk):
+    usuario= get_object_or_404(Usuario,pk=pk)
+    alquileres = Alquila.objects.filter(email_usuario = pk)
+    return (render(request, "detalle_usuario.html", {"usuario": usuario, "alquileres": alquileres}))
 
 
 
@@ -169,7 +201,7 @@ def detalle_residencia (request, cod):
             else:
                 monto = int(monto)
             if monto < subasta.monto_actual or monto < subasta.monto_inicial:
-                pass
+                messages.error(request, "El monto debe ser mayor al de la subasta")
             else:
                 subasta.monto_actual = monto
                 subasta.save()
@@ -180,6 +212,7 @@ def detalle_residencia (request, cod):
                 puja.codigo_subasta = subasta
                 puja.monto = monto
                 puja.save()
+                messages.success(request, "Puja realizada con exito")
                 return redirect ("/detalle_residencia/"+ str(cod))
     pujas = list(Puja.objects.filter(codigo_subasta=subasta))
     pujas.sort(key=lambda x: x.monto, reverse=True)

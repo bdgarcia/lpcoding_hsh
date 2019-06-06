@@ -13,7 +13,7 @@ def get_file_path(instance, filename):
 class Residencia (models.Model):
     codigo = models.AutoField(primary_key = True)
     nombre = models.CharField(max_length =50)
-    ubicacion = models.CharField(max_length = 100)
+    ubicacion = models.CharField(max_length = 100, unique=True)
     descripcion = models.TextField()
     precio = models.FloatField()
     monto_minimo_subasta = models.FloatField()
