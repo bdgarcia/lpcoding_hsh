@@ -44,6 +44,9 @@
       </li>
       {% else %}
       <li class="nav-item">
+        <a class="nav-link" href="{% url 'alta_usuario' %}">Crear Cuenta</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="{% url 'login' %}">Login</a>
       </li>
       {% endif %}
