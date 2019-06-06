@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+<script type="text/javascript" src="{% static '/js/main.js' %}"></script>
+{% block content %}
+<link rel="stylesheet" href="{% static 'hsh_css/index.css' %}"/>
+<style type="text/css">
+.spacing {
+    margin-right: 15px;
+    margin-top: 1px
+}
+</style>
+
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>
+							Tipo
+						</th>
+						<th>
+							Usuario
+                        </th>
+                        <th>
+                            Nombre
+                        </th>
+                        <th>
+                            Apellido
+                        </th>
+                        <th>
+                            Email
+                        </th>
+						<th>
+							Fecha registro
+						</th>
+						<th>
+							Creditos
+                        </th>
+                        <th>
+                            Alquileres
+                        </th>
+
+                        <th>
+                        </th>
+					</tr>
+				</thead>
+				<tbody>
+                            {% for user in users %}
+                            <tr class={{ user.type }} onclick="window.location='#';">
+                                        <td>
+                                            {{ user.type }}
+                                        </td>
+                                        <td>
+                                            {{ user.username }}
+                                        </td>
+                                        <td>
+                                            {{ user.nombre }}
+                                        </td>
+                                        <td>
+                                            {{ user.apellido }}
+                                        </td>
+                                        <td>
+                                            {{ user.email }}
+                                        </td>
+                                        <td>
+                                            {{ user.date_joined }}
+                                        </td>
+                                        <td>
+                                            {{ user.creditos}}
+                                        </td>
+                                    
+                                        <td>
+                                            <button >Alquileres</button>                                        </td>
+                                        <td>
+                                                <button >Editar</button>                                        </td>
+                                    </tr>                      
+                    {% endfor %}
+		
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+

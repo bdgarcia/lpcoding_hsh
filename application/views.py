@@ -154,39 +154,18 @@ def detalle_usuario (request, pk):
 
 
 
-# Muestra el detalle de la residencia que se pasa como parametro
-""" def detalle_residencia (request, cod):
-    residencia = Residencia.objects.get(codigo = cod)
-    try:
-        subasta = Subasta.objects.get(codigo_residencia = cod)
-    except Subasta.DoesNotExist:
-        subasta = None
-    finally:
-        if request.method == "POST":
-            form = request.POST.copy()
-
-            monto = float(form.get("monto"))
-            if monto < float(subasta.monto_actual) or monto < float(subasta.monto_inicial):
-                pass
-            else:
-                subasta.monto_actual = monto
-                subasta.save()
-                puja = Puja()
-                puja.usuario = request.user
-                from datetime import datetime
-                puja.fecha_y_hora = datetime.now()
-                puja.codigo_subasta = subasta
-                puja.monto = monto
-                puja.save()
-                return redirect ("/detalle_residencia/"+ str(cod))
-        else:
-            form = TestForm()
-    return (render (request, "detalle_residencia.html", {"residencia": residencia, "subasta": subasta, "form":form })) """
+# Muestra el listado de usuarios, permitiendo ordenar por el criterio deseado
+def listado_usuarios(request):
+    if (request.user.is_authenticated and request.user.type == "admin"):
+        users = Usuario.objects.all()
+        return (render (request, "listado_usuarios.html" , {"users": users}))
+    return redirect("/")
 
 # Redirecciona a la pagina de inicio si no se le pasan parametros a detalle_residencia
 def detalle_residencia_solo (request):
     return redirect("index")
 
+# Muestra el detalle de la residencia que se pasa como parametro
 def detalle_residencia (request, cod):
     residencia = Residencia.objects.get(codigo = cod)
     try:
@@ -230,8 +209,8 @@ def detalle_residencia_solo (request):
 def administracion (request):   
     return render (request, "administracion.html")
 
-def listado_usuarios (request):
-    return render (request, "administracion.html")
+#def listado_usuarios (request):
+#    return render (request, "administracion.html")
 
 def listado_subastas (request):
     from modelos.models import Subasta
