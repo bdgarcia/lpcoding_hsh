@@ -3,7 +3,11 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'hsh_css/formulario.css' %}" />
 <link rel="stylesheet" href="{% static 'hsh_css/index.css' %}" />
-
+<style type="text/css">
+.spacing {
+    margin-top: 50px
+}
+</style>
     {% if form.instance.pk == None or not subasta %}
     
         <div class="container-alta-res">
@@ -42,7 +46,7 @@
         </div>
 
     {% else %}    
-        <div class="row">
+        <div class="row spacing">
                 <div class="col-md-2">
                 </div>
                 <div class="col-md-8">
