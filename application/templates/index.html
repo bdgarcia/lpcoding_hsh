@@ -3,6 +3,81 @@
 <script type="text/javascript" src="{% static '/js/main.js' %}"></script>
 {% block content %}
 <link rel="stylesheet" href="{% static 'hsh_css/index.css' %}"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/core.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+.spacing {
+    margin-right: 15px;
+    margin-top: 1px
+}
+</style>
+<!--Navbar-->
+<nav class="navbar navbar-expand-lg navbar-light blue-grey lighten-5 mb-4">
+    <form type="get" action="." class="form-inline nav-item">
+        <ul class="navbar-nav mr-auto">
+          <!-- Dropdown -->
+          <li class="nav-item">
+           <a class="nav-link"><span>Buscar por: </span></a>
+          </li>
+          <li class="nav-item spacing">
+              <select name="criteria" id="criteria" class="browser-default custom-select">
+                  <option value="nombre">nombre</option>
+                  <option value="ubicacion">ubicacion</option>
+              </select>
+          </li>
+          <input name="parametro" id="parametro" class="form-control" type="text" placeholder="Buscar" aria-label="Search">
+        <li class="nav-item">
+           <a class="nav-link"><span>Disponible desde: </span></a>
+        </li>
+        <li>
+            <input class="form-control" name="fecha" id="fecha" value="" />
+            <script>
+                $(document).ready(function() {
+                    $('#fecha').datepicker({
+                        uiLibrary: 'bootstrap4',
+                        format: 'yyyy-mm-dd',
+                        autoclose: true,
+                        startDate: new Date()
+                    }).on('changeDate', function (selected) {
+                        var minDate = new Date(selected.date.valueOf());
+                        $('#hasta').datepicker('setStartDate', minDate);
+                    });
+                });
+            </script>
+        </li>
+        <li class="nav-item">
+           <a class="nav-link"><span>Hasta: </span></a>
+        </li>
+        <li>
+            <input class="form-control" name="hasta" id="hasta" value="" />
+            <script>
+                $(document).ready(function() {
+                    $('#hasta').datepicker({
+                        uiLibrary: 'bootstrap4',
+                        format: 'yyyy-mm-dd',
+                        autoclose: true,
+                        useCurrent: false
+                    }).on('changeDate', function (selected) {
+                        var minDate = new Date(selected.date.valueOf());
+                        $('#fecha').datepicker('setEndDate', minDate);
+                    });
+                });
+            </script>
+        </li>
+        <li class="nav-item">
+           <a class="nav-link"><span>En subasta?</span></a>
+          </li>
+          <li class="nav-item active">
+            <a  class="nav-link"><input name="enSubasta" id="enSubasta" type="checkbox"/></a>
+          </li>
+        <li class="nav-item active">
+            <button class="boton-puja" id="search_submit" type="submit">Buscar</button>
+        </li>
+        </ul>
+    </form>
+</nav>
+<!--/.Navbar-->
 <div class="container container-catalogo">
 
     <div class=row>
@@ -35,20 +110,18 @@
                 <div class="texto-catalogo">
                     Nombre de la residencia: <b>{{ residencia.nombre }}</b><br>
                     <!-- Ubicación de la residencia: <b>{{ residencia.ubicacion }}</b><br> -->
-                    Precio del alquiler por semana: <b>{{ residencia.precio }}</b><br>
+                    Ubicacion: <b>{{ residencia.ubicacion }}</b><br>
                     <!--  Descripción: <b>{{ residencia.descripcion }}</b> -->
                 </div>
-                {% if user.is_authenticated %}
-                    {% for subasta in subastas %}
-                        {% if residencia == subasta.codigo_residencia %}
-                            <div class="col-md-12">
-                                <div class="alert alert-success alert-container ">
-                                    En subasta para la semana del: {{ subasta.semana_alquila }}!
-                                </div>
+                {% for subasta in subastas %}
+                    {% if residencia == subasta.codigo_residencia %}
+                        <div class="col-md-12">
+                            <div class="alert alert-success alert-container ">
+                                En subasta para la semana del: {{ subasta.semana_alquila }}!
                             </div>
-                        {% endif %}
-                    {% endfor %}
-                {% endif %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
             </div>
             <div class="button-container">
                 {% if user.is_authenticated %}

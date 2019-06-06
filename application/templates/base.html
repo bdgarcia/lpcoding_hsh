@@ -4,75 +4,48 @@
 <head>
 <title>Home Switch Home</title>
 <link rel="shortcut icon" type="png" href="{% static 'HSH-Logo.png' %}"/>
-  <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-  <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
   <style type="text/css">
     .jumbotron {
         background: rgb(182, 210, 238);
-        color: white;
         padding-top: 30px;
         padding-bottom: 40px
     }
-    .jumbotron .btn-primary {
-        background: #845ac7;
-        border-color: #845ac7
-    }
-    .jumbotron .btn-primary:hover {
-        background: #7646c1
-    }
-    .jumbotron p {
-        color: #d9ccee;
-        max-width: 75%;
-        margin: 1em auto 2em
-    }
     .navbar+.jumbotron {
-        margin-top: -20px
+        margin-top: -24px;
+        margin-bottom: -10px;
     }
-    .jumbotron .lang-logo {
-        display: block;
-        background: #b01302;
-        border-radius: 50%;
-        overflow: hidden;
-        width: 60px;
-        height: 60px;
-        margin: auto;
-        border: 2px solid white
-    }
-    .jumbotron .lang-logo img {
-        max-width: 100%
-    }
+
   </style>
 </head>
 <body>
-<nav class="navbar navbar-default navbar-static-top navbar-inverse">
-  <div class="container">
-    <ul class="nav navbar-nav left-nav">
-      <li class="active">
-        <a href="/"><span class="glyphicon"></span> Home</a>
+<!--Navbar-->
+<nav class="navbar navbar-expand-lg navbar-dark black mb-4">
+    <!-- Links -->
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/">Home <span class="sr-only"></span></a>
       </li>
       {% if user.type == "admin" %}
-      <li class="active">
-          <a href="{% url 'administracion' %}"><span class="glyphicon"></span> Panel de Admin</a>
-        </li>
-  {% endif %}
-    </ul>
-  {% if user.is_authenticated %}
-    <ul class="nav navbar-nav right-nav">
-      <li class="active" > <a href="{% url 'detalle_usuario' pk=user.pk %}">
-        <span class="glyphicon"></span>Ver Perfil</a></li>
-      <li class="active">
-        <a href="{% url 'logout' %}?next=/"><span class="glyphicon"></span> Logout</a>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'administracion' %}">Panel de Administrador</a>
       </li>
-    </ul>
-  {% else %}
-    <ul class="nav navbar-nav right-nav">
-      <li class="active">
-        <a href="{% url 'login' %}"><span class="glyphicon"></span> Login</a>
+      {% endif %}
+      {% if user.is_authenticated %}
+      <li class="nav-item right-nav">
+        <a class="nav-link" href="{% url 'detalle_usuario' pk=user.pk %}">Ver Perfil</a>
       </li>
+      <li class="nav-item right-nav">
+        <a class="nav-link" href="{% url 'logout' %}?next=/">Logout</a>
+      </li>
+      {% else %}
+      <li class="nav-item right-nav">
+        <a class="nav-link" href="{% url 'login' %}">Login</a>
+      </li>
+      {% endif %}
     </ul>
-  {% endif %}
-  </div>
 </nav>
 <div class="jumbotron text-center">
   <div class="container">

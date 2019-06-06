@@ -10,12 +10,64 @@ from modelos.models import Alquila
 from django.contrib.auth import login
 
 from .forms import ResidenciaForm, UsuarioForm
-from .forms import TestForm
+from datetime import date, timedelta, datetime
 # Create your views here.
-def index(request):
 
+def next_weekday(d, weekday):
+    days_ahead = weekday - d.weekday()
+    if days_ahead < 0: # Target day already happened this week
+        days_ahead += 6
+    return d + timedelta(days_ahead)
+
+def allmondays(fecha, hasta):
+   d = datetime.strptime(fecha, '%Y-%m-%d')
+   d = next_weekday(d, 1)
+   end =  datetime.strptime(hasta, '%Y-%m-%d')
+   aux = []
+   while d <= end:
+       aux.append(d.date())
+       d = d + timedelta(days = 7)
+   return aux
+
+
+def index(request):
     residencias = Residencia.objects.filter(borrado_logico=False)
     subastas = Subasta.objects.all()
+    if request.method == 'GET': # If the form is submitted
+        if request.GET.get('parametro'):
+            criteria = request.GET.get('criteria')
+            parametro = request.GET.get('parametro')
+            if criteria == "nombre":
+                residencias = residencias.filter(nombre=parametro)
+            if criteria == "ubicacion":
+                residencias = residencias.filter(ubicacion=parametro)
+
+        if request.GET.get('enSubasta'):
+            codigos_subasta = []
+            for subasta in subastas:
+                codigos_subasta.append(subasta.codigo_residencia.codigo)
+            residencias = residencias.filter(codigo__in=codigos_subasta)
+
+        if request.GET.get('fecha') or request.GET.get('hasta'):
+            fecha_desde = date.today()
+            fecha_hasta = date.today() + timedelta(days=60)
+
+            if request.GET.get('fecha'):
+                fecha_desde = request.GET.get('fecha')
+
+            if request.GET.get('hasta'):
+                fecha_hasta = request.GET.get('hasta')
+
+            todosLosLunes = allmondays(fecha_desde, fecha_hasta)
+            resultado = []
+            for residencia in residencias:
+                for unLunes in todosLosLunes:
+                    alquileres = Alquila.objects.filter(codigo_residencia=residencia)
+                    isRented = alquileres.filter(fecha=unLunes)
+                    if (not isRented.exists()):
+                        if residencia not in resultado:
+                            resultado.append(residencia)
+            residencias = resultado
 
     return render(request, "index.html", {"residencias": residencias, "subastas": subastas})
 
@@ -59,11 +111,11 @@ def alta_usuario(request):
                     login(request, usuario)
                 messages.success(request, 'El usuario fue creado correctamente')
                 return redirect("/usuario/"+str(usuario.pk))
-        else:                
+        else:
                 form=UsuarioForm
         return (render(request, "alta_usuario.html", {"form":form}))
 
-    
+
 
 
 # Formulario modificacion/baja de residencia
