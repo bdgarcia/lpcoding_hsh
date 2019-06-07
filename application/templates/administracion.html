@@ -3,16 +3,16 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'hsh_css/index.css' %}"/>
 {% if user.type == "admin" %}
-<div class="container">
+<div class="container-administracion">
     <ul>
         <li class="nav">
-            <a href="{% url 'subastas' %}" ><button class="boton-admin">Listado de subastas</button></a> <span class="align-middle">Acceso al listado de administracion de subastas actuales</span>
+            <a href="{% url 'subastas' %}" ><button class="boton-admin">Listado de subastas</button></a> <span class="align-middle">&nbsp;&nbsp;Acceso al listado de administracion de subastas actuales</span>
         </li>
         <li class="nav">
-            <div class="align-middle"><a href="{% url 'usuarios' %}" ><button class="boton-admin">Listado de usuarios</button></a> Acceso al listado de administracion de usuarios</div>
+            <a href="{% url 'listado_usuarios' %}" ><button class="boton-admin">Listado de usuarios</button></a> <span>&nbsp;&nbsp;Acceso al listado de administracion de usuarios</span>
         </li>
         <li class="nav">
-            <a href="{% url 'alta_residencia' %}" ><button class="boton-admin">Crear residencias</button></a> <span class="align-middle">Dar de alta residencia</span>
+            <a href="{% url 'alta_residencia' %}" ><button class="boton-admin">Crear residencias</button></a> <span class="align-middle">&nbsp;&nbsp;Dar de alta residencia</span>
         </li>
     </ul>
 </div>

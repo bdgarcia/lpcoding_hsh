@@ -18,13 +18,17 @@ urlpatterns = [
     path("", application.views.index, name="index"),
     path("detalle_residencia/<int:cod>", application.views.detalle_residencia, name= "detalle_residencia"),
     path("detalle_residencia/", application.views.detalle_residencia_solo, name= "detalle_residencia_solo"),
+    path("listado_usuarios/", application.views.listado_usuarios, name= "listado_usuarios"),
     path("alta_residencia/", application.views.alta_residencia, name="alta_residencia"),
     path("residencia/<int:pk>/edit/", application.views.mod_residencia, name="mod_residencia"),
     path("administracion/", application.views.administracion, name="administracion"),
+    path("usuario/<int:pk>", application.views.detalle_usuario, name="detalle_usuario"),
+   
+    path("usuario/crear", application.views.alta_usuario, name="alta_usuario"),
     path("test/", application.views.test, name="test"),
     path("admin/", admin.site.urls),
     path("auth/", include('django.contrib.auth.urls')),
-    path("usuarios/", application.views.listado_usuarios, name="usuarios"),
+#    path("usuarios/", application.views.listado_usuarios, name="usuarios"),
     path("subastas/", application.views.listado_subastas, name="subastas"),
     path("subastas/cerrar_subasta/", application.views.run_cerrar_subastas, name="cerrar_subastas"),
     path("como_ser_premium/", application.views.faq_premium, name="faq_premium")

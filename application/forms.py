@@ -1,6 +1,8 @@
 from django import forms
-from modelos.models import Residencia
+from modelos.models import Residencia, Usuario
 from django.core.exceptions import NON_FIELD_ERRORS
+from datetime import date, timedelta
+from django.contrib import messages
 
 
 class ResidenciaForm(forms.ModelForm):
@@ -13,16 +15,36 @@ class ResidenciaForm(forms.ModelForm):
             'monto_minimo_subasta': 'Monto mínimo de subasta',
         }
 
-    def clean(self):
-        cleaned_data = super().clean()
-
-        if Residencia.objects.filter(ubicacion=cleaned_data['ubicacion']).exists():
-            self.add_error(None, forms.ValidationError('Ya existe una residencia con esa ubicacion', code="unique_ubicacion"))        
         
 class TestForm(forms.Form):
     monto = forms.FloatField()
-        
+
+class UsuarioForm(forms.ModelForm):
+    confirm_password = forms.CharField(widget=forms.PasswordInput() ,label="Repita la contraseña:")
+    class Meta:
+        model=Usuario
+        fields=('username', 'nombre', 'apellido', 'email', 'fecha_nacimiento', 'password')#, 'tarjeta_credito')
+        labels= {
+            "fecha_nacimiento": "Fecha de nacimiento:"
+           #"tarjeta_credito": "Tarjeta de credito:"
+        }
+        widgets={
+            "password": forms.PasswordInput(),
+            "fecha_nacimiento":forms.SelectDateWidget(years=range(date.today().year, 1920, -1))
+        }
+
+    def clean(self):
+        cleaned_data = super(UsuarioForm, self).clean()
+        contraseña= cleaned_data["password"]
+        confirmacion= cleaned_data["confirm_password"]
+        if contraseña!=confirmacion:
+            raise forms.ValidationError("Las contraseñas no coinciden")
 
 
-
-            
+    def clean_fecha_nacimiento(self): 
+        fecha_n= self.cleaned_data["fecha_nacimiento"]
+        today=date.today()
+        age = today.year - fecha_n.year - ((today.month, today.day) < (fecha_n.month, fecha_n.day))
+        if (age<18):
+            raise forms.ValidationError("Debe ser mayor de 18 años.")
+        return fecha_n

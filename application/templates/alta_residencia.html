@@ -3,7 +3,11 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'hsh_css/formulario.css' %}" />
 <link rel="stylesheet" href="{% static 'hsh_css/index.css' %}" />
-
+<style type="text/css">
+.spacing {
+    margin-top: 50px
+}
+</style>
     {% if form.instance.pk == None or not subasta %}
     
         <div class="container-alta-res">
@@ -11,7 +15,7 @@
             <h1>Ingrese los datos de la residencia: </h1><br>
             </div>
 
-            {% if form.non_field_errors %}
+            {% if form.errors %}
                 <div class="col-md-12">
                     <div class="alert alert-dismissable alert-danger">
                         
@@ -42,7 +46,7 @@
         </div>
 
     {% else %}    
-        <div class="row">
+        <div class="row spacing">
                 <div class="col-md-2">
                 </div>
                 <div class="col-md-8">
