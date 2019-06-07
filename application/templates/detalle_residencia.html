@@ -1,13 +1,57 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-<script type="text/javascript" src="{% static '/js/main.js' %}"></script>
 {% block content %}
+<script type="text/javascript" src="{% static 'js/bootstrap-datepicker.es.js' %}" charset="UTF-8"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.min.css">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
 <link rel="stylesheet" href="{% static 'hsh_css/index.css' %}"/>
+<script type="text/javascript" src="{% static 'js/bootstrap-datepicker.es.js' %}" charset="UTF-8"></script>
 <style type="text/css">
 .spacing {
     margin-top: 50px
 }
+.datepicker table tr td span.active{
+    background: #04c!important;
+    border-color: #04c!important;
+}
+.datepicker .datepicker-days tr td.active {
+    background: #04c!important;
+}
+#week-picker-wrapper .datepicker .datepicker-days tr td.active~td, #week-picker-wrapper .datepicker .datepicker-days tr td.active {
+    color: #fff;
+    background-color: #04c;
+    border-radius: 0;
+}
+
+#week-picker-wrapper .datepicker .datepicker-days tr:hover td, #week-picker-wrapper .datepicker table tr td.day:hover, #week-picker-wrapper .datepicker table tr td.focused {
+    color: #000!important;
+    background: #e5e2e3!important;
+    border-radius: 0!important;
+}
+.datepicker table tr td.disabled{
+    color:red;
+    background: #ffb4a8;
+}
+.jumbotron {
+    background: rgb(182, 210, 238);
+    padding-top: 30px;
+    padding-bottom: 40px
+}
+.navbar+.jumbotron {
+    margin-top: -24px;
+    margin-bottom: -10px;
+}
+.input-width {
+    width: 220px;
+}
+.highlight-day{
+    background: #28a745;
+}
+.highlight-day-red{
+    background: #f37380;
+}
 </style>
+
 <div class="container-fluid spacing">
     <div class=row>
         {% if messages %}
@@ -32,8 +76,6 @@
         {% endfor %}
     {% endif %}
         </div>
-   
-    
         <div class="row container-detalles">                
             <div class="col-md-5">
                 <div class="media">
@@ -51,6 +93,57 @@
                         <b class="texto_detalle"> Precio:  </b> ${{ residencia.precio }}<br>
                     </p>
                 </div>
+                <div class="form-group" id="week-picker-wrapper">
+                    <label for="week" class="control-label"> <b>Disponibilidad:</b></label>
+                    <div class="input-group input-width">
+                        <input type="text" class="form-control week-picker" placeholder="Ver semanas">
+                    </div>
+                </div>
+                <script>
+                    var weekpicker, start_date, end_date;
+
+                    function set_week_picker(date) {
+                        start_date = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() +1);
+                        end_date = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() +7);
+                        weekpicker.datepicker('update', start_date);
+                        weekpicker.val(start_date.getFullYear() + '/' + (start_date.getMonth() + 1) + '/' + start_date.getDate() + ' - ' + end_date.getFullYear() + '/' + (end_date.getMonth() + 1) + '/' + end_date.getDate() );
+                    }
+
+                    $(document).ready(function () {
+                        weekpicker = $('.week-picker');
+                        console.log(weekpicker);
+                        weekpicker.datepicker({
+                            language: 'es',
+                            format: 'yyyy-mm-dd',
+                            startDate: '+6m',
+                            endDate: '+1y',
+                            autoclose: true,
+                            forceParse: false,
+                            container: '#week-picker-wrapper',
+                            beforeShowDay: function(date) {
+                               var month = date.getMonth()+1;
+                               var year = date.getFullYear();
+                               var day = date.getDate();
+
+                               // Change format of date
+                                var newdate = year+"-"+month+'-'+day;
+                                {% for diaAlq in diasAlquilados %}
+                                    var hilightedDay = "{{ diaAlq }}" ;
+
+                                    if (newdate == hilightedDay) {
+                                       return {enabled:false, classes: 'highlight-day-red', tooltip: ''};
+                                    } else {
+
+                                    }
+                                {% endfor %}
+                            }
+                            }).on("changeDate", function(e) {
+                                set_week_picker(e.date);
+                            }).datepicker("update", new Date());
+                            date = new Date();
+                            set_week_picker(new Date(date.getFullYear(), (date.getMonth() +6), date.getDate() - date.getDay()));
+                        });
+                </script>
             </div>
             {% if user.type == "admin" %}
                 <div class="button-container">
