@@ -199,7 +199,17 @@ def detalle_residencia (request, cod):
         puja_alta = pujas[0]
     else:
         puja_alta = None
-    return (render (request, "detalle_residencia.html", {"residencia": residencia, "subasta": subasta, "puja": puja_alta}))
+
+    # setear los dias alquilados para no colorearlos como disponibles en el calendario
+    diasAlquilados = []
+    semanasAlquiladas = Alquila.objects.filter(codigo_residencia=cod)
+    for semana in semanasAlquiladas:
+        elLunes = semana.fecha
+        for x in range (0,7):
+            dia = elLunes + timedelta(days=x)
+            diasAlquilados.append(str(dia))
+
+    return (render (request, "detalle_residencia.html", {"residencia": residencia, "subasta": subasta, "puja": puja_alta, "diasAlquilados": diasAlquilados}))
 
 
 # Redirecciona a la pagina de inicio si no se le pasan parametros a detalle_residencia
