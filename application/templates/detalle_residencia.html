@@ -57,6 +57,15 @@
                             <button type="submit" id="cerrarSubasta" class="boton-detalle">Cerrar subasta</button>
                         </form>
                     {% endif %}
+                {% else %}
+                    {% if user.type == "comun" %}
+                        <div class="container">
+                        <div class="alert alert-dismissable alert-info">
+                            <b>¿Queres saber como poder alquilar una semana cuando esta no esta en subasta?<br>
+                            <a href="{% url 'faq_premium' %}">Haz clic aquí para enterarte las ventajas de ser un usuario Premium</a></b><br>
+                        </div>
+                        </div>
+                    {% endif %}
                 {% endif %}
             {% else %}
                 <div class="row">
