@@ -28,9 +28,9 @@ class Usuario (AbstractUser):
     fecha_nacimiento = models.DateField()
     #
     # https://github.com/dldevinc/django-credit-cards
-    numero_tarjeta = CardNumberField(_("Card number"))
-    vencimiento_tarjeta = CardExpiryField(_('expiration date'))
-    codigo_tarjeta = SecurityCodeField(_('security code'))
+    numero_tarjeta = CardNumberField(blank=True, null = True)
+    vencimiento_tarjeta = CardExpiryField(blank=True, null = True)
+    codigo_tarjeta = SecurityCodeField(blank=True, null = True)
     #
     creditos = models.IntegerField(default=2)
     type = models.CharField(max_length = 30)
