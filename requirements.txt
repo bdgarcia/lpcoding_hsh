@@ -2,4 +2,4 @@ django
 gunicorn
 django-heroku
 requests
-django-credit-card
+django-credit-cards
