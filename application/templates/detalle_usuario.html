@@ -46,17 +46,27 @@
                 </div>
             </div>
     {% if request.user == usuario or request.user.type == 'admin' %}
-        <h2><b>Alquileres: </b></h2>
+    <br><br>
+    <h2 style="text-align:center"><b>Alquileres: </b></h2>
         {% if alquileres %}
             {% for alquiler in alquileres %}
                 <div class="row container-detalles">
-                    <p>
-                        <h4><b>ResideSSncia: 
-                            <a href="{% url 'detalle_residencia' cod=alquiler.codigo_residencia.pk %}" >{{alquiler.codigo_residencia.nombre}}</a></b><br></h4>
-                        <b>Ubicacion de la residencia: </b>{{ alquiler.codigo_residencia.ubicacion }}<br>
-                        <b>Fecha alquiler: </b>{{ alquiler.fecha }}<br>
-                        <b>Precio de alquiler:</b>{{alquiler.precio}}<br>
-                    </p>
+                
+                    <div class="col-md-4">
+                        <div class="foto-catalogo">
+                            <img src="{% static 'media/' %}{{ alquiler.codigo_residencia.foto }}" height="160">
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="texto-catalogo">
+                            <h4><b>Residencia: 
+                                    <a href="{% url 'detalle_residencia' cod=alquiler.codigo_residencia.pk %}" >{{alquiler.codigo_residencia.nombre}}</a></b></h4><br>
+                                <b class="texto_detalle">Ubicacion de la residencia: </b>{{ alquiler.codigo_residencia.ubicacion }}<br>
+                                <b class="texto_detalle">Fecha alquiler: </b>{{ alquiler.fecha }}<br>
+                                <b class="texto_detalle">Precio de alquiler: </b>{{alquiler.precio}}<br>
+                        </div>
+                    </div>
+                
                 </div>
             {% endfor %}
         {% else %}
