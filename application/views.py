@@ -8,6 +8,7 @@ from modelos.models import Puja
 from modelos.models import Usuario
 from modelos.models import Alquila
 from django.contrib.auth import login
+from creditcards import types
 
 from .forms import ResidenciaForm, UsuarioForm
 from datetime import date, timedelta, datetime
@@ -147,10 +148,23 @@ def mod_residencia(request, pk):
                 form = ResidenciaForm(instance=residencia)
             return (render(request, 'alta_residencia.html', {'form': form, "subasta": subasta}))
 
+
+def get_CC_type(codigo):
+    """Retorna la marca de la tarjeta"""
+    for tarjeta in types.CC_TYPES:
+        if tarjeta[0] == codigo:
+            aux=tarjeta[1]
+            return aux["title"]
+    return "Marca genérica/NA"
+
 def detalle_usuario (request, pk):
     usuario= get_object_or_404(Usuario,pk=pk)
     alquileres = Alquila.objects.filter(email_usuario = pk)
-    return (render(request, "detalle_usuario.html", {"usuario": usuario, "alquileres": alquileres}))
+    marca_tarjeta= get_CC_type(types.get_type(usuario.numero_tarjeta))
+    vencimiento_cred= usuario.date_joined.date()
+    aux= vencimiento_cred.year + 1 + (date.today().year - usuario.date_joined.year)
+    aux= vencimiento_cred.replace(year = aux)
+    return (render(request, "detalle_usuario.html", {"usuario": usuario, "alquileres": alquileres, "marca": marca_tarjeta, "vencimiento_creditos":aux}))
 
 
 
