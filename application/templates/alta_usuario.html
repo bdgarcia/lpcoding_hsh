@@ -3,6 +3,26 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'hsh_css/formulario.css' %}" />
 <link rel="stylesheet" href="{% static 'hsh_css/index.css' %}" />
+<style type="text/css">
+    .spacing {
+        margin-top: 50px
+    }
+</style>
+<div class="container-alta-res">
+    <div class="titulo">
+        <h2>¿Por qué registrarme?</h2>
+        <br>
+        Registrándote a HomeSwitchHome, tendrás la posibilidad de acceder a las mejores residencias para tus vacaciones,
+         con los mejores precios, y hotsales periodicos. <br>
+        ¡La subscripcion es de tan solo [pesos] mensuales! <br>
+        <a href=""><b>Si tienes mas dudas, haz click aqui para ver nuestras preguntas frecuentes.</b></a>
+    </div>
+</div>
+
+<div class="container-alta-res">
+    <div class="titulo">
+        <h1>Ingrese los datos: </h1><br>
+    </div>
 
     {% if form.errors %}
     {% for field in form %}
@@ -44,5 +64,6 @@
     {% endfor %}
     <button type='submit' class="container-widget submitButton" name="btnGuardar" >Crear usuario</button>
 </form>
+</div>
 
 {% endblock %}
