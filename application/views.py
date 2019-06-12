@@ -7,9 +7,10 @@ from modelos.models import Subasta
 from modelos.models import Puja
 from modelos.models import Usuario
 from modelos.models import Alquila
+from modelos.models import Variables_sistema
 from django.contrib.auth import login
 
-from .forms import ResidenciaForm, UsuarioForm
+from .forms import ResidenciaForm, UsuarioForm, Variables_sistemaForm
 from datetime import date, timedelta, datetime
 # Create your views here.
 
@@ -146,6 +147,26 @@ def mod_residencia(request, pk):
             else:
                 form = ResidenciaForm(instance=residencia)
             return (render(request, 'alta_residencia.html', {'form': form, "subasta": subasta}))
+
+def configurar_tarifas(request):
+    if (not request.user.is_authenticated) or request.user.type != "admin":
+        return redirect("/")
+    else:
+        tarifa=get_object_or_404(Variables_sistema, pk=1)
+        if request.method == "POST" and 'btnModificar' in request.POST:
+            form=Variables_sistemaForm(request.POST, instance=tarifa)
+            if form.is_valid():
+                tarifa=form.save(commit=False)
+                tarifa.save()
+                messages.success(request, 'Tarifas guardadas.')
+                return redirect("administracion")
+        elif request.method == "POST" and 'btnCancelar' in request.POST:
+            messages.error(request, "Cambios de tarifas cancelados.")
+            return redirect("administracion")
+        else:
+            form=Variables_sistemaForm(instance=tarifa)
+        return (render(request, 'configurar_tarifas.html', {'form': form}))
+
 
 def detalle_usuario (request, pk):
     usuario= get_object_or_404(Usuario,pk=pk)

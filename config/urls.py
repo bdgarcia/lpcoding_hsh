@@ -23,7 +23,7 @@ urlpatterns = [
     path("residencia/<int:pk>/edit/", application.views.mod_residencia, name="mod_residencia"),
     path("administracion/", application.views.administracion, name="administracion"),
     path("usuario/<int:pk>", application.views.detalle_usuario, name="detalle_usuario"),
-   
+    path("administracion/configuracion/", application.views.configurar_tarifas, name="configurar_tarifas"),
     path("usuario/crear", application.views.alta_usuario, name="alta_usuario"),
     path("test/", application.views.test, name="test"),
     path("admin/", admin.site.urls),
