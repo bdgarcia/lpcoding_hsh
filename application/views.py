@@ -7,6 +7,7 @@ from modelos.models import Subasta
 from modelos.models import Puja
 from modelos.models import Usuario
 from modelos.models import Alquila
+from modelos.models import Variables_sistema
 from django.contrib.auth import login
 from creditcards import types
 
@@ -100,21 +101,27 @@ def alta_usuario(request):
     if request.user.is_authenticated and request.user.type != "admin":
         return redirect("/")
     else:
-        if request.method=="POST":
-            form=UsuarioForm(request.POST, request.FILES)
-            if form.is_valid():
-                usuario=form.save(commit=False)
-                #Para alta de admins: if usuario.type != admin:
-                usuario.type="comun"
-                usuario.set_password(usuario.password)
-                usuario.save()
-                if not request.user.is_authenticated:
-                    login(request, usuario)
-                messages.success(request, 'El usuario fue creado correctamente')
-                return redirect("/usuario/"+str(usuario.pk))
-        else:
-                form=UsuarioForm
-        return (render(request, "alta_usuario.html", {"form":form}))
+        try:
+            subscripcion = Variables_sistema.objects.get(pk = 1)
+            subscripcion = subscripcion.precio_usuario_comun
+        except Variables_sistema.DoesNotExist:
+            subscripcion = 0
+        finally:
+            if request.method=="POST":
+                form=UsuarioForm(request.POST, request.FILES)
+                if form.is_valid():
+                    usuario=form.save(commit=False)
+                    #Para alta de admins: if usuario.type != admin:
+                    usuario.type="comun"
+                    usuario.set_password(usuario.password)
+                    usuario.save()
+                    if not request.user.is_authenticated:
+                        login(request, usuario)
+                    messages.success(request, 'El usuario fue creado correctamente')
+                    return redirect("/usuario/"+str(usuario.pk))
+            else:
+                    form=UsuarioForm
+            return (render(request, "alta_usuario.html", {"form":form, "subscripcion": subscripcion}))
 
 
 
