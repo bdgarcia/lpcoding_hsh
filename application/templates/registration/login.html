@@ -1,13 +1,39 @@
 <!-- templates/registration/login.html -->
-{% extends 'base.html' %}
-
-{% block title %}Login{% endblock %}
-
+{% extends "base.html" %}
+{% load static %}
 {% block content %}
-<h2>Login</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Login</button>
-</form>
+<link rel="stylesheet" href="{% static 'hsh_css/formulario.css' %}" />
+<link rel="stylesheet" href="{% static 'hsh_css/index.css' %}" />
+<style type="text/css">
+.spacing {
+    margin-top: 50px
+}
+</style>
+  <div class="container-alta-res spacing">
+    <div class="titulo">
+      <h2>Iniciar sesion</h2>
+    </div>
+    {% if form.errors %}
+      <div class="col-md-12">
+        <div class="alert alert-dismissable alert-danger">        
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+            ×
+          </button>
+          <strong>¡Error!</strong> Nombre de usuario y/o contraseña incorrectos.
+        </div>
+      </div>
+    {% endif %}
+    <form method="post" enctype="multipart/form-data" class="container-form" >
+      {% csrf_token %}
+      {% for field in form %}
+                <div class="container-field">
+                    {{field.label}}:
+                </div>
+                <div class="container-widget">
+                    {{field}}
+                </div>
+                {% endfor %}
+      <button class="container-widget submitButton" type="submit">Iniciar sesion</button>
+    </form>
+  </div>
 {% endblock %}

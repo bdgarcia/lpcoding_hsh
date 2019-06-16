@@ -266,3 +266,6 @@ def run_cerrar_subastas (request):
         print("cerrando subasta: ", subasta[0].codigo)
         cerrarSubasta(subasta[0])
     return HttpResponseRedirect(reverse('subastas'))
+
+def faq_premium(request):
+    return render(request, "faq_premium.html")
