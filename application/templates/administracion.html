@@ -4,6 +4,27 @@
 <link rel="stylesheet" href="{% static 'hsh_css/index.css' %}"/>
 {% if user.type == "admin" %}
 <div class="container-administracion">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="col-md-12">
+                {% if message.tags == "success" %} 
+                <div class="alert alert-dismissable alert-success">   
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                        ×
+                    </button>
+                    <strong>{{ message }}</strong>
+                </div>
+                {% else %}
+                <div class="alert alert-dismissable alert-danger">   
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                        ×
+                    </button>
+                    <strong>{{ message }}</strong>
+                </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% endif %}
     <ul>
         <li class="nav">
             <a href="{% url 'subastas' %}" ><button class="boton-admin">Listado de subastas</button></a> <span class="align-middle">&nbsp;&nbsp;Acceso al listado de administracion de subastas actuales</span>
@@ -16,6 +37,9 @@
         </li>
         <li class="nav">
             <a href="{% url 'alta_usuario' %}" ><button class="boton-admin">Crear usuario</button></a> <span class="align-middle">&nbsp;&nbsp;Dar de alta usuario</span>
+        </li>
+        <li class="nav">
+            <a href="{% url 'configurar_tarifas' %}"><button class="boton-admin">Modificar tarifas</button></a><span class="align-middle">&nbsp;&nbsp;Modificar los valores de las tarifas mensuales</span>
         </li>
     </ul>
 </div>

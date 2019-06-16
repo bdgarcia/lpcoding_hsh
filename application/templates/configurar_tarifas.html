@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'hsh_css/formulario.css' %}" />
+<link rel="stylesheet" href="{% static 'hsh_css/index.css' %}" />
+<style type="text/css">
+.spacing {
+    margin-top: 50px
+}
+</style>
+        <div class="container-alta-res">
+            <div class="titulo">
+            <h1>Tarifas: </h1><br>
+            </div>
+
+            <form method="POST" enctype="multipart/form-data" class="container-form">{% csrf_token %}
+                {% for field in form %}
+                <div class="container-field">
+                    {{field.label}}:
+                </div>
+                <div class="container-widget">
+                    {{field}}
+                </div>
+                {% endfor %}
+                <button type='submit' class="container-widget submitButton" name="btnModificar" onclick="return confirm('¿Modificar precios de tarifas?')">Guardar cambios</button>
+                <button type='submit' class="container-widget submitButton" name="btnCancelar" onclick="return confirm('¿Cancelar cambios?')">Cancelar cambios</button>
+            </form>
+        </div>
+
+{% endblock %}

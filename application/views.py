@@ -11,7 +11,7 @@ from modelos.models import Variables_sistema
 from django.contrib.auth import login
 from creditcards import types
 
-from .forms import ResidenciaForm, UsuarioForm
+from .forms import ResidenciaForm, UsuarioForm, Variables_sistemaForm
 from datetime import date, timedelta, datetime
 # Create your views here.
 
@@ -156,6 +156,26 @@ def mod_residencia(request, pk):
             return (render(request, 'alta_residencia.html', {'form': form, "subasta": subasta}))
 
 
+def configurar_tarifas(request):
+    if (not request.user.is_authenticated) or request.user.type != "admin":
+        return redirect("/")
+    else:
+        tarifa=get_object_or_404(Variables_sistema, pk=1)
+        if request.method == "POST" and 'btnModificar' in request.POST:
+            form=Variables_sistemaForm(request.POST, instance=tarifa)
+            if form.is_valid():
+                tarifa=form.save(commit=False)
+                tarifa.save()
+                messages.success(request, 'Tarifas guardadas.')
+                return redirect("administracion")
+        elif request.method == "POST" and 'btnCancelar' in request.POST:
+            messages.error(request, "Cambios de tarifas cancelados.")
+            return redirect("administracion")
+        else:
+            form=Variables_sistemaForm(instance=tarifa)
+        return (render(request, 'configurar_tarifas.html', {'form': form}))
+
+
 def get_CC_type(codigo):
     """Retorna la marca de la tarjeta"""
     for tarjeta in types.CC_TYPES:
@@ -163,6 +183,7 @@ def get_CC_type(codigo):
             aux=tarjeta[1]
             return aux["title"]
     return "Marca genérica/NA"
+
 
 def detalle_usuario (request, pk):
     usuario= get_object_or_404(Usuario,pk=pk)
@@ -178,9 +199,37 @@ def detalle_usuario (request, pk):
 # Muestra el listado de usuarios, permitiendo ordenar por el criterio deseado
 def listado_usuarios(request):
     if (request.user.is_authenticated and request.user.type == "admin"):
-        users = Usuario.objects.all()
-        return (render (request, "listado_usuarios.html" , {"users": users}))
+        # users = Usuario.objects.all()
+        # if request.method == "GET":
+        #         criteria = request.GET.get('criteria')
+        #         if criteria == "nombre":
+        #             users = sorted(users, key= lambda x: x.username, reverse = False)
+        #             #users = users.sort(key= lambda x: x.username, reverse = True)
+        #         if criteria == "fecha registro":
+        #             #residencias = users.sort(key= lambda x: x.date_joined)
+        #             users = sorted(users, key= lambda x: x.date_joined, reverse = False)
+        # return (render (request, "listado_usuarios.html" , {"users": users}))
+        return redirect("/listado_usuarios/alfabetico_des")
     return redirect("/")
+
+
+def listado_usuarios_modo(request, modo):
+    if modo == "alfabetico_as" or modo == "fregistro_as" or modo == "alfabetico_des" or modo == "fregistro_des":
+        if (request.user.is_authenticated and request.user.type == "admin"):
+            users = Usuario.objects.all()
+            if modo == "alfabetico_des":
+                users = sorted(users, key= lambda x: x.username.lower(), reverse = False)
+                #users = users.sort(key= lambda x: x.username, reverse = True)
+            elif modo == "alfabetico_as":
+                users = sorted(users, key= lambda x: x.username.lower(), reverse = True)
+            elif modo == "fregistro_as":
+                users = sorted(users, key= lambda x: x.date_joined, reverse = True)
+            elif modo == "fregistro_des":
+                users = sorted(users, key= lambda x: x.date_joined, reverse = False)
+            return (render (request, "listado_usuarios.html" , {"users": users}))
+    return redirect("/")
+
+
 
 # Redirecciona a la pagina de inicio si no se le pasan parametros a detalle_residencia
 def detalle_residencia_solo (request):
@@ -259,3 +308,6 @@ def run_cerrar_subastas (request):
         print("cerrando subasta: ", subasta[0].codigo)
         cerrarSubasta(subasta[0])
     return HttpResponseRedirect(reverse('subastas'))
+
+def faq_premium(request):
+    return render(request, "faq_premium.html")
