@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 import os
+from creditcards.models import CardNumberField, CardExpiryField, SecurityCodeField
 
 # Create your models here.
 
@@ -13,7 +14,7 @@ def get_file_path(instance, filename):
 class Residencia (models.Model):
     codigo = models.AutoField(primary_key = True)
     nombre = models.CharField(max_length =50)
-    ubicacion = models.CharField(max_length = 100)
+    ubicacion = models.CharField(max_length = 100, unique=True)
     descripcion = models.TextField()
     precio = models.FloatField()
     monto_minimo_subasta = models.FloatField()
@@ -23,10 +24,14 @@ class Residencia (models.Model):
 class Usuario (AbstractUser):
     nombre = models.CharField(max_length = 30)
     apellido = models.CharField(max_length = 30)
-    email = models.EmailField(max_length = 100)
+    email = models.EmailField(max_length = 100, unique= True)
     fecha_nacimiento = models.DateField()
-    tarjeta_credito = models.CharField(max_length = 30)
-    #membresia
+    #
+    # https://github.com/dldevinc/django-credit-cards
+    numero_tarjeta = CardNumberField(blank=True, null = True)
+    vencimiento_tarjeta = CardExpiryField(blank=True, null = True)
+    codigo_tarjeta = SecurityCodeField(blank=True, null = True)
+    #
     creditos = models.IntegerField(default=2)
     type = models.CharField(max_length = 30)
     REQUIRED_FIELDS = ['fecha_nacimiento', 'email', 'creditos']
@@ -52,3 +57,7 @@ class Alquila (models.Model):
     fecha = models.DateField()
     precio = models.FloatField()
     #modo ----> depende de la membresia del usuario
+
+class Variables_sistema (models.Model):
+    precio_usuario_comun = models.FloatField(default=0.0)
+    precio_usuario_premium = models.FloatField(default=0.0)

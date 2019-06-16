@@ -17,7 +17,6 @@
         margin-top: -24px;
         margin-bottom: -10px;
     }
-
   </style>
 </head>
 <body>
@@ -33,17 +32,20 @@
         <a class="nav-link" href="{% url 'administracion' %}">Panel de Administrador</a>
       </li>
       {% endif %}
+    </ul>
+    <ul class="navbar-nav ml-auto">
       {% if user.is_authenticated %}
-      {% if user.type == "comun" %}
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'faq_premium' %}">¡Quiero ser Premium!</a>
+        <a class="nav-link" href="{% url 'detalle_usuario' pk=user.pk %}">Ver Perfil</a>
       </li>
-      {% endif %}
-      <li class="nav-item right-nav">
-        <a class="nav-link" href="{% url 'logout' %}?next=/">Logout</a>
+      <li class="nav-item">
+        <a class="nav-link float-right" href="{% url 'logout' %}?next=/">Logout</a>
       </li>
       {% else %}
-      <li class="nav-item right-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'alta_usuario' %}">Crear Cuenta</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="{% url 'login' %}">Login</a>
       </li>
       {% endif %}
