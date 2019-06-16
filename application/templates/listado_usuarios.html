@@ -5,12 +5,371 @@
 <link rel="stylesheet" href="{% static 'hsh_css/index.css' %}"/>
 <style type="text/css">
 .spacing {
-    margin-top: 50px
+    margin-right: 15px;
+    margin-top: 1px
 }
 </style>
 
 
-<div class="container-fluid spacing">
+
+
+
+
+
+   
+
+
+
+<ul class="nav nav-tabs " id="myTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Todos</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Comun</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="messages-tab" data-toggle="tab" href="#messages" role="tab" aria-controls="messages" aria-selected="false">Premium</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Administradores</a>
+    </li>
+    <li>
+            <div class="dropdown col-xs-12">
+                    <button class="btn btn-primary dropdown-toggle col-xs-12" type="button" data-toggle="dropdown">Ordenar
+                            <span class="caret"></span></button>
+                            <ul class="dropdown-menu col-xs-12">
+                                <li><a class="dropdown-item" href="/listado_usuarios/alfabetico_as">Alfabetico (ascendente)</a></li>
+                                <li><a class="dropdown-item" href="/listado_usuarios/alfabetico_des">Alfabetico (descendente)</a></li>
+                                <li><a class="dropdown-item" href="/listado_usuarios/fregistro_as">Fecha registro (ascendente)</a></li>
+                                <li><a class="dropdown-item" href="/listado_usuarios/fregistro_des">Fecha registro (descendente)</a></li>
+
+                  </div>
+        <!-- <form type="GET" action="." class="form-inline nav-item">
+           
+                  <select name="criteria" id="criteria" class="browser-default custom-select">
+                      <option value="nombre"> <a href="/listado_usuarios/alfabetico">alfabetico</a></option>
+                      <option value="ubicacion"> <a href="/listado_usuarios/fregistro">Fecha registro</a></option>
+                  </select>
+                  <button type="submit" class="btn btn-lg btn-primary btn-block"> Ordenar </button> -->
+             
+    </li>
+  </ul>
+  
+  <div class="tab-content">
+    <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">  
+            <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Tipo
+                                        </th>
+                                        <th>
+                                            Usuario
+                                        </th>
+                                        <th>
+                                            Nombre
+                                        </th>
+                                        <th>
+                                            Apellido
+                                        </th>
+                                        <th>
+                                            Email
+                                        </th>
+                                        <th>
+                                            Fecha registro
+                                        </th>
+                                        <th>
+                                            Creditos
+                                        </th>
+                            
+
+                                        <th>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                            {% for user in users %}
+                                            <tr class={{ user.type }} onclick="window.location='#';">
+                                                        <td>
+                                                            {{ user.type }}
+                                                        </td>
+                                                        <td>
+                                                            {{ user.username }}
+                                                        </td>
+                                                        <td>
+                                                            {{ user.nombre }}
+                                                        </td>
+                                                        <td>
+                                                            {{ user.apellido }}
+                                                        </td>
+                                                        <td>
+                                                            {{ user.email }}
+                                                        </td>
+                                                        <td>
+                                                            {{ user.date_joined }}
+                                                        </td>
+                                                        <td>
+                                                            {% if user.type != "admin" %}
+                                                            {{ user.creditos}}
+                                                            {% endif %}
+                                                        </td>
+                                                    
+                                                        <td>
+                                                            <button >Alquileres</button>                                        </td>
+                                                        <td>
+                                                                <button >Editar</button>                                        </td>
+                                                    </tr>  
+                                    {% endfor %}
+                        
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                    </div>
+                </div>    
+    </div>
+    <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Tipo
+                                        </th>
+                                        <th>
+                                            Usuario
+                                        </th>
+                                        <th>
+                                            Nombre
+                                        </th>
+                                        <th>
+                                            Apellido
+                                        </th>
+                                        <th>
+                                            Email
+                                        </th>
+                                        <th>
+                                            Fecha registro
+                                        </th>
+                                        <th>
+                                            Creditos
+                                        </th>
+                                        <th>
+                                            Alquileres
+                                        </th>
+                
+                                        <th>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                            {% for user in users %}
+                                            {% if user.type == "comun" %}
+                                            <tr class={{ user.type }} onclick="window.location='#';">
+                                                        <td>
+                                                            {{ user.type }}
+                                                        </td>
+                                                        <td>
+                                                            {{ user.username }}
+                                                        </td>
+                                                        <td>
+                                                            {{ user.nombre }}
+                                                        </td>
+                                                        <td>
+                                                            {{ user.apellido }}
+                                                        </td>
+                                                        <td>
+                                                            {{ user.email }}
+                                                        </td>
+                                                        <td>
+                                                            {{ user.date_joined }}
+                                                        </td>
+                                                        <td>
+                                                            {{ user.creditos}}
+                                                        </td>
+                                                    
+                                                        <td>
+                                                            <button >Alquileres</button>                                        </td>
+                                                        <td>
+                                                                <button >Editar</button>                                        </td>
+                                                    </tr>  
+                                                    {% endif %}                    
+                                    {% endfor %}
+                        
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+    </div>
+    <div class="tab-pane" id="messages" role="tabpanel" aria-labelledby="messages-tab"> 
+            <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Tipo
+                                        </th>
+                                        <th>
+                                            Usuario
+                                        </th>
+                                        <th>
+                                            Nombre
+                                        </th>
+                                        <th>
+                                            Apellido
+                                        </th>
+                                        <th>
+                                            Email
+                                        </th>
+                                        <th>
+                                            Fecha registro
+                                        </th>
+                                        <th>
+                                            Creditos
+                                        </th>
+                                        <th>
+                                            Alquileres
+                                        </th>
+                
+                                        <th>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                            {% for user in users %}
+                                            {% if user.type == "premium" %}
+                                            <tr class={{ user.type }} onclick="window.location='#';">
+                                                        <td>
+                                                            {{ user.type }}
+                                                        </td>
+                                                        <td>
+                                                            {{ user.username }}
+                                                        </td>
+                                                        <td>
+                                                            {{ user.nombre }}
+                                                        </td>
+                                                        <td>
+                                                            {{ user.apellido }}
+                                                        </td>
+                                                        <td>
+                                                            {{ user.email }}
+                                                        </td>
+                                                        <td>
+                                                            {{ user.date_joined }}
+                                                        </td>
+                                                        <td>
+                                                            {{ user.creditos}}
+                                                        </td>
+                                                    
+                                                        <td>
+                                                            <button >Alquileres</button>                                        </td>
+                                                        <td>
+                                                                <button >Editar</button>                                        </td>
+                                                    </tr>  
+                                                    {% endif %}                    
+                                    {% endfor %}
+                        
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>     
+    </div>
+    <div class="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab"> 
+            <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Tipo
+                                        </th>
+                                        <th>
+                                            Usuario
+                                        </th>
+                                        <th>
+                                            Nombre
+                                        </th>
+                                        <th>
+                                            Apellido
+                                        </th>
+                                        <th>
+                                            Email
+                                        </th>
+                                        <th>
+                                            Fecha registro
+                                        </th>
+                                        <th>
+                                            Creditos
+                                        </th>
+                                        <th>
+                                            Alquileres
+                                        </th>
+                
+                                        <th>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                            {% for user in users %}
+                                            {% if user.type == "admin" %}
+                                            <tr class={{ user.type }} onclick="window.location='#';">
+                                                        <td>
+                                                            {{ user.type }}
+                                                        </td>
+                                                        <td>
+                                                            {{ user.username }}
+                                                        </td>
+                                                        <td>
+                                                            {{ user.nombre }}
+                                                        </td>
+                                                        <td>
+                                                            {{ user.apellido }}
+                                                        </td>
+                                                        <td>
+                                                            {{ user.email }}
+                                                        </td>
+                                                        <td>
+                                                            {{ user.date_joined }}
+                                                        </td>
+                                                        <td>
+                                                            {{ user.creditos}}
+                                                        </td>
+                                                    
+                                                        <td>
+                                                            <button >Alquileres</button>                                        </td>
+                                                        <td>
+                                                                <button >Editar</button>                                        </td>
+                                                    </tr>  
+                                                    {% endif %}                    
+                                    {% endfor %}
+                        
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+    </div>
+  </div>
+  
+  <script>
+    $(function () {
+      $('#myTab li:last-child a').tab('show')
+    })
+  </script>
+
+<!-- 
+<div class="container-fluid">
 	<div class="row">
 		<div class="col-md-12">
 			<table class="table">
@@ -82,6 +441,6 @@
 		</div>
 	</div>
 </div>
-
+ -->
 {% endblock %}
 
