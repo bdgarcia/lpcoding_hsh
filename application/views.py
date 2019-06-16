@@ -157,9 +157,37 @@ def detalle_usuario (request, pk):
 # Muestra el listado de usuarios, permitiendo ordenar por el criterio deseado
 def listado_usuarios(request):
     if (request.user.is_authenticated and request.user.type == "admin"):
-        users = Usuario.objects.all()
-        return (render (request, "listado_usuarios.html" , {"users": users}))
+        # users = Usuario.objects.all()
+        # if request.method == "GET":
+        #         criteria = request.GET.get('criteria')
+        #         if criteria == "nombre":
+        #             users = sorted(users, key= lambda x: x.username, reverse = False)
+        #             #users = users.sort(key= lambda x: x.username, reverse = True)
+        #         if criteria == "fecha registro":
+        #             #residencias = users.sort(key= lambda x: x.date_joined)
+        #             users = sorted(users, key= lambda x: x.date_joined, reverse = False)
+        # return (render (request, "listado_usuarios.html" , {"users": users}))
+        return redirect("/listado_usuarios/alfabetico_des")
     return redirect("/")
+
+
+def listado_usuarios_modo(request, modo):
+    if modo == "alfabetico_as" or modo == "fregistro_as" or modo == "alfabetico_des" or modo == "fregistro_des":
+        if (request.user.is_authenticated and request.user.type == "admin"):
+            users = Usuario.objects.all()
+            if modo == "alfabetico_des":
+                users = sorted(users, key= lambda x: x.username.lower(), reverse = False)
+                #users = users.sort(key= lambda x: x.username, reverse = True)
+            elif modo == "alfabetico_as":
+                users = sorted(users, key= lambda x: x.username.lower(), reverse = True)
+            elif modo == "fregistro_as":
+                users = sorted(users, key= lambda x: x.date_joined, reverse = True)
+            elif modo == "fregistro_des":
+                users = sorted(users, key= lambda x: x.date_joined, reverse = False)
+            return (render (request, "listado_usuarios.html" , {"users": users}))
+    return redirect("/")
+
+
 
 # Redirecciona a la pagina de inicio si no se le pasan parametros a detalle_residencia
 def detalle_residencia_solo (request):
