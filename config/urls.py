@@ -20,11 +20,11 @@ urlpatterns = [
     path("detalle_residencia/", application.views.detalle_residencia_solo, name= "detalle_residencia_solo"),
     path("listado_usuarios/", application.views.listado_usuarios, name= "listado_usuarios"),
     path("listado_usuarios/<str:modo>", application.views.listado_usuarios_modo, name= "listado_usuarios_modo"),
-
     path("alta_residencia/", application.views.alta_residencia, name="alta_residencia"),
     path("residencia/<int:pk>/edit/", application.views.mod_residencia, name="mod_residencia"),
     path("administracion/", application.views.administracion, name="administracion"),
     path("usuario/<int:pk>", application.views.detalle_usuario, name="detalle_usuario"),
+    path("administracion/configuracion/", application.views.configurar_tarifas, name="configurar_tarifas"),
     path("usuario/crear", application.views.alta_usuario, name="alta_usuario"),
     path("test/", application.views.test, name="test"),
     path("admin/", admin.site.urls),

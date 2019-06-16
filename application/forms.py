@@ -1,5 +1,5 @@
 from django import forms
-from modelos.models import Residencia, Usuario
+from modelos.models import Residencia, Usuario, Variables_sistema
 from django.core.exceptions import NON_FIELD_ERRORS
 from datetime import date, timedelta
 from django.contrib import messages
@@ -48,3 +48,8 @@ class UsuarioForm(forms.ModelForm):
         if (age<18):
             raise forms.ValidationError("Debe ser mayor de 18 años.")
         return fecha_n
+
+class Variables_sistemaForm(forms.ModelForm):
+    class Meta:
+        model=Variables_sistema
+        fields=("precio_usuario_comun", "precio_usuario_premium")
