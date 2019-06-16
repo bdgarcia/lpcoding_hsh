@@ -9,7 +9,7 @@ class ResidenciaForm(forms.ModelForm):
     class Meta:
         model=Residencia
         fields=('nombre', 'ubicacion', 'descripcion', 'precio', 'monto_minimo_subasta', 'foto',)
-        labels = {                                                  #Hace un override de los labels.
+        labels = {                                                 
             'ubicacion': 'Ubicación',
             'descripcion': 'Descripción',
             'monto_minimo_subasta': 'Monto mínimo de subasta',
@@ -20,17 +20,30 @@ class TestForm(forms.Form):
     monto = forms.FloatField()
 
 class UsuarioForm(forms.ModelForm):
-    confirm_password = forms.CharField(widget=forms.PasswordInput() ,label="Repita la contraseña:")
+    confirm_password = forms.CharField(widget=forms.PasswordInput() ,label="Repita la contraseña")
     class Meta:
         model=Usuario
-        fields=('username', 'nombre', 'apellido', 'email', 'fecha_nacimiento', 'password')#, 'tarjeta_credito')
+        fields=('username', 'nombre', 'apellido', 'email', 'fecha_nacimiento', 'numero_tarjeta', 'vencimiento_tarjeta','codigo_tarjeta', 'password')
         labels= {
-            "fecha_nacimiento": "Fecha de nacimiento:"
-           #"tarjeta_credito": "Tarjeta de credito:"
+            "fecha_nacimiento": "Fecha de nacimiento",
+            "numero_tarjeta": "Número de tarjeta de crédito",
+            "vencimiento_tarjeta": "Fecha de vencimiento de la tarjeta",
+            "codigo_tarjeta": "Código de seguridad de la tarjeta"
         }
         widgets={
             "password": forms.PasswordInput(),
             "fecha_nacimiento":forms.SelectDateWidget(years=range(date.today().year, 1920, -1))
+        }
+        error_messages = {
+            'numero_tarjeta': {
+                'invalid': "Ingrese un número de tarjeta válido."
+            },
+            'codigo_tarjeta': {
+                'invalid': "Ingrese un código de seguridad válido"
+            },
+            'email': {
+                'unique': "Ya existe un usuario con este email."
+            }
         }
 
     def clean(self):
@@ -38,7 +51,7 @@ class UsuarioForm(forms.ModelForm):
         contraseña= cleaned_data["password"]
         confirmacion= cleaned_data["confirm_password"]
         if contraseña!=confirmacion:
-            raise forms.ValidationError("Las contraseñas no coinciden")
+            raise forms.ValidationError("Las contraseñas no coinciden.")
 
 
     def clean_fecha_nacimiento(self): 

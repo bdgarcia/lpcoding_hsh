@@ -9,6 +9,7 @@ from modelos.models import Usuario
 from modelos.models import Alquila
 from modelos.models import Variables_sistema
 from django.contrib.auth import login
+from creditcards import types
 
 from .forms import ResidenciaForm, UsuarioForm, Variables_sistemaForm
 from datetime import date, timedelta, datetime
@@ -100,21 +101,27 @@ def alta_usuario(request):
     if request.user.is_authenticated and request.user.type != "admin":
         return redirect("/")
     else:
-        if request.method=="POST":
-            form=UsuarioForm(request.POST, request.FILES)
-            if form.is_valid():
-                usuario=form.save(commit=False)
-                #Para alta de admins: if usuario.type != admin:
-                usuario.type="comun"
-                usuario.set_password(usuario.password)
-                usuario.save()
-                if not request.user.is_authenticated:
-                    login(request, usuario)
-                messages.success(request, 'El usuario fue creado correctamente')
-                return redirect("/usuario/"+str(usuario.pk))
-        else:
-                form=UsuarioForm
-        return (render(request, "alta_usuario.html", {"form":form}))
+        try:
+            subscripcion = Variables_sistema.objects.get(pk = 1)
+            subscripcion = subscripcion.precio_usuario_comun
+        except Variables_sistema.DoesNotExist:
+            subscripcion = 0
+        finally:
+            if request.method=="POST":
+                form=UsuarioForm(request.POST, request.FILES)
+                if form.is_valid():
+                    usuario=form.save(commit=False)
+                    #Para alta de admins: if usuario.type != admin:
+                    usuario.type="comun"
+                    usuario.set_password(usuario.password)
+                    usuario.save()
+                    if not request.user.is_authenticated:
+                        login(request, usuario)
+                    messages.success(request, 'El usuario fue creado correctamente')
+                    return redirect("/usuario/"+str(usuario.pk))
+            else:
+                    form=UsuarioForm
+            return (render(request, "alta_usuario.html", {"form":form, "subscripcion": subscripcion}))
 
 
 
@@ -148,6 +155,7 @@ def mod_residencia(request, pk):
                 form = ResidenciaForm(instance=residencia)
             return (render(request, 'alta_residencia.html', {'form': form, "subasta": subasta}))
 
+
 def configurar_tarifas(request):
     if (not request.user.is_authenticated) or request.user.type != "admin":
         return redirect("/")
@@ -168,10 +176,23 @@ def configurar_tarifas(request):
         return (render(request, 'configurar_tarifas.html', {'form': form}))
 
 
+def get_CC_type(codigo):
+    """Retorna la marca de la tarjeta"""
+    for tarjeta in types.CC_TYPES:
+        if tarjeta[0] == codigo:
+            aux=tarjeta[1]
+            return aux["title"]
+    return "Marca genérica/NA"
+
+
 def detalle_usuario (request, pk):
     usuario= get_object_or_404(Usuario,pk=pk)
     alquileres = Alquila.objects.filter(email_usuario = pk)
-    return (render(request, "detalle_usuario.html", {"usuario": usuario, "alquileres": alquileres}))
+    marca_tarjeta= get_CC_type(types.get_type(usuario.numero_tarjeta))
+    vencimiento_cred= usuario.date_joined.date()
+    aux= vencimiento_cred.year + 1 + (date.today().year - usuario.date_joined.year)
+    aux= vencimiento_cred.replace(year = aux)
+    return (render(request, "detalle_usuario.html", {"usuario": usuario, "alquileres": alquileres, "marca": marca_tarjeta, "vencimiento_creditos":aux}))
 
 
 
