@@ -38,15 +38,17 @@
                         <b class="texto_detalle"> Email: </b>{{ usuario.email }} <br>
                         <b class="texto_detalle"> Fecha de creación de cuenta:</b> {{ usuario.date_joined }}<br>
                         {% if request.user == usuario or request.user.type == 'admin' %}
-                        <b class="texto_detalle"> Fecha de Nacimiento: </b> {{ usuario.fecha_nacimiento }}<br>
-                        <b class="texto_detalle"> Número tarjeta de crédito: </b> {{ usuario.numero_tarjeta }}<br>
-                        <b class="texto_detalle"> Marca de tarjeta de crédito: </b> {{ marca }}<br>
-                        {% if request.user == usuario %}
-                        <b class="texto_detalle"> Fecha de vencimiento de tarjeta de crédito: </b> {{ usuario.vencimiento_tarjeta }}<br>
-                        <b class="texto_detalle"> Código de tarjeta de crédito: </b> {{ usuario.codigo_tarjeta }}<br>
-                        {% endif %}
-                        <b class="texto_detalle"> Creditos disponibles:  </b> {{ usuario.creditos }}<br>
-                        <b class="texto_detalle"> Vencimiento de los creditos:  </b> {{ vencimiento_creditos }}<br>
+                            <b class="texto_detalle"> Fecha de Nacimiento: </b> {{ usuario.fecha_nacimiento }}<br>
+                            {% if usuario.type != 'admin' %}
+                                <b class="texto_detalle"> Número tarjeta de crédito: </b> {{ usuario.numero_tarjeta }}<br>
+                                <b class="texto_detalle"> Marca de tarjeta de crédito: </b> {{ marca }}<br>
+                                {% if request.user == usuario %}
+                                    <b class="texto_detalle"> Fecha de vencimiento de tarjeta de crédito: </b> {{ usuario.vencimiento_tarjeta }}<br>
+                                    <b class="texto_detalle"> Código de tarjeta de crédito: </b> {{ usuario.codigo_tarjeta }}<br>
+                                {% endif %}
+                                <b class="texto_detalle"> Creditos disponibles:  </b> {{ usuario.creditos }}<br>
+                                <b class="texto_detalle"> Vencimiento de los creditos:  </b> {{ vencimiento_creditos }}<br>
+                            {% endif %}
                         {% endif %}
                         <b class="texto_detalle"> Tipo de Usuario:</b> {{ usuario.type}}
                     </p>
@@ -60,35 +62,37 @@
                 </div>
             </div>
         {% endif %}
-    <br><br>
-    <h2 style="text-align:center"><b>Alquileres: </b></h2>
-        {% if alquileres %}
-            {% for alquiler in alquileres %}
+        <br><br>
+        {% if usuario.type != 'admin' %}
+        <h2 style="text-align:center"><b>Alquileres: </b></h2>
+            {% if alquileres %}
+                {% for alquiler in alquileres %}
+                    <div class="row container-detalles">
+                    
+                        <div class="col-md-4">
+                            <div class="foto-catalogo">
+                                <img src="{% static 'media/' %}{{ alquiler.codigo_residencia.foto }}" height="160">
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="texto-catalogo">
+                                <h4><b>Residencia: 
+                                        <a href="{% url 'detalle_residencia' cod=alquiler.codigo_residencia.pk %}" >{{alquiler.codigo_residencia.nombre}}</a></b></h4><br>
+                                    <b class="texto_detalle">Ubicacion de la residencia: </b>{{ alquiler.codigo_residencia.ubicacion }}<br>
+                                    <b class="texto_detalle">Fecha alquiler: </b>{{ alquiler.fecha }}<br>
+                                    <b class="texto_detalle">Precio de alquiler: </b>{{alquiler.precio}}<br>
+                            </div>
+                        </div>
+                    
+                    </div>
+                {% endfor %}
+            {% else %}
                 <div class="row container-detalles">
-                
-                    <div class="col-md-4">
-                        <div class="foto-catalogo">
-                            <img src="{% static 'media/' %}{{ alquiler.codigo_residencia.foto }}" height="160">
-                        </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="texto-catalogo">
-                            <h4><b>Residencia: 
-                                    <a href="{% url 'detalle_residencia' cod=alquiler.codigo_residencia.pk %}" >{{alquiler.codigo_residencia.nombre}}</a></b></h4><br>
-                                <b class="texto_detalle">Ubicacion de la residencia: </b>{{ alquiler.codigo_residencia.ubicacion }}<br>
-                                <b class="texto_detalle">Fecha alquiler: </b>{{ alquiler.fecha }}<br>
-                                <b class="texto_detalle">Precio de alquiler: </b>{{alquiler.precio}}<br>
-                        </div>
-                    </div>
-                
+                    <b class:="texto_detalle">
+                        Aún no se ha alquilado ninguna residencia.
+                    </b>
                 </div>
-            {% endfor %}
-        {% else %}
-            <div class="row container-detalles">
-                <b class:="texto_detalle">
-                    Aún no se ha alquilado ninguna residencia.
-                </b>
-            </div>
+            {% endif %}
         {% endif %}
     {% endif %}
 </div>
