@@ -53,6 +53,13 @@
                 </div>
             </div>
     {% if request.user == usuario or request.user.type == 'admin' %}
+        {% if usuario.type == "comun" and request.user.type != 'admin' %}
+            <div class="container">
+                <div class="alert alert-dismissable alert-info">
+                    <b><a href="{% url 'faq_premium' %}">Haz clic aquí para enterarte las ventajas de ser un usuario Premium</a></b><br>
+                </div>
+            </div>
+        {% endif %}
     <br><br>
     <h2 style="text-align:center"><b>Alquileres: </b></h2>
         {% if alquileres %}
