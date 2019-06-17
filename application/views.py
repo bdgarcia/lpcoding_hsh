@@ -170,11 +170,35 @@ def alquilar_residencia(request):
     else:
         residencia = Residencia.objects.get(codigo=request.POST.get('codigo'))
         fecha = request.POST.get('week-picker')
-    fecha_inicial = fecha.split()[0].replace("/", "-")
-    primer_lunes = calcularFecha()
-    fecha_busqueda = primer_lunes.strftime('%Y-%m-%d')
-    return (render(request, 'alquilar_residencia.html', {'residencia': residencia, "comienzo_busqueda": fecha_busqueda, "fecha": fecha_inicial}))
+        fecha_inicial = fecha.split()[0].replace("/", "-")
+        primer_lunes = calcularFecha()
+        fecha_busqueda = primer_lunes.strftime('%Y-%m-%d')
+        # setear los dias alquilados para no colorearlos como disponibles en el calendario
+        diasAlquilados = []
+        semanasAlquiladas = Alquila.objects.filter(codigo_residencia=residencia)
+        for semana in semanasAlquiladas:
+            elLunes = semana.fecha
+            for x in range(0, 7):
+                dia = elLunes + timedelta(days=x)
+                diasAlquilados.append(str(dia))
+    return (render(request, 'alquilar_residencia.html', {'residencia': residencia, "diasAlquilados": diasAlquilados, "comienzo_busqueda": fecha_busqueda, "fecha": fecha_inicial}))
 
+def confirmar_alquiler(request):
+    if request.method == "POST":
+        residencia = Residencia.objects.get(codigo=request.POST.get('codigo'))
+        usuario = Usuario.objects.get(email=request.user.email)
+        usuario.creditos = usuario.creditos-1
+        usuario.save()
+        alquiler = Alquila()
+        alquiler.codigo_residencia = residencia
+        fecha = request.POST.get('week-picker').split()[0].replace("/", "-")
+        fecha_inicial = datetime.strptime(fecha, '%Y-%m-%d')
+        alquiler.fecha = (fecha_inicial - timedelta(days=fecha_inicial.weekday()))
+        alquiler.precio = 0
+        alquiler.email_usuario = request.user
+        alquiler.save()
+        messages.success(request, 'La reserva fue realizada con éxito.')
+        return redirect("/")
 
 def configurar_tarifas(request):
     if (not request.user.is_authenticated) or request.user.type != "admin":

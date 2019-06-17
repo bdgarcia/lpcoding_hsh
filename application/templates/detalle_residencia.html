@@ -76,7 +76,7 @@
         {% endfor %}
     {% endif %}
         </div>
-        <div class="row container-detalles">                
+        <div class="row container-detalles">
             <div class="col-md-5">
                 <div class="media">
                     <img style='height: 100%; width: 100%; object-fit: contain' alt="Responsive image" class="img-fluid.max-width:100"  src = "{% static 'media/' %}{{ residencia.foto }}" />
@@ -92,21 +92,12 @@
                         <b class="texto_detalle"> Descripción: </b> {{ residencia.descripcion }}<br>
                     </p>
                 </div>
-
-            {% if user.type == "admin" %}
-                <div class="button-container">
-                    <div id="detalleResidencia">
-                        <a href="{% url 'mod_residencia' pk=residencia.pk %}" > <button class="boton-detalle"> Modificar Residencia </button> </a>
-                    </div>
-                <div class="button-container">
-            {% endif %}
                 {% if user.type == "premium" %}
-                    <div class="button-container">
                         <form action="/residencia/alquilar/" method="post">
                             {% csrf_token %}
                             <input type="hidden" name="codigo" value="{{ residencia.codigo }}">
                                 <div class="form-group" id="week-picker-wrapper">
-                                    <label for="week" class="control-label"> <b>Disponibilidad:</b></label>
+                                    <label for="week" class="control-label"> <b>Calendario de disponibilidad:</b></label>
                                     <div class="input-group input-width">
                                         <input type="text" id="week-picker" name="week-picker" class="form-control week-picker" placeholder="Ver semanas">
                                     </div>
@@ -133,19 +124,21 @@
                                             forceParse: false,
                                             container: '#week-picker-wrapper',
                                             beforeShowDay: function(date) {
-                                               var month = date.getMonth()+1;
+                                               var month = ("0" + (date.getMonth() + 1)).slice(-2);
                                                var year = date.getFullYear();
-                                               var day = date.getDate();
+                                               var day = ("0" + date.getDate()).slice(-2);
 
                                                // Change format of date
                                                 var newdate = year+"-"+month+'-'+day;
                                                 {% for diaAlq in diasAlquilados %}
-                                                    var hilightedDay = "{{ diaAlq }}" ;
-
+                                                    var hilightedDay = "{{ diaAlq }}";
+                                                    console.log(newdate+ " ? "+ hilightedDay)
                                                     if (newdate == hilightedDay) {
-                                                       return {enabled:false, classes: 'highlight-day-red', tooltip: ''};
-                                                    } else {
-
+                                                        return {
+                                                            enabled: false,
+                                                            classes: 'highlight-day-red',
+                                                            tooltip: ''
+                                                        };
                                                     }
                                                 {% endfor %}
                                             }
@@ -160,9 +153,18 @@
                                             $('#fecha-seleccionada').val(fecha);
                                         });
                                 </script>
+                        <div class="button-container">
                             <button type="submit" id="alquilarResidencia" class="boton-detalle">Alquilar residencia</button>
+                        </div>
                         </form>
                     </div>
+
+                {% endif %}
+                        {% if user.type == "admin" %}
+                    <div class="button-container">
+                        <div id="detalleResidencia">
+                            <a href="{% url 'mod_residencia' pk=residencia.pk %}" > <button class="boton-detalle"> Modificar Residencia </button> </a>
+                        </div>
                     <div class="button-container">
                 {% endif %}
         </div>
@@ -194,7 +196,7 @@
                         </form>
                     {% endif %}
                 {% else %}
-                    {% if user.type == "comun" %}
+                    {% if user.type != "premium" and user.type != "admin" %}
                         <div class="container">
                         <div class="alert alert-dismissable alert-info">
                             <b>¿Queres saber como poder alquilar una semana cuando esta no esta en subasta?<br>
@@ -205,16 +207,12 @@
                 {% endif %}
             {% else %}
                 <div class="row">
-                    <div class="col-md-2">
-                    </div>
                     <div class="col-md-8">
-                            <div class="alert alert-dismissable alert-danger" text-align:center>
-                                    <strong>
-                                            <a href="{% url 'login' %}" class="alert-link"><span class="glyphicon" text-align: center></span>Para pujar debes iniciar sesion</a>
-                                    </strong>
-                            </div>
-                    </div>
-                    <div class="col-md-2">
+                        <div class="alert alert-dismissable alert-danger" text-align:center>
+                            <strong>
+                                    <a href="{% url 'login' %}" class="alert-link"><span class="glyphicon" text-align: center></span>Para pujar debes iniciar sesion</a>
+                            </strong>
+                        </div>
                     </div>
                 </div>
             {% endif %}
