@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+<script type="text/javascript" src="{% static '/js/main.js' %}"></script>
+{% block content %}
+<link rel="stylesheet" href="{% static 'hsh_css/index.css' %}"/>
+<style type="text/css">
+    .spacing {
+        margin-top: 50px
+    }
+</style>
+<div class="container-fluid spacing">
+    <div class="row container-detalles">
+            <h3>
+                <b>¿Cuáles son las ventajas de ser premium?</b> <br>
+            </h3>
+            Como usuario premium, no tenes necesidad de esperar hasta la subasta, podes adquirir la semana de la residencia que quieras
+             con 6 o mas meses de anticipacion, y sin pagar extra! <br><br>
+            <h3>
+                <b>¿Cómo me convierto en premium?</b> <br>
+            </h3>
+            Para convertirte en premium podes ir a alguna de nuestras sucursales físicas
+            , contactarnos en nuestra casilla de correo electrónico, o dejarnos tu número de telefono
+            en nuestra página de contacto.
+            <a href="{% url 'faq_premium' %}">Haz clic aquí para ir a la pagina de contacto/conocer la ubicacion de nuestras sucursales. [Placeholder]</a><br>
+    </div>
+</div>
+{% endblock %}
