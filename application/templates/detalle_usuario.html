@@ -80,7 +80,9 @@
                                         <a href="{% url 'detalle_residencia' cod=alquiler.codigo_residencia.pk %}" >{{alquiler.codigo_residencia.nombre}}</a></b></h4><br>
                                     <b class="texto_detalle">Ubicacion de la residencia: </b>{{ alquiler.codigo_residencia.ubicacion }}<br>
                                     <b class="texto_detalle">Fecha alquiler: </b>{{ alquiler.fecha }}<br>
-                                    <b class="texto_detalle">Precio de alquiler: </b>{{alquiler.precio}}<br>
+                                    {% if alquiler.precio != 0 %}
+                                        <b class="texto_detalle">Precio de alquiler: </b>{{alquiler.precio}}<br>
+                                    {% endif %}
                             </div>
                         </div>
                     
