@@ -219,7 +219,6 @@ def listado_usuarios_modo(request, modo):
             users = Usuario.objects.all()
             if modo == "alfabetico_des":
                 users = sorted(users, key= lambda x: x.username.lower(), reverse = False)
-                #users = users.sort(key= lambda x: x.username, reverse = True)
             elif modo == "alfabetico_as":
                 users = sorted(users, key= lambda x: x.username.lower(), reverse = True)
             elif modo == "fregistro_as":
@@ -227,6 +226,20 @@ def listado_usuarios_modo(request, modo):
             elif modo == "fregistro_des":
                 users = sorted(users, key= lambda x: x.date_joined, reverse = False)
             return (render (request, "listado_usuarios.html" , {"users": users}))
+    return redirect("/")
+
+def editar_usuario(request, pk):
+    if request.user.is_authenticated and (request.user.type == "admin" or request.user.pk == pk):
+        usuario= get_object_or_404(Usuario,pk=pk)
+        if request.method == "POST":
+            form = UsuarioForm(request.POST, instance=usuario)
+            if form.is_valid():
+                usuario= form.save(commit = False)
+                usuario.save()
+                messages.success(request, "El usuario ha sido modificado")
+                return redirect("/listado_usuarios")
+        form =UsuarioForm(instance = usuario)
+        return (render (request, "modificar_usuario.html", {"form": form,  "usuario": usuario}))
     return redirect("/")
 
 
