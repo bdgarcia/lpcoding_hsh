@@ -21,6 +21,12 @@ def next_weekday(d, weekday):
         days_ahead += 6
     return d + timedelta(days_ahead)
 
+def calcularFecha():
+    today = date.today()
+    lunesActual = (today - timedelta(days=today.weekday()))
+    lunesEn6Meses = (lunesActual + timedelta(6 * 365 / 12))
+    return lunesEn6Meses
+
 def allmondays(fecha, hasta):
    d = datetime.strptime(fecha, '%Y-%m-%d')
    d = next_weekday(d, 1)
@@ -52,7 +58,7 @@ def index(request):
 
         if request.GET.get('fecha') or request.GET.get('hasta'):
             fecha_desde = date.today()
-            fecha_hasta = date.today() + timedelta(days=60)
+            fecha_hasta = calcularFecha()
 
             if request.GET.get('fecha'):
                 fecha_desde = request.GET.get('fecha')
@@ -70,8 +76,9 @@ def index(request):
                         if residencia not in resultado:
                             resultado.append(residencia)
             residencias = resultado
-
-    return render(request, "index.html", {"residencias": residencias, "subastas": subastas})
+    primer_lunes = calcularFecha()
+    fecha_busqueda = primer_lunes.strftime('%Y-%m-%d')
+    return render(request, "index.html", {"residencias": residencias, "subastas": subastas, "comienzo_busqueda": fecha_busqueda})
 
 # Create your views here.
 def test(request):
@@ -156,6 +163,42 @@ def mod_residencia(request, pk):
                 form = ResidenciaForm(instance=residencia)
             return (render(request, 'alta_residencia.html', {'form': form, "subasta": subasta}))
 
+
+def alquilar_residencia(request):
+    if (not request.user.is_authenticated) or request.user.type != "premium":
+        return redirect("/")
+    else:
+        residencia = Residencia.objects.get(codigo=request.POST.get('codigo'))
+        fecha = request.POST.get('week-picker')
+        fecha_inicial = fecha.split()[0].replace("/", "-")
+        primer_lunes = calcularFecha()
+        fecha_busqueda = primer_lunes.strftime('%Y-%m-%d')
+        # setear los dias alquilados para no colorearlos como disponibles en el calendario
+        diasAlquilados = []
+        semanasAlquiladas = Alquila.objects.filter(codigo_residencia=residencia)
+        for semana in semanasAlquiladas:
+            elLunes = semana.fecha
+            for x in range(0, 7):
+                dia = elLunes + timedelta(days=x)
+                diasAlquilados.append(str(dia))
+    return (render(request, 'alquilar_residencia.html', {'residencia': residencia, "diasAlquilados": diasAlquilados, "comienzo_busqueda": fecha_busqueda, "fecha": fecha_inicial}))
+
+def confirmar_alquiler(request):
+    if request.method == "POST":
+        residencia = Residencia.objects.get(codigo=request.POST.get('codigo'))
+        usuario = Usuario.objects.get(email=request.user.email)
+        usuario.creditos = usuario.creditos-1
+        usuario.save()
+        alquiler = Alquila()
+        alquiler.codigo_residencia = residencia
+        fecha = request.POST.get('week-picker').split()[0].replace("/", "-")
+        fecha_inicial = datetime.strptime(fecha, '%Y-%m-%d')
+        alquiler.fecha = (fecha_inicial - timedelta(days=fecha_inicial.weekday()))
+        alquiler.precio = 0
+        alquiler.email_usuario = request.user
+        alquiler.save()
+        messages.success(request, 'La reserva fue realizada con éxito.')
+        return redirect("/")
 
 def configurar_tarifas(request):
     if (not request.user.is_authenticated) or request.user.type != "admin":
@@ -276,8 +319,9 @@ def detalle_residencia (request, cod):
         for x in range (0,7):
             dia = elLunes + timedelta(days=x)
             diasAlquilados.append(str(dia))
-
-    return (render (request, "detalle_residencia.html", {"residencia": residencia, "subasta": subasta, "puja": puja_alta, "diasAlquilados": diasAlquilados}))
+    primer_lunes = calcularFecha()
+    fecha_busqueda = primer_lunes.strftime('%Y-%m-%d')
+    return (render (request, "detalle_residencia.html", {"residencia": residencia, "subasta": subasta, "puja": puja_alta, "diasAlquilados": diasAlquilados, "comienzo_busqueda": fecha_busqueda}))
 
 
 # Redirecciona a la pagina de inicio si no se le pasan parametros a detalle_residencia

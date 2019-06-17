@@ -22,6 +22,7 @@ urlpatterns = [
     path("listado_usuarios/<str:modo>", application.views.listado_usuarios_modo, name= "listado_usuarios_modo"),
     path("alta_residencia/", application.views.alta_residencia, name="alta_residencia"),
     path("residencia/<int:pk>/edit/", application.views.mod_residencia, name="mod_residencia"),
+    path("residencia/alquilar/", application.views.alquilar_residencia, name="alquilar_residencia"),
     path("administracion/", application.views.administracion, name="administracion"),
     path("usuario/<int:pk>", application.views.detalle_usuario, name="detalle_usuario"),
     path("administracion/configuracion/", application.views.configurar_tarifas, name="configurar_tarifas"),
@@ -33,5 +34,7 @@ urlpatterns = [
     path("subastas/", application.views.listado_subastas, name="subastas"),
     path("subastas/cerrar_subasta/", application.views.run_cerrar_subastas, name="cerrar_subastas"),
     path("editar_usuario/<int:pk>", application.views.editar_usuario, name="editar_usuario"),
+    path("residencia/alquilar/confirmar/", application.views.confirmar_alquiler, name="confirmar_alquiler"),
     path("como_ser_premium/", application.views.faq_premium, name="faq_premium")
+
 ]

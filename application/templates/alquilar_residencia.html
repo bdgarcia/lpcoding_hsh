@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'hsh_css/formulario.css' %}" />
+<script type="text/javascript" src="{% static 'js/bootstrap-datepicker.es.js' %}" charset="UTF-8"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.min.css">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="{% static 'hsh_css/index.css' %}"/>
+<script type="text/javascript" src="{% static 'js/bootstrap-datepicker.es.js' %}" charset="UTF-8"></script>
+<style type="text/css">
+.spacing {
+    margin-top: 50px
+}
+.datepicker table tr td span.active{
+    background: #04c!important;
+    border-color: #04c!important;
+}
+.datepicker .datepicker-days tr td.active {
+    background: #04c!important;
+}
+#week-picker-wrapper .datepicker .datepicker-days tr td.active~td, #week-picker-wrapper .datepicker .datepicker-days tr td.active {
+    color: #fff;
+    background-color: #04c;
+    border-radius: 0;
+}
+
+#week-picker-wrapper .datepicker .datepicker-days tr:hover td, #week-picker-wrapper .datepicker table tr td.day:hover, #week-picker-wrapper .datepicker table tr td.focused {
+    color: #000!important;
+    background: #e5e2e3!important;
+    border-radius: 0!important;
+}
+.datepicker table tr td.disabled{
+    color:red;
+    background: #ffb4a8;
+}
+.input-width {
+    width: 220px;
+}
+</style>
+<div class="row">
+    <div class="col-md-6">
+        <div class="container-detalles spacing">
+            <div>
+                <h2>
+                    <b>Resumen de alquiler:</b> <br>
+                </h2>
+                <p>
+                    <b class="texto_detalle"> &nbsp;&nbsp;&nbsp;&nbsp;Nombre de residencia: </b>{{ residencia.nombre }} <br>
+                    <b class="texto_detalle"> &nbsp;&nbsp;&nbsp;&nbsp;Ubicación: </b>{{ residencia.ubicacion }} <br>
+                    <b class="texto_detalle"> &nbsp;&nbsp;&nbsp;&nbsp;Descripción: </b> {{ residencia.descripcion }}<br>
+                </p>
+            </div>
+            <div>
+                <p>
+                    <b class="texto_detalle"> créditos disponibles: </b>{{ user.creditos }} <br>
+                    <i>&nbsp;&nbsp;&nbsp;*Alquilar una semana te costará 1 (un) crédito</i>
+                </p>
+            </div>
+            <form action="/residencia/alquilar/confirmar/" method="post">
+                {% csrf_token %}
+                <div class="form-group" id="week-picker-wrapper">
+                    <label for="week" class="control-label"> <b>Semana a alquilar:</b></label>
+                    <div class="input-group input-width">
+                        <input type="text" id="week-picker" name="week-picker" class="form-control week-picker" placeholder="Ver semanas">
+                    </div>
+                </div>
+                <script>
+                    var weekpicker, start_date, end_date;
+
+                    function set_week_picker(date) {
+                        start_date = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay()+1);
+                        end_date = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay()+7);
+                        weekpicker.datepicker('update', start_date);
+                        weekpicker.val(start_date.getFullYear() + '/' + (start_date.getMonth() + 1) + '/' + start_date.getDate() + ' - ' + end_date.getFullYear() + '/' + (end_date.getMonth() + 1) + '/' + end_date.getDate() );
+                    }
+
+                    $(document).ready(function () {
+                        weekpicker = $('.week-picker');
+                        console.log(weekpicker);
+                        weekpicker.datepicker({
+                            language: 'es',
+                            format: 'yyyy-mm-dd',
+                            startDate: "{{ comienzo_busqueda }}",
+                            endDate: '+1y',
+                            setDate: "{{ fecha }}",
+                            autoclose: true,
+                            forceParse: false,
+                            container: '#week-picker-wrapper',
+                            beforeShowDay: function(date) {
+                               var month = ("0" + (date.getMonth() + 1)).slice(-2);
+                               var year = date.getFullYear();
+                               var day = ("0" + date.getDate()).slice(-2);
+
+                               // Change format of date
+                                var newdate = year+"-"+month+'-'+day;
+                                {% for diaAlq in diasAlquilados %}
+                                    var hilightedDay = "{{ diaAlq }}" ;
+
+                                    if (newdate == hilightedDay) {
+                                       return {enabled:false, classes: 'highlight-day-red', tooltip: ''};
+                                    } else {
+
+                                    }
+                                {% endfor %}
+                            }
+                            }).on("changeDate", function(e) {
+                                set_week_picker(e.date);
+                            }).datepicker("update", new Date());
+                            var fecha = "{{ fecha }}".split("-");
+                            set_week_picker(new Date(fecha[0], fecha[1]-1, fecha[2]));
+                        });
+                </script>
+                <input type="hidden" name="codigo" value="{{ residencia.codigo }}">
+                <div class="button-container">
+                    <button type="submit" id="confirmarAlquiler" class="boton-detalle">Confirmar alquiler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
