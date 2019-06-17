@@ -168,7 +168,11 @@ def alquilar_residencia(request):
         return redirect("/")
     else:
         residencia = Residencia.objects.get(codigo=request.POST.get('codigo'))
-    return (render(request, 'alquilar_residencia.html', {'residencia': residencia}))
+        fecha = request.POST.get('week-picker')
+    fecha_inicial = fecha.split()[0].replace("/", "-")
+    primer_lunes = calcularFecha()
+    fecha_busqueda = primer_lunes.strftime('%Y-%m-%d')
+    return (render(request, 'alquilar_residencia.html', {'residencia': residencia, "comienzo_busqueda": fecha_busqueda, "fecha": fecha_inicial}))
 
 
 def configurar_tarifas(request):
