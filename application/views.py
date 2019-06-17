@@ -119,6 +119,7 @@ def alta_usuario(request):
                 if form.is_valid():
                     usuario=form.save(commit=False)
                     #Para alta de admins: if usuario.type != admin:
+                    usuario.username=usuario.email
                     usuario.type="comun"
                     usuario.set_password(usuario.password)
                     usuario.save()
@@ -327,4 +328,10 @@ def run_cerrar_subastas (request):
     return HttpResponseRedirect(reverse('subastas'))
 
 def faq_premium(request):
-    return render(request, "faq_premium.html")
+    try:
+        subscripcion = Variables_sistema.objects.get(pk = 1)
+        subscripcion = subscripcion.precio_usuario_premium
+    except Variables_sistema.DoesNotExist:
+        subscripcion = 0
+    finally:
+        return render(request, "faq_premium.html", {'subscripcion':subscripcion})

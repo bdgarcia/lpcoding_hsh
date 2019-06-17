@@ -35,6 +35,11 @@
     </ul>
     <ul class="navbar-nav ml-auto">
       {% if user.is_authenticated %}
+        {% if user.type == "comun" %}
+          <li class="nav-item">
+            <a class="nav-link float-right" href="{% url 'faq_premium' %}">¡Quiero ser Premium!</a>
+          </li>
+        {% endif %}
       <li class="nav-item">
         <a class="nav-link" href="{% url 'detalle_usuario' pk=user.pk %}">Ver Perfil</a>
       </li>

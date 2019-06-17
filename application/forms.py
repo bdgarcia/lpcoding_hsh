@@ -23,7 +23,7 @@ class UsuarioForm(forms.ModelForm):
     confirm_password = forms.CharField(widget=forms.PasswordInput() ,label="Repita la contraseña")
     class Meta:
         model=Usuario
-        fields=('username', 'nombre', 'apellido', 'email', 'fecha_nacimiento', 'numero_tarjeta', 'vencimiento_tarjeta','codigo_tarjeta', 'password')
+        fields=('email', 'nombre', 'apellido', 'fecha_nacimiento', 'numero_tarjeta', 'vencimiento_tarjeta','codigo_tarjeta', 'password')
         labels= {
             "fecha_nacimiento": "Fecha de nacimiento",
             "numero_tarjeta": "Número de tarjeta de crédito",
