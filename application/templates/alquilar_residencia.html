@@ -9,7 +9,11 @@
 <script type="text/javascript" src="{% static 'js/bootstrap-datepicker.es.js' %}" charset="UTF-8"></script>
 <style type="text/css">
 .spacing {
-    margin-top: 50px
+    margin-top: 10px
+}
+.min-spacing {
+    margin-top: 20px;
+    margin-left: 20px;
 }
 .datepicker table tr td span.active{
     background: #04c!important;
@@ -38,7 +42,15 @@
 }
 </style>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-6 min-spacing">
+            {% if user.creditos == 0 %}
+            <div class="alert alert-dismissable alert-danger">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                    ×
+                </button>
+                <strong>¡Error!</strong> Necesitás al menos un crédito para alquilar esta residencia!.
+            </div>
+        {% endif %}
         <div class="container-detalles spacing">
             <div>
                 <h2>
@@ -112,8 +124,13 @@
                 </script>
                 <input type="hidden" name="codigo" value="{{ residencia.codigo }}">
                 <div class="button-container">
-                    <button type="submit" id="confirmarAlquiler" class="boton-detalle">Confirmar alquiler</button>
+                    {% if user.creditos > 0 %}
+                        <button type="submit" id="confirmarAlquiler" class="boton-detalle">Confirmar alquiler</button>
                 </div>
+                    {% else %}
+                        <button type="submit" id="confirmarAlquiler" class="boton-detalle-disabled" disabled>Confirmar alquiler</button>
+                </div>
+                    {% endif %}
             </form>
         </div>
     </div>
