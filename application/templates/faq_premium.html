@@ -13,15 +13,29 @@
             <h3>
                 <b>¿Cuáles son las ventajas de ser premium?</b> <br>
             </h3>
-            Como usuario premium, no tenes necesidad de esperar hasta la subasta, podes adquirir la semana de la residencia que quieras
-             con 6 o mas meses de anticipacion, y sin pagar extra! <br><br>
+            <div class="container-fluid">
+                Como usuario premium, ya no tendrás la necesidad de esperar hasta que la residencia 
+                que quieres este en subasta, 
+                podrás adquirir la semana que quieras 
+                con 6 y hasta 12 meses de anticipacion, 
+                ¡Y sin pagar extra por la semana!
+            </div>
             <h3>
-                <b>¿Cómo me convierto en premium?</b> <br>
+                <br><b>¿Cuál es la tarifa de la membresía Premium?</b> <br>
             </h3>
-            Para convertirte en premium podes ir a alguna de nuestras sucursales físicas
-            , contactarnos en nuestra casilla de correo electrónico, o dejarnos tu número de telefono
-            en nuestra página de contacto.
-            <a href="{% url 'faq_premium' %}">Haz clic aquí para ir a la pagina de contacto/conocer la ubicacion de nuestras sucursales. [Placeholder]</a><br>
-    </div>
+            <div class="container-fluid">
+                Actualmente la tarifa para los usuarios Premium es de tan solo {{ subscripcion }}$ mensuales.
+            </div>
+            <h3>
+                <br><b>¿Cómo me convierto en premium?</b> <br>
+            </h3>
+            <div class="container-fluid">
+                Para convertirte en premium puedes ir a alguna de nuestras sucursales físicas
+                , contactarnos en nuestra casilla de correo electrónico, o dejarnos tu número de teléfono
+                en nuestra página de contacto.<br>
+                <a href="{% url 'faq_premium' %}">Haz clic aquí para ir a la página de contacto/conocer la ubicacion de nuestras sucursales.</a><br>
+            </div>
+            <br>
+        </div>
 </div>
 {% endblock %}
