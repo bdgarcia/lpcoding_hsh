@@ -10,41 +10,101 @@
 </style>
 
 
+{% if request.user == usuario or request.user.type == 'admin' %}
     
         <div class="container-alta-res">
             <div class="titulo">
-            <h1>Ingrese los datos de la residencia: </h1><br>
+            <h1> {{form.email.value}} </h1><br>
             </div>
 
             {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
                 <div class="col-md-12">
                     <div class="alert alert-dismissable alert-danger">
                         
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
                             ×
                         </button>
-                        <strong>¡Error!</strong> Ya existe una residencia con esta ubicación.
+                        <strong>¡Error!</strong> {{ error|escape }}
                     </div>
                 </div>
-            {% endif %}    
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+            <div class="col-md-12">
+                <div class="alert alert-dismissable alert-danger">
+                    
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                        ×
+                    </button>
+                    <strong>¡Error!</strong> {{ error|escape }}
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}  
 
             <form method="POST" enctype="multipart/form-data" class="container-form">{% csrf_token %}
-                {% for field in form %}
+                
+                
+
+                
                 <div class="container-field">
-                    {{field.label}}:
+                    {{form.nombre.label}}:
                 </div>
                 <div class="container-widget">
-                    {{field}}
+                    {{form.nombre}}
                 </div>
-                {% endfor %}
-                {% if form.instance.pk != None %}
-                    <button type='submit' class="container-widget submitButton" name="btnModificar" onclick="return confirm('¿Modificar Residencia?')">Guardar residencia</button>
-                    <button type='submit' class="container-widget submitButton" name="btnEliminar" onclick="return confirm('¿Eliminar Residencia?')">Eliminar residencia</button>
-                {% else %}
-                    <button type='submit' class="container-widget submitButton" name="btnGuardar" >Guardar residencia</button>
+
+                <div class="container-field">
+                    {{form.apellido.label}}:
+                </div>
+                <div class="container-widget">
+                    {{form.apellido}}
+                </div>
+                
+                {% if request.user == usuario %}
+
+                <div class="container-field">
+                    {{form.numero_tarjeta.label}}:
+                </div>
+                <div class="container-widget">
+                    {{form.numero_tarjeta}}
+                </div>
+
+                <div class="container-field">
+                    {{form.vencimiento_tarjeta.label}}:
+                </div>
+                <div class="container-widget">
+                    {{form.vencimiento_tarjeta}}
+                </div>
+                
+                <div class="container-field">
+                    {{form.codigo_tarjeta.label}}:
+                </div>
+                <div class="container-widget">
+                    {{form.codigo_tarjeta}}
+                </div>
+
+                <div class="container-field">
+                    {{form.password.label}}:
+                </div>
+                <div class="container-widget">
+                    {{form.password}}
+                </div>
+                <div class="container-field">
+                    {{form.confirm_password.label}}:
+                </div>
+                <div class="container-widget">
+                    {{form.confirm_password}}
+                </div>
                 {% endif %}
+                
+                    <button type='submit' class="container-widget submitButton" name="btnModificar" onclick="return confirm('¿Desea guardar los cambios realizados?')">Guardar cambios</button>
+                    <button type='submit' class="container-widget submitButton" name="btnEliminar" onclick="return confirm('¿Desea descartar los cambios realizados?')">Descartar cambios</button>
+
             </form>
         </div>
-
+{% endif %}
 
 {% endblock %}

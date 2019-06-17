@@ -232,12 +232,12 @@ def editar_usuario(request, pk):
     if request.user.is_authenticated and (request.user.type == "admin" or request.user.pk == pk):
         usuario= get_object_or_404(Usuario,pk=pk)
         if request.method == "POST":
-            form = UsuarioForm(request.POST, instance=usuario)
+            form = UsuarioForm(request.POST, request.FILES, instance=usuario)
             if form.is_valid():
                 usuario= form.save(commit = False)
                 usuario.save()
                 messages.success(request, "El usuario ha sido modificado")
-                return redirect("/listado_usuarios")
+                return redirect("/usuario/"+str(pk))
         form =UsuarioForm(instance = usuario)
         return (render (request, "modificar_usuario.html", {"form": form,  "usuario": usuario}))
     return redirect("/")

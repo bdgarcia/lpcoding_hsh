@@ -39,9 +39,9 @@
                         <b class="texto_detalle"> Fecha de creación de cuenta:</b> {{ usuario.date_joined }}<br>
                         {% if request.user == usuario or request.user.type == 'admin' %}
                         <b class="texto_detalle"> Fecha de Nacimiento: </b> {{ usuario.fecha_nacimiento }}<br>
+                        {% if request.user == usuario %}
                         <b class="texto_detalle"> Número tarjeta de crédito: </b> {{ usuario.numero_tarjeta }}<br>
                         <b class="texto_detalle"> Marca de tarjeta de crédito: </b> {{ marca }}<br>
-                        {% if request.user == usuario %}
                         <b class="texto_detalle"> Fecha de vencimiento de tarjeta de crédito: </b> {{ usuario.vencimiento_tarjeta }}<br>
                         <b class="texto_detalle"> Código de tarjeta de crédito: </b> {{ usuario.codigo_tarjeta }}<br>
                         {% endif %}
@@ -50,6 +50,9 @@
                         {% endif %}
                         <b class="texto_detalle"> Tipo de Usuario:</b> {{ usuario.type}}
                     </p>
+                    {% if request.user == usuario or request.user.type == 'admin' %}
+                    <a class="btn btn-primary" href="/editar_usuario/{{ usuario.pk }}" role="button">Editar</a>
+                    {% endif %}
                 </div>
             </div>
     {% if request.user == usuario or request.user.type == 'admin' %}
