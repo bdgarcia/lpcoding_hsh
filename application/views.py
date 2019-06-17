@@ -199,16 +199,6 @@ def detalle_usuario (request, pk):
 # Muestra el listado de usuarios, permitiendo ordenar por el criterio deseado
 def listado_usuarios(request):
     if (request.user.is_authenticated and request.user.type == "admin"):
-        # users = Usuario.objects.all()
-        # if request.method == "GET":
-        #         criteria = request.GET.get('criteria')
-        #         if criteria == "nombre":
-        #             users = sorted(users, key= lambda x: x.username, reverse = False)
-        #             #users = users.sort(key= lambda x: x.username, reverse = True)
-        #         if criteria == "fecha registro":
-        #             #residencias = users.sort(key= lambda x: x.date_joined)
-        #             users = sorted(users, key= lambda x: x.date_joined, reverse = False)
-        # return (render (request, "listado_usuarios.html" , {"users": users}))
         return redirect("/listado_usuarios/alfabetico_des")
     return redirect("/")
 
@@ -229,6 +219,13 @@ def listado_usuarios_modo(request, modo):
             return (render (request, "listado_usuarios.html" , {"users": users}))
     return redirect("/")
 
+    
+def editar_usuario(request, pk):
+    if request.user.is_authenticated and (request.user.type == "admin" or request.user.pk == pk):
+        usuario= get_object_or_404(Usuario,pk=pk)
+        form =UsuarioForm(instance = usuario)
+        return (render (request, "modificar_usuario.html", {"form": form,  "usuario": usuario}))
+    return redirect("/")
 
 
 # Redirecciona a la pagina de inicio si no se le pasan parametros a detalle_residencia

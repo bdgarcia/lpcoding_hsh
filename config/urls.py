@@ -32,5 +32,6 @@ urlpatterns = [
 #    path("usuarios/", application.views.listado_usuarios, name="usuarios"),
     path("subastas/", application.views.listado_subastas, name="subastas"),
     path("subastas/cerrar_subasta/", application.views.run_cerrar_subastas, name="cerrar_subastas"),
+    path("editar_usuario/<int:pk>", application.views.editar_usuario, name="editar_usuario"),
     path("como_ser_premium/", application.views.faq_premium, name="faq_premium")
 ]
