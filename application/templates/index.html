@@ -38,7 +38,7 @@
                         uiLibrary: 'bootstrap4',
                         format: 'yyyy-mm-dd',
                         autoclose: true,
-                        startDate: new Date()
+                        startDate: "{{ comienzo_busqueda }}",
                     }).on('changeDate', function (selected) {
                         var minDate = new Date(selected.date.valueOf());
                         $('#hasta').datepicker('setStartDate', minDate);
@@ -57,6 +57,7 @@
                         uiLibrary: 'bootstrap4',
                         format: 'yyyy-mm-dd',
                         autoclose: true,
+                        startDate: "{{ comienzo_busqueda }}",
                         useCurrent: false
                     }).on('changeDate', function (selected) {
                         var minDate = new Date(selected.date.valueOf());
@@ -90,7 +91,7 @@
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
                                 ×
                             </button>
-                            <strong>{{ message }}
+                            <strong>{{ message }}</strong>
                         </div>
                     {% endif %}
                 </div>

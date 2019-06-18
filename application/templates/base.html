@@ -25,7 +25,7 @@
     <!-- Links -->
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="/">Home <span class="sr-only"></span></a>
+        <a class="nav-link" href="/">Inicio <span class="sr-only"></span></a>
       </li>
       {% if user.type == "admin" %}
       <li class="nav-item">
@@ -35,18 +35,23 @@
     </ul>
     <ul class="navbar-nav ml-auto">
       {% if user.is_authenticated %}
+        {% if user.type == "comun" %}
+          <li class="nav-item">
+            <a class="nav-link float-right" href="{% url 'faq_premium' %}">¡Quiero ser Premium!</a>
+          </li>
+        {% endif %}
       <li class="nav-item">
         <a class="nav-link" href="{% url 'detalle_usuario' pk=user.pk %}">Ver Perfil</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link float-right" href="{% url 'logout' %}?next=/">Logout</a>
+        <a class="nav-link float-right" href="{% url 'logout' %}?next=/">Cerrar sesión</a>
       </li>
       {% else %}
       <li class="nav-item">
         <a class="nav-link" href="{% url 'alta_usuario' %}">Crear Cuenta</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'login' %}">Login</a>
+        <a class="nav-link" href="{% url 'login' %}">Iniciar sesión</a>
       </li>
       {% endif %}
     </ul>

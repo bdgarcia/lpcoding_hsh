@@ -11,7 +11,7 @@
 
 
 {% if request.user == usuario or request.user.type == 'admin' %}
-    
+
         <div class="container-alta-res">
             <div class="titulo">
             <h1> {{form.email.value}} </h1><br>
@@ -34,7 +34,7 @@
             {% for error in form.non_field_errors %}
             <div class="col-md-12">
                 <div class="alert alert-dismissable alert-danger">
-                    
+
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
                         ×
                     </button>
@@ -42,13 +42,13 @@
                 </div>
             </div>
             {% endfor %}
-            {% endif %}  
+            {% endif %}
 
             <form method="POST" enctype="multipart/form-data" class="container-form">{% csrf_token %}
-                
-                
 
-                
+
+
+
                 <div class="container-field">
                     {{form.nombre.label}}:
                 </div>
@@ -62,7 +62,7 @@
                 <div class="container-widget">
                     {{form.apellido}}
                 </div>
-                
+
                 {% if request.user == usuario %}
                 {% if request.user.type != "admin" %}
                 <div class="container-field">
@@ -78,7 +78,7 @@
                 <div class="container-widget">
                     {{form.vencimiento_tarjeta}}
                 </div>
-                
+
                 <div class="container-field">
                     {{form.codigo_tarjeta.label}}:
                 </div>
@@ -102,7 +102,7 @@
                       </div>
  -->
                 {% endif %}
-                
+
    <!--               {% for field in form %}
     <div class="container-field">
         {{field.label}}:

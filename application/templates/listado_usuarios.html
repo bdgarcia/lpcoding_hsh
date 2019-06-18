@@ -5,8 +5,7 @@
 <link rel="stylesheet" href="{% static 'hsh_css/index.css' %}"/>
 <style type="text/css">
 .spacing {
-    margin-right: 15px;
-    margin-top: 1px
+    margin-top: 40px
 }
 </style>
 
@@ -20,9 +19,9 @@
     <div class="row container-detalles">
             <div class="col-md-12">
 
-    
-    <ul class="nav nav-tabs " id="myTab" role="tablist">
-        <li class="nav-item">
+
+<ul class="nav nav-tabs row spacing" id="myTab" role="tablist">
+    <li class="nav-item">
       <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Todos</a>
     </li>
     <li class="nav-item">
@@ -43,12 +42,12 @@
                                 <li><a class="dropdown-item" href="/listado_usuarios/alfabetico_des">Alfabetico (descendente)</a></li>
                                 <li><a class="dropdown-item" href="/listado_usuarios/fregistro_as">Fecha registro (ascendente)</a></li>
                                 <li><a class="dropdown-item" href="/listado_usuarios/fregistro_des">Fecha registro (descendente)</a></li>
-
-                  </div>             
+                </ul>
+        </div>
     </li>
   </ul>
   <br>
-  
+
   <div class="tab-content">
     <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">  
             <div class="container-fluid">
@@ -95,8 +94,15 @@
                                                         </td>
                                                         <td>
                                                             {{ user.date_joined }}
-                                                        </td>                                                    
-                                                        <td><a class="btn btn-primary" href="/usuario/{{ user.pk }}" role="button">Ver</a></td>
+                                                        </td>
+                                                        <td>
+                                                            {% if user.type != "admin" %}
+                                                            {{ user.creditos}}
+                                                            {% endif %}
+                                                        </td>
+                                                    
+                                                        <td><button >Alquileres</button></td>
+                                                       <td><a class="btn btn-primary" href="/usuario/{{ user.pk }}" role="button">Ver</a></td>
                                                         <td><a class="btn btn-primary" href="/editar_usuario/{{ user.pk }}" role="button">Editar</a></td>
                                                     </tr>  
                                     {% endfor %}
@@ -131,9 +137,9 @@
                                         <th>
                                             Fecha registro
                                         </th>
-                                        
+
                                         <th>
-                                            
+
                                         </th>
                 
                                         <th>
@@ -159,7 +165,7 @@
                                                         <td>
                                                             {{ user.date_joined }}
                                                         </td>
-                            
+
                                                     
                                                         <td><a class="btn btn-primary" href="/usuario/{{ user.pk }}" role="button">Ver</a></td>
                                                         <td><a class="btn btn-primary" href="/editar_usuario/{{ user.pk }}" role="button">Editar</a></td>
@@ -196,7 +202,7 @@
                                             Fecha registro
                                         </th>
                                         <th>
-                                            
+
                                         </th>
                 
                                         <th>
@@ -257,9 +263,9 @@
                                         <th>
                                             Fecha registro
                                         </th>
-                                    
+
                                         <th>
-                                            
+
                                         </th>
                 
                                         <th>
