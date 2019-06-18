@@ -11,7 +11,7 @@ from modelos.models import Variables_sistema
 from django.contrib.auth import login
 from creditcards import types
 
-from .forms import ResidenciaForm, UsuarioForm, Variables_sistemaForm
+from .forms import ResidenciaForm, UsuarioForm, Variables_sistemaForm, UsuarioFormAdmin, UsuarioFormOtro
 from datetime import date, timedelta, datetime
 # Create your views here.
 
@@ -232,15 +232,23 @@ def editar_usuario(request, pk):
     if request.user.is_authenticated and (request.user.type == "admin" or request.user.pk == pk):
         usuario= get_object_or_404(Usuario,pk=pk)
         if request.method == "POST":
-            form = UsuarioForm(request.POST, request.FILES, instance=usuario)
+            form = UsuarioFormAdmin(request.POST, request.FILES, instance=usuario) if usuario.type == "admin" else UsuarioFormOtro(request.POST, request.FILES, instance=usuario)
             if form.is_valid():
-                usuario= form.save(commit = False)
+                usr= form.save(commit = False)
+                usuario.set_password(usr.password)
+                usuario.nombre = usr.nombre
+                usuario.apellido = usr.apellido
                 usuario.save()
                 messages.success(request, "El usuario ha sido modificado")
                 return redirect("/usuario/"+str(pk))
-        form =UsuarioForm(instance = usuario)
+            return (render (request, "modificar_usuario.html", {"form": form,  "usuario": usuario}))
+
+        form = UsuarioFormAdmin(instance=usuario) if usuario.type == "admin" else UsuarioFormOtro(instance=usuario)
         return (render (request, "modificar_usuario.html", {"form": form,  "usuario": usuario}))
     return redirect("/")
+
+
+
 
 
 

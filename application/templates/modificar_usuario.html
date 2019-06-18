@@ -46,7 +46,7 @@
 
             <form method="POST" enctype="multipart/form-data" class="container-form">{% csrf_token %}
                 
-                
+ <!--                
 
                 
                 <div class="container-field">
@@ -64,7 +64,7 @@
                 </div>
                 
                 {% if request.user == usuario %}
-
+                {% if request.user.type != "admin" %}
                 <div class="container-field">
                     {{form.numero_tarjeta.label}}:
                 </div>
@@ -86,23 +86,36 @@
                     {{form.codigo_tarjeta}}
                 </div>
 
-                <div class="container-field">
-                    {{form.password.label}}:
-                </div>
-                <div class="container-widget">
-                    {{form.password}}
-                </div>
-                <div class="container-field">
-                    {{form.confirm_password.label}}:
-                </div>
-                <div class="container-widget">
-                    {{form.confirm_password}}
-                </div>
                 {% endif %}
-                
-                    <button type='submit' class="container-widget submitButton" name="btnModificar" onclick="return confirm('¿Desea guardar los cambios realizados?')">Guardar cambios</button>
-                    <button type='submit' class="container-widget submitButton" name="btnEliminar" onclick="return confirm('¿Desea descartar los cambios realizados?')">Descartar cambios</button>
 
+                      <div class="container-field">
+                          {{form.password.label}}:
+                      </div>
+                      <div class="container-widget">
+                          {{form.password}}
+                      </div>
+                      <div class="container-field">
+                          {{form.confirm_password.label}}:
+                      </div>
+                      <div class="container-widget">
+                          {{form.confirm_password}}
+                      </div>
+
+                {% endif %}
+                 -->
+                 {% for field in form %}
+    <div class="container-field">
+        {{field.label}}:
+    </div>
+    <div class="container-widget">
+        {{field}}
+    </div>
+    {% endfor %}
+    <button type='submit' class="container-widget submitButton" name="btnGuardar" >Crear usuario</button>
+<!-- 
+                    <button type='submit' class="container-widget submitButton" name="btnModificar" onclick="return confirm('¿Desea guardar los cambios realizados?')">Guardar cambios</button>
+                    <button type='submit' class="container-widget submitButton" name="btnDescartar" onclick="return confirm('¿Desea descartar los cambios realizados?')">Descartar cambios</button>
+ -->
             </form>
         </div>
 {% endif %}

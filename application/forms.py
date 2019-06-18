@@ -66,3 +66,41 @@ class Variables_sistemaForm(forms.ModelForm):
     class Meta:
         model=Variables_sistema
         fields=("precio_usuario_comun", "precio_usuario_premium")
+
+    
+class UsuarioFormAdmin(UsuarioForm):
+    confirm_password = forms.CharField(widget=forms.PasswordInput() ,label="Repita la contraseña")
+    class Meta:
+        model=Usuario
+        fields=('nombre', 'apellido', 'password')
+        labels= {
+            "fecha_nacimiento": "Fecha de nacimiento",
+            
+        }
+        widgets={
+            "password": forms.PasswordInput(),
+            "fecha_nacimiento":forms.SelectDateWidget(years=range(date.today().year, 1920, -1))
+        }
+
+
+class UsuarioFormOtro(forms.ModelForm):
+    confirm_password = forms.CharField(widget=forms.PasswordInput() ,label="Repita la contraseña")
+    class Meta:
+        model=Usuario
+        fields=( 'nombre', 'apellido', 'numero_tarjeta', 'vencimiento_tarjeta','codigo_tarjeta', 'password')
+        labels= {
+            "numero_tarjeta": "Número de tarjeta de crédito",
+            "vencimiento_tarjeta": "Fecha de vencimiento de la tarjeta",
+            "codigo_tarjeta": "Código de seguridad de la tarjeta"
+        }
+        widgets={
+            "password": forms.PasswordInput(),
+        }
+        error_messages = {
+            'numero_tarjeta': {
+                'invalid': "Ingrese un número de tarjeta válido."
+            },
+            'codigo_tarjeta': {
+                'invalid': "Ingrese un código de seguridad válido"
+            }
+        }
