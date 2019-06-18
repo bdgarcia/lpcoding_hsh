@@ -11,6 +11,7 @@ from modelos.models import Variables_sistema
 from django.contrib.auth import login
 from creditcards import types
 
+from django.contrib.auth import update_session_auth_hash
 from .forms import ResidenciaForm, UsuarioForm, Variables_sistemaForm, UsuarioFormOtro, UsuarioFormContraseña
 from datetime import date, timedelta, datetime
 # Create your views here.
@@ -269,7 +270,10 @@ def cambiar_contraseña(request, pk):
     if request.user.is_authenticated and request.user.pk == pk:
         usuario= get_object_or_404(Usuario,pk=pk)
         if request.method == "POST":
-            if 'btnDescartar' in request.POST:
+            if request.POST["btnDescartar"]:
+                form = UsuarioFormContraseña(request.POST, request.FILES, instance=usuario)
+                form.password= "a"
+                form.confirm_password= "a"
                 messages.success(request, "Los cambios han sido descartados")
                 return redirect("/usuario/"+str(pk))
             elif 'btnModificar' in request.POST:
@@ -278,6 +282,7 @@ def cambiar_contraseña(request, pk):
                     usr = form.save(commit=False)
                     usuario.set_password(usr.password)
                     usuario.save()
+                    update_session_auth_hash(request, usuario)  # Important!
                     messages.success(request, "La contraseña ha sido cambiada")
                     return redirect("/usuario/"+str(pk))
                 return (render (request, "modificar_contraseña.html", {"form": form,  "usuario": usuario}))
