@@ -38,6 +38,9 @@ class UsuarioForm(forms.ModelForm):
             'numero_tarjeta': {
                 'invalid': "Ingrese un número de tarjeta válido."
             },
+            'vencimiento_tarjeta':{
+                'date_passed': "La fecha de vencimiento de la tarjeta ya ha expirado."
+            },
             'codigo_tarjeta': {
                 'invalid': "Ingrese un código de seguridad válido"
             },
