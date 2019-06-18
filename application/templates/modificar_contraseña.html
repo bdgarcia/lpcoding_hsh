@@ -49,46 +49,9 @@
                 
 
                 
-                <div class="container-field">
-                    {{form.nombre.label}}:
-                </div>
-                <div class="container-widget">
-                    {{form.nombre}}
-                </div>
 
-                <div class="container-field">
-                    {{form.apellido.label}}:
-                </div>
-                <div class="container-widget">
-                    {{form.apellido}}
-                </div>
-                
-                {% if request.user == usuario %}
-                {% if request.user.type != "admin" %}
-                <div class="container-field">
-                    {{form.numero_tarjeta.label}}:
-                </div>
-                <div class="container-widget">
-                    {{form.numero_tarjeta}}
-                </div>
 
-                <div class="container-field">
-                    {{form.vencimiento_tarjeta.label}}:
-                </div>
-                <div class="container-widget">
-                    {{form.vencimiento_tarjeta}}
-                </div>
-                
-                <div class="container-field">
-                    {{form.codigo_tarjeta.label}}:
-                </div>
-                <div class="container-widget">
-                    {{form.codigo_tarjeta}}
-                </div>
-
-                {% endif %}
-
-  <!--                     <div class="container-field">
+                     <div class="container-field">
                           {{form.password.label}}:
                       </div>
                       <div class="container-widget">
@@ -100,18 +63,7 @@
                       <div class="container-widget">
                           {{form.confirm_password}}
                       </div>
- -->
-                {% endif %}
-                
-   <!--               {% for field in form %}
-    <div class="container-field">
-        {{field.label}}:
-    </div>
-    <div class="container-widget">
-        {{field}}
-    </div>
-    {% endfor %}
-    <button type='submit' class="container-widget submitButton" name="btnGuardar" >Crear usuario</button> -->
+ 
 
                     <button type='submit' class="container-widget submitButton" name="btnModificar" onclick="return confirm('¿Desea guardar los cambios realizados?')">Guardar cambios</button>
                     <button type='submit' class="container-widget submitButton" name="btnDescartar" onclick="return confirm('¿Desea descartar los cambios realizados?')">Descartar cambios</button>

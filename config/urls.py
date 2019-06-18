@@ -34,4 +34,6 @@ urlpatterns = [
     path("subastas/cerrar_subasta/", application.views.run_cerrar_subastas, name="cerrar_subastas"),
     path("como_ser_premium/", application.views.faq_premium, name="faq_premium"),
     path("editar_usuario/<int:pk>", application.views.editar_usuario, name="editar_usuario"),
+    path("cambiar_contraseña/<int:pk>", application.views.cambiar_contraseña, name="cambiar_contraseña"),
+
 ]
