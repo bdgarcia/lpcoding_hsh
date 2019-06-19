@@ -291,20 +291,20 @@ def editar_usuario(request, pk):
                         modificar_admin(usuario, usr)
                     else:
                         modificar_otro(usuario, usr)
-
                     messages.success(request, "El usuario ha sido modificado")
                     return redirect("/usuario/"+str(pk))
-                return (render (request, "modificar_usuario.html", {"form": form,  "usuario": usuario}))
-
-        form = UsuarioFormOtro(instance=usuario)
-        return (render (request, "modificar_usuario.html", {"form": form,  "usuario": usuario}))
+                else:
+                    return (render (request, "modificar_usuario.html", {"form": form,  "usuario": usuario}))
+        else:
+            form = UsuarioFormOtro(instance=usuario)
+            return (render (request, "modificar_usuario.html", {"form": form,  "usuario": usuario}))
     return redirect("/")
 
 def cambiar_contraseña(request, pk):
     if request.user.is_authenticated and request.user.pk == pk:
         usuario= get_object_or_404(Usuario,pk=pk)
         if request.method == "POST":
-            if request.POST["btnDescartar"]:
+            if 'btnDescartar' in request.POST:
                 form = UsuarioFormContraseña(request.POST, request.FILES, instance=usuario)
                 form.password= "a"
                 form.confirm_password= "a"
@@ -326,14 +326,6 @@ def cambiar_contraseña(request, pk):
 
 
 
-
-
-def editar_usuario(request, pk):
-    if request.user.is_authenticated and (request.user.type == "admin" or request.user.pk == pk):
-        usuario= get_object_or_404(Usuario,pk=pk)
-        form =UsuarioForm(instance = usuario)
-        return (render (request, "modificar_usuario.html", {"form": form,  "usuario": usuario}))
-    return redirect("/")
 
 
 # Redirecciona a la pagina de inicio si no se le pasan parametros a detalle_residencia
