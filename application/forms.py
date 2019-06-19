@@ -64,8 +64,54 @@ class UsuarioForm(forms.ModelForm):
         if (age<18):
             raise forms.ValidationError("Debe ser mayor de 18 años.")
         return fecha_n
+    
+    def super_clean(self):
+        super().clean()
 
 class Variables_sistemaForm(forms.ModelForm):
     class Meta:
         model=Variables_sistema
         fields=("precio_usuario_comun", "precio_usuario_premium")
+
+    
+
+class UsuarioFormOtro(forms.ModelForm):
+    class Meta:
+        model=Usuario
+        fields=( 'nombre', 'apellido', 'numero_tarjeta', 'vencimiento_tarjeta','codigo_tarjeta')
+        labels= {
+            "numero_tarjeta": "Número de tarjeta de crédito",
+            "vencimiento_tarjeta": "Fecha de vencimiento de la tarjeta",
+            "codigo_tarjeta": "Código de seguridad de la tarjeta"
+        }
+
+        error_messages = {
+            'numero_tarjeta': {
+                'invalid': "Ingrese un número de tarjeta válido."
+            },
+            'codigo_tarjeta': {
+                'invalid': "Ingrese un código de seguridad válido"
+            }
+        }
+
+        
+
+class UsuarioFormContraseña(forms.ModelForm):
+    confirm_password = forms.CharField(widget=forms.PasswordInput() ,label="Repita la contraseña")
+    class Meta:
+        model=Usuario
+        fields=('password',)
+        widgets={
+            "password": forms.PasswordInput(),
+        }
+        
+
+    def clean(self):
+        cleaned_data = super(UsuarioFormContraseña, self).clean()
+        contraseña= cleaned_data["password"]
+        confirmacion= cleaned_data["confirm_password"]
+        if contraseña!=confirmacion:
+            raise forms.ValidationError("Las contraseñas no coinciden.")
+
+
+   

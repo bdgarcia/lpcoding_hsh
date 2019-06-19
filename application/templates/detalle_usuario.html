@@ -52,8 +52,15 @@
                         {% endif %}
                         <b class="texto_detalle"> Tipo de Usuario:</b> {{ usuario.type}}
                     </p>
+                    {% if request.user == usuario %}
+                    <a class="btn btn-primary" href="/editar_usuario/{{ usuario.pk }}" role="button">Editar datos</a>
+                    {% if request.user.type == 'admin' %}
+                    <a class="btn btn-primary" href="/cambiar_contraseña/{{ usuario.pk }}" role="button">Cambiar contraseña</a>
+                    {% endif %}
+                    {% endif %}
                 </div>
             </div>
+    {% if user.type != "admin" %}
     {% if request.user == usuario or request.user.type == 'admin' %}
         {% if usuario.type == "comun" and request.user.type != 'admin' %}
             <div class="container">
@@ -68,7 +75,7 @@
             {% if alquileres %}
                 {% for alquiler in alquileres %}
                     <div class="row container-detalles">
-                    
+
                         <div class="col-md-4">
                             <div class="foto-catalogo">
                                 <img src="{% static 'media/' %}{{ alquiler.codigo_residencia.foto }}" height="160">
@@ -76,7 +83,7 @@
                         </div>
                         <div class="col-md-8">
                             <div class="texto-catalogo">
-                                <h4><b>Residencia: 
+                                <h4><b>Residencia:
                                         <a href="{% url 'detalle_residencia' cod=alquiler.codigo_residencia.pk %}" >{{alquiler.codigo_residencia.nombre}}</a></b></h4><br>
                                     <b class="texto_detalle">Ubicacion de la residencia: </b>{{ alquiler.codigo_residencia.ubicacion }}<br>
                                     <b class="texto_detalle">Fecha alquiler: </b>{{ alquiler.fecha }}<br>
@@ -85,7 +92,7 @@
                                     {% endif %}
                             </div>
                         </div>
-                    
+
                     </div>
                 {% endfor %}
             {% else %}
@@ -96,6 +103,7 @@
                 </div>
             {% endif %}
         {% endif %}
+    {% endif %}
     {% endif %}
 </div>
 {% endblock %}

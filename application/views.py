@@ -11,7 +11,8 @@ from modelos.models import Variables_sistema
 from django.contrib.auth import login
 from creditcards import types
 
-from .forms import ResidenciaForm, UsuarioForm, Variables_sistemaForm
+from django.contrib.auth import update_session_auth_hash
+from .forms import ResidenciaForm, UsuarioForm, Variables_sistemaForm, UsuarioFormOtro, UsuarioFormContraseña
 from datetime import date, timedelta, datetime
 # Create your views here.
 
@@ -253,7 +254,6 @@ def listado_usuarios_modo(request, modo):
             users = Usuario.objects.all()
             if modo == "alfabetico_des":
                 users = sorted(users, key= lambda x: x.username.lower(), reverse = False)
-                #users = users.sort(key= lambda x: x.username, reverse = True)
             elif modo == "alfabetico_as":
                 users = sorted(users, key= lambda x: x.username.lower(), reverse = True)
             elif modo == "fregistro_as":
@@ -263,7 +263,71 @@ def listado_usuarios_modo(request, modo):
             return (render (request, "listado_usuarios.html" , {"users": users}))
     return redirect("/")
 
-    
+def modificar_admin(usuario, usr):
+    usuario.nombre = usr.nombre
+    usuario.apellido = usr.apellido
+    usuario.save()
+
+def modificar_otro(usuario, usr):
+    usuario.nombre = usr.nombre
+    usuario.apellido = usr.apellido
+    usuario.numero_tarjeta = usr.numero_tarjeta
+    usuario.vencimiento_tarjeta = usr.vencimiento_tarjeta
+    usuario.codigo_tarjeta = usr.codigo_tarjeta
+    usuario.save()
+
+def editar_usuario(request, pk):
+    if request.user.is_authenticated and (request.user.type == "admin" or request.user.pk == pk):
+        usuario= get_object_or_404(Usuario,pk=pk)
+        if request.method == "POST":
+            if 'btnDescartar' in request.POST:
+                messages.success(request, "Los cambios han sido descartados")
+                return redirect("/usuario/"+str(pk))
+            elif 'btnModificar' in request.POST:
+                form = UsuarioFormOtro(request.POST, request.FILES, instance=usuario)
+                if form.is_valid():
+                    usr= form.save(commit = False)
+                    if usuario.type == "admin":
+                        modificar_admin(usuario, usr)
+                    else:
+                        modificar_otro(usuario, usr)
+
+                    messages.success(request, "El usuario ha sido modificado")
+                    return redirect("/usuario/"+str(pk))
+                return (render (request, "modificar_usuario.html", {"form": form,  "usuario": usuario}))
+
+        form = UsuarioFormOtro(instance=usuario)
+        return (render (request, "modificar_usuario.html", {"form": form,  "usuario": usuario}))
+    return redirect("/")
+
+def cambiar_contraseña(request, pk):
+    if request.user.is_authenticated and request.user.pk == pk:
+        usuario= get_object_or_404(Usuario,pk=pk)
+        if request.method == "POST":
+            if request.POST["btnDescartar"]:
+                form = UsuarioFormContraseña(request.POST, request.FILES, instance=usuario)
+                form.password= "a"
+                form.confirm_password= "a"
+                messages.success(request, "Los cambios han sido descartados")
+                return redirect("/usuario/"+str(pk))
+            elif 'btnModificar' in request.POST:
+                form = UsuarioFormContraseña(request.POST, request.FILES, instance=usuario)
+                if form.is_valid():
+                    usr = form.save(commit=False)
+                    usuario.set_password(usr.password)
+                    usuario.save()
+                    update_session_auth_hash(request, usuario)  # Important!
+                    messages.success(request, "La contraseña ha sido cambiada")
+                    return redirect("/usuario/"+str(pk))
+                return (render (request, "modificar_contraseña.html", {"form": form,  "usuario": usuario}))
+        form = UsuarioFormContraseña(instance=usuario)
+        return (render (request, "modificar_contraseña.html", {"form": form,  "usuario": usuario}))
+    return redirect("/")
+
+
+
+
+
 def editar_usuario(request, pk):
     if request.user.is_authenticated and (request.user.type == "admin" or request.user.pk == pk):
         usuario= get_object_or_404(Usuario,pk=pk)

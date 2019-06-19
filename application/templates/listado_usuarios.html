@@ -8,41 +8,46 @@
     margin-top: 40px
 }
 </style>
+
+
+
+
+
+
+<br>
+<div class="container-fluid spacing">
+    <div class="row container-detalles">
+            <div class="col-md-12">
+
+
 <ul class="nav nav-tabs row spacing" id="myTab" role="tablist">
     <li class="nav-item">
       <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Todos</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Comun</a>
+        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Comun</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" id="messages-tab" data-toggle="tab" href="#messages" role="tab" aria-controls="messages" aria-selected="false">Premium</a>
+        <a class="nav-link" id="messages-tab" data-toggle="tab" href="#messages" role="tab" aria-controls="messages" aria-selected="false">Premium</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Administradores</a>
+        <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Administradores</a>
     </li>
     <li>
-            <div class="dropdown col-xs-12">
-                    <button class="btn btn-primary dropdown-toggle col-xs-12" type="button" data-toggle="dropdown">Ordenar
-                            <span class="caret"></span></button>
-                            <ul class="dropdown-menu col-xs-12">
+        <div class="dropdown col-xs-12">
+            <button class="btn btn-primary dropdown-toggle col-xs-12" type="button" data-toggle="dropdown">Ordenar
+                <span class="caret"></span></button>
+                <ul class="dropdown-menu col-xs-12">
                                 <li><a class="dropdown-item" href="/listado_usuarios/alfabetico_as">Alfabetico (ascendente)</a></li>
                                 <li><a class="dropdown-item" href="/listado_usuarios/alfabetico_des">Alfabetico (descendente)</a></li>
                                 <li><a class="dropdown-item" href="/listado_usuarios/fregistro_as">Fecha registro (ascendente)</a></li>
                                 <li><a class="dropdown-item" href="/listado_usuarios/fregistro_des">Fecha registro (descendente)</a></li>
-                            </ul>
-                  </div>
-        <!-- <form type="GET" action="." class="form-inline nav-item">
-           
-                  <select name="criteria" id="criteria" class="browser-default custom-select">
-                      <option value="nombre"> <a href="/listado_usuarios/alfabetico">alfabetico</a></option>
-                      <option value="ubicacion"> <a href="/listado_usuarios/fregistro">Fecha registro</a></option>
-                  </select>
-                  <button type="submit" class="btn btn-lg btn-primary btn-block"> Ordenar </button> -->
-             
+                </ul>
+        </div>
     </li>
   </ul>
-  
+  <br>
+
   <div class="tab-content">
     <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">  
             <div class="container-fluid">
@@ -55,7 +60,7 @@
                                             Tipo
                                         </th>
                                         <th>
-                                            Usuario
+                                            Email
                                         </th>
                                         <th>
                                             Nombre
@@ -64,15 +69,9 @@
                                             Apellido
                                         </th>
                                         <th>
-                                            Email
-                                        </th>
-                                        <th>
                                             Fecha registro
                                         </th>
-                                        <th>
-                                            Creditos
-                                        </th>
-                            
+                                        <th></th>
 
                                         <th>
                                         </th>
@@ -85,16 +84,13 @@
                                                             {{ user.type }}
                                                         </td>
                                                         <td>
-                                                            {{ user.username }}
+                                                            {{ user.email }}
                                                         </td>
                                                         <td>
                                                             {{ user.nombre }}
                                                         </td>
                                                         <td>
                                                             {{ user.apellido }}
-                                                        </td>
-                                                        <td>
-                                                            {{ user.email }}
                                                         </td>
                                                         <td>
                                                             {{ user.date_joined }}
@@ -106,6 +102,7 @@
                                                         </td>
                                                     
                                                         <td><button >Alquileres</button></td>
+                                                       <td><a class="btn btn-primary" href="/usuario/{{ user.pk }}" role="button">Ver</a></td>
                                                         <td><a class="btn btn-primary" href="/editar_usuario/{{ user.pk }}" role="button">Editar</a></td>
                                                     </tr>  
                                     {% endfor %}
@@ -129,7 +126,7 @@
                                             Tipo
                                         </th>
                                         <th>
-                                            Usuario
+                                            Email
                                         </th>
                                         <th>
                                             Nombre
@@ -138,16 +135,11 @@
                                             Apellido
                                         </th>
                                         <th>
-                                            Email
-                                        </th>
-                                        <th>
                                             Fecha registro
                                         </th>
+
                                         <th>
-                                            Creditos
-                                        </th>
-                                        <th>
-                                            Alquileres
+
                                         </th>
                 
                                         <th>
@@ -162,7 +154,7 @@
                                                             {{ user.type }}
                                                         </td>
                                                         <td>
-                                                            {{ user.username }}
+                                                            {{ user.email }}
                                                         </td>
                                                         <td>
                                                             {{ user.nombre }}
@@ -171,19 +163,12 @@
                                                             {{ user.apellido }}
                                                         </td>
                                                         <td>
-                                                            {{ user.email }}
-                                                        </td>
-                                                        <td>
                                                             {{ user.date_joined }}
                                                         </td>
-                                                        <td>
-                                                            {{ user.creditos}}
-                                                        </td>
+
                                                     
-                                                        <td>
-                                                            <button >Alquileres</button>                                        </td>
-                                                        <td>
-                                                                <button >Editar</button>                                        </td>
+                                                        <td><a class="btn btn-primary" href="/usuario/{{ user.pk }}" role="button">Ver</a></td>
+                                                        <td><a class="btn btn-primary" href="/editar_usuario/{{ user.pk }}" role="button">Editar</a></td>
                                                     </tr>  
                                                     {% endif %}                    
                                     {% endfor %}
@@ -205,7 +190,7 @@
                                             Tipo
                                         </th>
                                         <th>
-                                            Usuario
+                                            Email
                                         </th>
                                         <th>
                                             Nombre
@@ -214,16 +199,10 @@
                                             Apellido
                                         </th>
                                         <th>
-                                            Email
-                                        </th>
-                                        <th>
                                             Fecha registro
                                         </th>
                                         <th>
-                                            Creditos
-                                        </th>
-                                        <th>
-                                            Alquileres
+
                                         </th>
                 
                                         <th>
@@ -238,7 +217,7 @@
                                                             {{ user.type }}
                                                         </td>
                                                         <td>
-                                                            {{ user.username }}
+                                                            {{ user.email }}
                                                         </td>
                                                         <td>
                                                             {{ user.nombre }}
@@ -246,20 +225,12 @@
                                                         <td>
                                                             {{ user.apellido }}
                                                         </td>
-                                                        <td>
-                                                            {{ user.email }}
-                                                        </td>
+
                                                         <td>
                                                             {{ user.date_joined }}
-                                                        </td>
-                                                        <td>
-                                                            {{ user.creditos}}
-                                                        </td>
-                                                    
-                                                        <td>
-                                                            <button >Alquileres</button>                                        </td>
-                                                        <td>
-                                                                <button >Editar</button>                                        </td>
+                                                        </td>>
+                                                        <td><a class="btn btn-primary" href="/usuario/{{ user.pk }}" role="button">Ver</a></td>
+                                                        <td><a class="btn btn-primary" href="/editar_usuario/{{ user.pk }}" role="button">Editar</a></td>
                                                     </tr>  
                                                     {% endif %}                    
                                     {% endfor %}
@@ -281,7 +252,7 @@
                                             Tipo
                                         </th>
                                         <th>
-                                            Usuario
+                                            Email
                                         </th>
                                         <th>
                                             Nombre
@@ -290,16 +261,11 @@
                                             Apellido
                                         </th>
                                         <th>
-                                            Email
-                                        </th>
-                                        <th>
                                             Fecha registro
                                         </th>
+
                                         <th>
-                                            Creditos
-                                        </th>
-                                        <th>
-                                            Alquileres
+
                                         </th>
                 
                                         <th>
@@ -314,7 +280,7 @@
                                                             {{ user.type }}
                                                         </td>
                                                         <td>
-                                                            {{ user.username }}
+                                                            {{ user.email }}
                                                         </td>
                                                         <td>
                                                             {{ user.nombre }}
@@ -323,19 +289,10 @@
                                                             {{ user.apellido }}
                                                         </td>
                                                         <td>
-                                                            {{ user.email }}
-                                                        </td>
-                                                        <td>
                                                             {{ user.date_joined }}
                                                         </td>
-                                                        <td>
-                                                            {{ user.creditos}}
-                                                        </td>
-                                                    
-                                                        <td>
-                                                            <button >Alquileres</button>                                        </td>
-                                                        <td>
-                                                                <button >Editar</button>                                        </td>
+                                                        <td><a class="btn btn-primary" href="/usuario/{{ user.pk }}" role="button">Ver</a></td>
+                                                        <td><a class="btn btn-primary" href="/editar_usuario/{{ user.pk }}" role="button">Editar</a></td>
                                                     </tr>  
                                                     {% endif %}                    
                                     {% endfor %}
@@ -353,80 +310,8 @@
       $('#myTab li:last-child a').tab('show')
     })
   </script>
-
-<!-- 
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-12">
-			<table class="table">
-				<thead>
-					<tr>
-						<th>
-							Tipo
-						</th>
-						<th>
-							Usuario
-                        </th>
-                        <th>
-                            Nombre
-                        </th>
-                        <th>
-                            Apellido
-                        </th>
-                        <th>
-                            Email
-                        </th>
-						<th>
-							Fecha registro
-						</th>
-						<th>
-							Creditos
-                        </th>
-                        <th>
-                            Alquileres
-                        </th>
-
-                        <th>
-                        </th>
-					</tr>
-				</thead>
-				<tbody>
-                            {% for user in users %}
-                            <tr class={{ user.type }} onclick="window.location='#';">
-                                        <td>
-                                            {{ user.type }}
-                                        </td>
-                                        <td>
-                                            {{ user.username }}
-                                        </td>
-                                        <td>
-                                            {{ user.nombre }}
-                                        </td>
-                                        <td>
-                                            {{ user.apellido }}
-                                        </td>
-                                        <td>
-                                            {{ user.email }}
-                                        </td>
-                                        <td>
-                                            {{ user.date_joined }}
-                                        </td>
-                                        <td>
-                                            {{ user.creditos}}
-                                        </td>
-                                    
-                                        <td>
-                                            <button >Alquileres</button>                                        </td>
-                                        <td>
-                                                <button >Editar</button>                                        </td>
-                                    </tr>                      
-                    {% endfor %}
-		
-				</tbody>
-			</table>
-		</div>
-	</div>
+  </div>
+  </div>
 </div>
- -->
 {% endblock %}
 
