@@ -328,14 +328,6 @@ def cambiar_contraseña(request, pk):
 
 
 
-def editar_usuario(request, pk):
-    if request.user.is_authenticated and (request.user.type == "admin" or request.user.pk == pk):
-        usuario= get_object_or_404(Usuario,pk=pk)
-        form =UsuarioForm(instance = usuario)
-        return (render (request, "modificar_usuario.html", {"form": form,  "usuario": usuario}))
-    return redirect("/")
-
-
 # Redirecciona a la pagina de inicio si no se le pasan parametros a detalle_residencia
 def detalle_residencia_solo (request):
     return redirect("index")

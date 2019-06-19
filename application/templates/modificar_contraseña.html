@@ -66,7 +66,7 @@
  
 
                     <button type='submit' class="container-widget submitButton" name="btnModificar" onclick="return confirm('¿Desea guardar la contraseña?')">Guardar contraseña</button>
-                    <button type="submit" formnovalidate name="btnDescartar" value="Cancel" class="container-widget submitButton">Cancelar</button>
+                    <button type="submit" formnovalidate name="btnDescartar" value="Cancel" onclick="return confirm('¿Desea cancelar la operacion?')" class="container-widget submitButton">Cancelar</button>
             </form>
         </div>
 {% endif %}
