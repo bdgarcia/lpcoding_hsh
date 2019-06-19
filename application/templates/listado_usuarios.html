@@ -71,7 +71,9 @@
                                         <th>
                                             Fecha registro
                                         </th>
-                                        <th></th>
+                                        <th>
+                                            Creditos
+                                        </th>
 
                                         <th>
                                         </th>
@@ -101,8 +103,7 @@
                                                             {% endif %}
                                                         </td>
                                                     
-                                                        <td><button >Alquileres</button></td>
-                                                       <td><a class="btn btn-primary" href="/usuario/{{ user.pk }}" role="button">Ver</a></td>
+                                                           <td><a class="btn btn-primary" href="/usuario/{{ user.pk }}" role="button">Ver</a></td>
                                                         <td><a class="btn btn-primary" href="/editar_usuario/{{ user.pk }}" role="button">Editar</a></td>
                                                     </tr>  
                                     {% endfor %}
@@ -120,32 +121,31 @@
                     <div class="row">
                         <div class="col-md-12">
                             <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            Tipo
-                                        </th>
-                                        <th>
-                                            Email
-                                        </th>
-                                        <th>
-                                            Nombre
-                                        </th>
-                                        <th>
-                                            Apellido
-                                        </th>
-                                        <th>
-                                            Fecha registro
-                                        </th>
-
-                                        <th>
-
-                                        </th>
-                
-                                        <th>
-                                        </th>
-                                    </tr>
-                                </thead>
+                                    <thead>
+                                            <tr>
+                                                <th>
+                                                    Tipo
+                                                </th>
+                                                <th>
+                                                    Email
+                                                </th>
+                                                <th>
+                                                    Nombre
+                                                </th>
+                                                <th>
+                                                    Apellido
+                                                </th>
+                                                <th>
+                                                    Fecha registro
+                                                </th>
+                                                <th>
+                                                    Creditos
+                                                </th>
+                        
+                                                <th>
+                                                </th>
+                                            </tr>
+                                        </thead>
                                 <tbody>
                                             {% for user in users %}
                                             {% if user.type == "comun" %}
@@ -165,7 +165,9 @@
                                                         <td>
                                                             {{ user.date_joined }}
                                                         </td>
-
+                                                        <td>
+                                                                {{ user.creditos }}
+                                                            </td>
                                                     
                                                         <td><a class="btn btn-primary" href="/usuario/{{ user.pk }}" role="button">Ver</a></td>
                                                         <td><a class="btn btn-primary" href="/editar_usuario/{{ user.pk }}" role="button">Editar</a></td>
@@ -202,7 +204,7 @@
                                             Fecha registro
                                         </th>
                                         <th>
-
+                                            Creditos
                                         </th>
                 
                                         <th>
@@ -228,7 +230,10 @@
 
                                                         <td>
                                                             {{ user.date_joined }}
-                                                        </td>>
+                                                        </td>
+                                                        <td>
+                                                            {{ user.creditos }}
+                                                        </td>
                                                         <td><a class="btn btn-primary" href="/usuario/{{ user.pk }}" role="button">Ver</a></td>
                                                         <td><a class="btn btn-primary" href="/editar_usuario/{{ user.pk }}" role="button">Editar</a></td>
                                                     </tr>  
@@ -265,7 +270,7 @@
                                         </th>
 
                                         <th>
-
+                                            Creditos
                                         </th>
                 
                                         <th>
@@ -291,6 +296,9 @@
                                                         <td>
                                                             {{ user.date_joined }}
                                                         </td>
+                                                        <td>
+                                                                {{ user.creditos }}
+                                                            </td>
                                                         <td><a class="btn btn-primary" href="/usuario/{{ user.pk }}" role="button">Ver</a></td>
                                                         <td><a class="btn btn-primary" href="/editar_usuario/{{ user.pk }}" role="button">Editar</a></td>
                                                     </tr>  

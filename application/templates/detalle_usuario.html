@@ -52,15 +52,14 @@
                         {% endif %}
                         <b class="texto_detalle"> Tipo de Usuario:</b> {{ usuario.type}}
                     </p>
-                    {% if request.user == usuario %}
+                    {% if request.user == usuario or request.user.type == "admin" %}
                     <a class="btn btn-primary" href="/editar_usuario/{{ usuario.pk }}" role="button">Editar datos</a>
-                    {% if request.user.type == 'admin' %}
+                    {% if request.user == usuario %}
                     <a class="btn btn-primary" href="/cambiar_contraseña/{{ usuario.pk }}" role="button">Cambiar contraseña</a>
                     {% endif %}
                     {% endif %}
                 </div>
             </div>
-    {% if user.type != "admin" %}
     {% if request.user == usuario or request.user.type == 'admin' %}
         {% if usuario.type == "comun" and request.user.type != 'admin' %}
             <div class="container">
@@ -103,7 +102,6 @@
                 </div>
             {% endif %}
         {% endif %}
-    {% endif %}
     {% endif %}
 </div>
 {% endblock %}
