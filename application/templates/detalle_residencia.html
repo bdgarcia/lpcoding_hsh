@@ -148,7 +148,7 @@
                                                 $('#fecha-seleccionada').val(fecha);
                                             }).datepicker("update", new Date());
                                             date = new Date();
-                                            set_week_picker(new Date(date.getFullYear(), (date.getMonth() +6), date.getDate() - date.getDay()));
+                                            set_week_picker(new Date(date.getFullYear(), (date.getMonth() +6), ((date.getDate() - date.getDay()) +7)));
                                             var fecha = $('#datepicker').val();
                                             $('#fecha-seleccionada').val(fecha);
                                         });

@@ -182,6 +182,12 @@ def alquilar_residencia(request):
             for x in range(0, 7):
                 dia = elLunes + timedelta(days=x)
                 diasAlquilados.append(str(dia))
+        semanaSubasta = Subasta.objects.filter(codigo_residencia=residencia)
+        for semSubasta in semanaSubasta:
+            elLunes = semSubasta.semana_alquila
+            for x in range(0, 7):
+                dia = elLunes + timedelta(days=x)
+                diasAlquilados.append(str(dia))
     return (render(request, 'alquilar_residencia.html', {'residencia': residencia, "diasAlquilados": diasAlquilados, "comienzo_busqueda": fecha_busqueda, "fecha": fecha_inicial}))
 
 def confirmar_alquiler(request):
@@ -376,6 +382,12 @@ def detalle_residencia (request, cod):
             dia = elLunes + timedelta(days=x)
             diasAlquilados.append(str(dia))
     primer_lunes = calcularFecha()
+    semanaSubasta = Subasta.objects.filter(codigo_residencia=cod)
+    for semSubasta in semanaSubasta:
+        elLunes = semSubasta.semana_alquila
+        for x in range (0,7):
+            dia = elLunes + timedelta(days=x)
+            diasAlquilados.append(str(dia))
     fecha_busqueda = primer_lunes.strftime('%Y-%m-%d')
     return (render (request, "detalle_residencia.html", {"residencia": residencia, "subasta": subasta, "puja": puja_alta, "diasAlquilados": diasAlquilados, "comienzo_busqueda": fecha_busqueda}))
 
