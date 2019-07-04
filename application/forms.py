@@ -73,6 +73,19 @@ class Variables_sistemaForm(forms.ModelForm):
         model=Variables_sistema
         fields=("precio_usuario_comun", "precio_usuario_premium")
 
+    def clean_precio_usuario_comun(self):
+        precio= self.cleaned_data["precio_usuario_comun"]
+        if precio < 0:
+            raise forms.ValidationError("Valor invalido.")
+        return precio
+
+    def clean_precio_usuario_premium(self):
+        precio= self.cleaned_data["precio_usuario_premium"]
+        if precio < 0:
+            raise forms.ValidationError("Valor invalido.")
+        return precio
+
+
     
 
 class UsuarioFormOtro(forms.ModelForm):
