@@ -208,6 +208,27 @@
                         </div>
                     {% endif %}
                 {% endif %}
+                {% for hotsale in hotsales %}
+                    <div class="row container-detalles container-puja">
+                        <h3>Hotsale para la semana del: {{ subasta.semana_alquila }}, aprovecha esta oferta antes que nadie!</h3>
+                        <h4 class="texto_detalle"> Precio del hotsale: <b>${{ hotsale.precio }}</b></h4>
+                    {% if user.type == "comun" or user.type == "premium" %}
+                            <form action='/detalle_residencia/{{ residencia.codigo }}' method='post'>{% csrf_token %}
+                                </br></br>
+                                <button type='submit' class="container-widget boton-puja" name="btnGuardar" >Alquilar!</button>
+                            </form>
+                        </div>
+                    {% endif %}
+                    {% if user.type == "admin" %}
+                        <div class="button-container">
+                            <form action="/hotsale/cerrar_hotsale/" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="codigo" value="{{ hotsale.codigo }}">
+                                <button type="submit" id="cerrarSubasta" class="boton-detalle">Cerrar subasta</button>
+                            </form>
+                        </div>
+                    {% endif %}
+                {% enfor %}
                     </div>
                 </div>
             {% else %}
@@ -216,7 +237,7 @@
                 <div class="container">
                     <div class="alert alert-dismissable alert-danger" >
                         <strong>
-                            <a href="{% url 'login' %}" class="alert-link"><span class="glyphicon" ></span>Para pujar debes iniciar sesion</a>
+                            <a href="{% url 'login' %}" class="alert-link"><span class="glyphicon" ></span>Para alquilar una propiedad debes iniciar sesion</a>
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
                                 ×
                             </button>

@@ -59,7 +59,6 @@ class Alquila (models.Model):
     #modo ----> depende de la membresia del usuario
 
 class HotSale (models.Model):
-    email_usuario = models.ForeignKey("Usuario", on_delete=models.CASCADE)
     codigo_residencia = models.ForeignKey("Residencia", on_delete= models.CASCADE)
     fecha = models.DateField()
     precio = models.FloatField()
