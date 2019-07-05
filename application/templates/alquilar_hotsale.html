@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'hsh_css/formulario.css' %}" />
+<script type="text/javascript" src="{% static 'js/bootstrap-datepicker.es.js' %}" charset="UTF-8"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.min.css">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="{% static 'hsh_css/index.css' %}"/>
+<script type="text/javascript" src="{% static 'js/bootstrap-datepicker.es.js' %}" charset="UTF-8"></script>
+<style type="text/css">
+.spacing {
+    margin-top: 10px
+}
+.min-spacing {
+    margin-top: 20px;
+    margin-left: 20px;
+}
+</style>
+<div class="row">
+    <div class="col-md-6 min-spacing">
+        <div class="container-detalles spacing">
+            <div>
+                <h2>
+                    <b>Resumen de alquiler:</b> <br>
+                </h2>
+                <p>
+                    <b class="texto_detalle"> &nbsp;&nbsp;&nbsp;&nbsp;Nombre de residencia: </b>{{ residencia.nombre }} <br>
+                    <b class="texto_detalle"> &nbsp;&nbsp;&nbsp;&nbsp;Ubicación: </b>{{ residencia.ubicacion }} <br>
+                    <b class="texto_detalle"> &nbsp;&nbsp;&nbsp;&nbsp;Descripción: </b> {{ residencia.descripcion }}<br>
+                    <b class="texto_detalle"> &nbsp;&nbsp;&nbsp;&nbsp;Precio del hotsale: </b> {{ hotsale.precio }}<br>
+                    <b class="texto_detalle"> &nbsp;&nbsp;&nbsp;&nbsp;Semana del alquiler: </b> {{ hotsale.fecha }}<br>
+                </p>
+            </div>
+            <form action="/residencia/hotsale/confirmar/" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="codigo_hotsale" value="{{ hotsale.pk }}">
+                <input type="hidden" name="codigo" value="{{ residencia.codigo }}">
+                <div class="button-container">
+                    <button type="submit" id="confirmarAlquiler" class="boton-detalle">Confirmar alquiler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
