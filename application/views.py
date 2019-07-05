@@ -7,6 +7,7 @@ from modelos.models import Subasta
 from modelos.models import Puja
 from modelos.models import Usuario
 from modelos.models import Alquila
+from modelos.models import HotSale
 from modelos.models import Variables_sistema
 from django.contrib.auth import login
 from creditcards import types
@@ -190,6 +191,14 @@ def alquilar_residencia(request):
                 diasAlquilados.append(str(dia))
     return (render(request, 'alquilar_residencia.html', {'residencia': residencia, "diasAlquilados": diasAlquilados, "comienzo_busqueda": fecha_busqueda, "fecha": fecha_inicial}))
 
+def alquilar_hotsale(request):
+    if not request.user.is_authenticated:
+        return redirect("/")
+    else:
+        hotsale = HotSale.objects.get(pk=request.POST.get('codigo'))
+        residencia = Residencia.objects.get(codigo=hotsale.codigo_residencia.codigo)
+    return (render(request, 'alquilar_hotsale.html', {'residencia': residencia, "hotsale": hotsale}))
+
 def confirmar_alquiler(request):
     if request.method == "POST":
         residencia = Residencia.objects.get(codigo=request.POST.get('codigo'))
@@ -204,6 +213,20 @@ def confirmar_alquiler(request):
         alquiler.precio = 0
         alquiler.email_usuario = request.user
         alquiler.save()
+        messages.success(request, 'La reserva fue realizada con éxito.')
+        return redirect("/")
+
+def confirmar_hotsale(request):
+    if request.method == "POST":
+        residencia = Residencia.objects.get(codigo=request.POST.get('codigo'))
+        hotsale = HotSale.objects.get(pk=request.POST.get('codigo_hotsale'))
+        alquiler = Alquila()
+        alquiler.codigo_residencia = residencia
+        alquiler.fecha = hotsale.fecha
+        alquiler.precio = hotsale.precio
+        alquiler.email_usuario = request.user
+        alquiler.save()
+        hotsale.delete()
         messages.success(request, 'La reserva fue realizada con éxito.')
         return redirect("/")
 
@@ -373,6 +396,8 @@ def detalle_residencia (request, cod):
     else:
         puja_alta = None
 
+    hotsales = HotSale.objects.filter(codigo_residencia=cod)
+
     # setear los dias alquilados para no colorearlos como disponibles en el calendario
     diasAlquilados = []
     semanasAlquiladas = Alquila.objects.filter(codigo_residencia=cod)
@@ -389,12 +414,8 @@ def detalle_residencia (request, cod):
             dia = elLunes + timedelta(days=x)
             diasAlquilados.append(str(dia))
     fecha_busqueda = primer_lunes.strftime('%Y-%m-%d')
-    return (render (request, "detalle_residencia.html", {"residencia": residencia, "subasta": subasta, "puja": puja_alta, "diasAlquilados": diasAlquilados, "comienzo_busqueda": fecha_busqueda}))
+    return (render (request, "detalle_residencia.html", {"residencia": residencia, "hotsales": hotsales, "subasta": subasta, "puja": puja_alta, "diasAlquilados": diasAlquilados, "comienzo_busqueda": fecha_busqueda}))
 
-
-# Redirecciona a la pagina de inicio si no se le pasan parametros a detalle_residencia
-def detalle_residencia_solo (request):
-    return redirect("index")
 
 def administracion (request):   
     return render (request, "administracion.html")

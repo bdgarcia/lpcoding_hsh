@@ -198,24 +198,16 @@
                             </form>
                         </div>
                     {% endif %}
-                {% else %}
-                    {% if user.type != "premium" and user.type != "admin" %}
-                        <div class="container">
-                            <div class="alert alert-dismissable alert-info">
-                                <b>¿Queres saber como poder alquilar una semana cuando esta no esta en subasta?<br>
-                                <a href="{% url 'faq_premium' %}">Haz clic aquí para enterarte las ventajas de ser un usuario Premium</a></b><br>
-                            </div>
-                        </div>
-                    {% endif %}
                 {% endif %}
                 {% for hotsale in hotsales %}
                     <div class="row container-detalles container-puja">
-                        <h3>Hotsale para la semana del: {{ subasta.semana_alquila }}, aprovecha esta oferta antes que nadie!</h3>
+                        <h3>Porpiedad en hotsale para la semana del: {{ hotsale.fecha }}, aprovecha esta oferta antes que nadie!</h3>
                         <h4 class="texto_detalle"> Precio del hotsale: <b>${{ hotsale.precio }}</b></h4>
                     {% if user.type == "comun" or user.type == "premium" %}
-                            <form action='/detalle_residencia/{{ residencia.codigo }}' method='post'>{% csrf_token %}
+                            <form action='/hotsale/alquilar/' method='post'>{% csrf_token %}
                                 </br></br>
-                                <button type='submit' class="container-widget boton-puja" name="btnGuardar" >Alquilar!</button>
+                                <input type="hidden" name="codigo" value="{{ hotsale.pk }}">
+                                <button type='submit' class="container-widget boton-detalle" name="btnGuardar" >Alquilar!</button>
                             </form>
                         </div>
                     {% endif %}
@@ -223,12 +215,12 @@
                         <div class="button-container">
                             <form action="/hotsale/cerrar_hotsale/" method="post">
                                 {% csrf_token %}
-                                <input type="hidden" name="codigo" value="{{ hotsale.codigo }}">
-                                <button type="submit" id="cerrarSubasta" class="boton-detalle">Cerrar subasta</button>
+                                <input type="hidden" name="codigo" value="{{ hotsale.pk }}">
+                                <button type="submit" id="cerrarSubasta" class="boton-detalle">Cerrar Hotsale</button>
                             </form>
                         </div>
                     {% endif %}
-                {% enfor %}
+                {% endfor %}
                     </div>
                 </div>
             {% else %}
@@ -245,4 +237,12 @@
                     </div>
                 </div>
             {% endif %}
+    {% if user.type != "premium" and user.type != "admin" %}
+        <div class="container">
+            <div class="alert alert-dismissable alert-info">
+                <b>¿Queres saber como poder alquilar una semana cuando esta no esta en subasta?<br>
+                <a href="{% url 'faq_premium' %}">Haz clic aquí para enterarte las ventajas de ser un usuario Premium</a></b><br>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}

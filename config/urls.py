@@ -37,5 +37,6 @@ urlpatterns = [
     path("editar_usuario/<int:pk>", application.views.editar_usuario, name="editar_usuario"),
     path("cambiar_contraseña/<int:pk>", application.views.cambiar_contraseña, name="cambiar_contraseña"),
     path("residencia/alquilar/confirmar/", application.views.confirmar_alquiler, name="confirmar_alquiler"),
-
+    path("hotsale/alquilar/", application.views.alquilar_hotsale, name="alquilar_hotsale"),
+    path("residencia/hotsale/confirmar/", application.views.confirmar_hotsale, name="confirmar_hotsale"),
 ]
