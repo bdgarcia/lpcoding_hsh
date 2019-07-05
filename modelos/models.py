@@ -58,6 +58,12 @@ class Alquila (models.Model):
     precio = models.FloatField()
     #modo ----> depende de la membresia del usuario
 
+class HotSale (models.Model):
+    email_usuario = models.ForeignKey("Usuario", on_delete=models.CASCADE)
+    codigo_residencia = models.ForeignKey("Residencia", on_delete= models.CASCADE)
+    fecha = models.DateField()
+    precio = models.FloatField()
+
 class Variables_sistema (models.Model):
     precio_usuario_comun = models.FloatField(default=0.0)
     precio_usuario_premium = models.FloatField(default=0.0)

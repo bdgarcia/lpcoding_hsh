@@ -38,3 +38,5 @@ from .models import Alquila
 admin.site.register(Alquila)
 from .models import Variables_sistema
 admin.site.register(Variables_sistema)
+from .models import HotSale
+admin.site.register(HotSale)
