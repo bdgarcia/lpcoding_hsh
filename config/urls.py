@@ -39,4 +39,5 @@ urlpatterns = [
     path("residencia/alquilar/confirmar/", application.views.confirmar_alquiler, name="confirmar_alquiler"),
     path("hotsale/alquilar/", application.views.alquilar_hotsale, name="alquilar_hotsale"),
     path("residencia/hotsale/confirmar/", application.views.confirmar_hotsale, name="confirmar_hotsale"),
+    path("residencia/alquiler/<int:pk>/cancelar/", application.views.confirmar_cancelacion_alquiler, name="confirmar_cancelacion_alquiler"),
 ]

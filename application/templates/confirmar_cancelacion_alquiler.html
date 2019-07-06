@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'hsh_css/formulario.css' %}" />
+<link rel="stylesheet" href="{% static 'hsh_css/index.css' %}" />
+<style type="text/css">
+.spacing {
+    margin-top: 50px
+}
+</style>
+
+<div class="row">
+        <div class="col-md-6 min-spacing">
+            <div class="container-detalles spacing">
+                <div>
+                    <div class="alert alert-dismissable alert-danger">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                            ×
+                        </button>
+                        <strong>¡Ciudado!</strong> Al cancelar un alquiler se te refundaran los costos pero no los creditos utilizados.
+                    </div>
+                    <h2>
+                        <b>Resumen de alquiler:</b> <br>
+                    </h2>
+                    <p>
+                        {% if request.user.type == 'admin' %}
+                            <b class="texto_detalle"> &nbsp;&nbsp;&nbsp;&nbsp;Usuario que alquiló: </b>{{ alquiler.email_usuario.email }} <br>
+                        {% endif %}
+                        <b class="texto_detalle"> &nbsp;&nbsp;&nbsp;&nbsp;Nombre de la residencia: </b>{{ alquiler.codigo_residencia.nombre }} <br>
+                        <b class="texto_detalle"> &nbsp;&nbsp;&nbsp;&nbsp;Ubicación de la residencia: </b>{{ alquiler.codigo_residencia.ubicacion }} <br>
+                        <b class="texto_detalle"> &nbsp;&nbsp;&nbsp;&nbsp;Descripción de la residencia: </b> {{ alquiler.codigo_residencia.descripcion }}<br>
+                        <b class="texto_detalle"> &nbsp;&nbsp;&nbsp;&nbsp;Fecha del alquiler: </b> {{ alquiler.fecha }}<br>
+                        {% if alquiler.precio == 0 %}
+                            <b class="texto_detalle"> &nbsp;&nbsp;&nbsp;&nbsp;El alquiler fue de modo Premium.</b><br>
+                        {% else %}
+                            <b class="texto_detalle"> &nbsp;&nbsp;&nbsp;&nbsp;Precio del alquiler: </b> {{ alquiler.precio }}<br>
+                        {% endif %}
+                    </p>
+                    <br>
+                </div>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="button-container">
+                            <button type="submit" name="btnCancelarAlq" class="boton-detalle">Confirmar cancelación</button>
+                            <button type="submit" class="boton-detalle">Regresar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

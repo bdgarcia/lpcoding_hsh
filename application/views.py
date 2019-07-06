@@ -216,6 +216,21 @@ def confirmar_alquiler(request):
         messages.success(request, 'La reserva fue realizada con éxito.')
         return redirect("/")
 
+
+def confirmar_cancelacion_alquiler(request, pk):
+    #si no es user o admin redirect a ("/")
+    alquiler=get_object_or_404(Alquila, pk=pk)
+    if request.method == "POST":
+        if 'btnCancelarAlq' in request.POST:
+            #se marca el borrado logico del alquiler
+            #alquiler.borrado_logico = True
+            #alquiler.save()
+            messages.success(request, 'El alquiler ha sido cancelado correctamente.')
+        else:
+            messages.success(request, 'El alquiler no ha sido cancelado.')
+        return redirect('/usuario/'+str(alquiler.email_usuario.pk))
+    return (render(request, 'confirmar_cancelacion_alquiler.html', {'alquiler':alquiler}))
+
 def confirmar_hotsale(request):
     if request.method == "POST":
         residencia = Residencia.objects.get(codigo=request.POST.get('codigo'))
