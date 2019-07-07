@@ -38,7 +38,7 @@
                 <form method="POST">
                     {% csrf_token %}
                     <div class="button-container">
-                            <button type="submit" name="btnCancelarAlq" class="boton-detalle">Confirmar cancelación</button>
+                            <button type="submit" name="btnCancelarAlq" class="boton-detalle" onclick="return confirm('¿Cancelar alquiler?')">Confirmar cancelación</button>
                             <button type="submit" class="boton-detalle">Regresar</button>
                     </div>
                 </form>

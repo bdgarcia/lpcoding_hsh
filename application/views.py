@@ -220,12 +220,12 @@ def confirmar_alquiler(request):
 def confirmar_cancelacion_alquiler(request, pk):
     alquiler=get_object_or_404(Alquila, pk=pk)
     fecha= date.today()
-    if request.user == alquiler.email_usuario or request.user.type == 'admin':
+    if (request.user == alquiler.email_usuario or request.user.type == 'admin') and (not alquiler.cancelado):
         if request.method == "POST":
             if 'btnCancelarAlq' in request.POST:
-                #se marca el borrado logico del alquiler
-                #alquiler.borrado_logico = True
-                #alquiler.save()
+                #Aca estaria el codigo que retorna la plata al usuario.
+                alquiler.cancelado = True
+                alquiler.save()
                 messages.success(request, 'El alquiler ha sido cancelado correctamente.')
             else:
                 messages.success(request, 'El alquiler no ha sido cancelado.')

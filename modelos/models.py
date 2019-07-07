@@ -56,6 +56,7 @@ class Alquila (models.Model):
     codigo_residencia = models.ForeignKey("Residencia", on_delete= models.CASCADE)
     fecha = models.DateField()
     precio = models.FloatField()
+    cancelado = models.BooleanField(default = False)
     #modo ----> depende de la membresia del usuario
 
 class HotSale (models.Model):
