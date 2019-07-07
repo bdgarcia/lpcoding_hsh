@@ -20,9 +20,6 @@
                         <b>Resumen de alquiler:</b> <br>
                     </h2>
                     <p>
-                        {% if request.user.type == 'admin' %}
-                            <b class="texto_detalle"> &nbsp;&nbsp;&nbsp;&nbsp;Usuario que alquiló: </b>{{ alquiler.email_usuario.email }} <br>
-                        {% endif %}
                         <b class="texto_detalle"> &nbsp;&nbsp;&nbsp;&nbsp;Nombre de la residencia: </b>{{ alquiler.codigo_residencia.nombre }} <br>
                         <b class="texto_detalle"> &nbsp;&nbsp;&nbsp;&nbsp;Ubicación de la residencia: </b>{{ alquiler.codigo_residencia.ubicacion }} <br>
                         <b class="texto_detalle"> &nbsp;&nbsp;&nbsp;&nbsp;Descripción de la residencia: </b> {{ alquiler.codigo_residencia.descripcion }}<br>

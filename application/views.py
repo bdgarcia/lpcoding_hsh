@@ -220,7 +220,7 @@ def confirmar_alquiler(request):
 def confirmar_cancelacion_alquiler(request, pk):
     alquiler=get_object_or_404(Alquila, pk=pk)
     fecha= date.today()
-    if (request.user == alquiler.email_usuario or request.user.type == 'admin') and (not alquiler.cancelado):
+    if (request.user == alquiler.email_usuario) and (not alquiler.cancelado):
         if request.method == "POST":
             if 'btnCancelarAlq' in request.POST:
                 #Aca estaria el codigo que retorna la plata al usuario.
