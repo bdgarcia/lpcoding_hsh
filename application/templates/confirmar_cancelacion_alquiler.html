@@ -8,15 +8,12 @@
     margin-top: 50px
 }
 </style>
-
-<div class="row">
+{% if alquiler.fecha > fecha %}
+    <div class="row">
         <div class="col-md-6 min-spacing">
             <div class="container-detalles spacing">
                 <div>
                     <div class="alert alert-dismissable alert-danger">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                            ×
-                        </button>
                         <strong>¡Ciudado!</strong> Al cancelar un alquiler se te refundaran los costos pero no los creditos utilizados.
                     </div>
                     <h2>
@@ -48,4 +45,18 @@
             </div>
         </div>
     </div>
+{% else %}
+    <div class="row spacing">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+                <div class="alert alert-dismissable alert-danger" text-align:center>
+                        <strong>Este alquiler no puede cancelarse porque su fecha es anterior a hoy. 
+                            <a href="{% url 'detalle_usuario' pk=alquiler.email_usuario.pk %}">Volver.</a> </strong>
+                </div>
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+{% endif %}
 {% endblock %}

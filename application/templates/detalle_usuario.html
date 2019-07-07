@@ -95,9 +95,11 @@
                                     {% if alquiler.precio != 0 %}
                                         <b class="texto_detalle">Precio de alquiler: </b>{{alquiler.precio}}<br>
                                     {% endif %}
+                                    {% if alquiler.fecha > fecha %}
                                     <div id="detalleResidencia">
                                         <a href="{% url 'confirmar_cancelacion_alquiler' pk=alquiler.pk %}"> <button class="boton-detalle"> Cancelar alquiler. </button> </a>
                                     </div>
+                                    {% endif %}
                             </div>
                         </div>
 
