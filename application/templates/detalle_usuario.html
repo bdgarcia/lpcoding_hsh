@@ -79,26 +79,43 @@
         <h2 style="text-align:center"><b>Alquileres: </b></h2>
             {% if alquileres %}
                 {% for alquiler in alquileres %}
-                    <div class="row container-detalles">
+                    {% if not alquiler.cancelado or request.user.type == 'admin' %}
+                        <div class="row container-detalles">
 
-                        <div class="col-md-4">
-                            <div class="foto-catalogo">
-                                <img src="{% static 'media/' %}{{ alquiler.codigo_residencia.foto }}" height="160">
+                            <div class="col-md-4">
+                                <div class="foto-catalogo">
+                                    <img src="{% static 'media/' %}{{ alquiler.codigo_residencia.foto }}" height="160">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="texto-catalogo">
-                                <h4><b>Residencia:
+                            <div class="col-md-8">
+                                <div class="texto-catalogo">
+                                    <h4><b>Residencia:
                                         <a href="{% url 'detalle_residencia' cod=alquiler.codigo_residencia.pk %}" >{{alquiler.codigo_residencia.nombre}}</a></b></h4><br>
-                                    <b class="texto_detalle">Ubicacion de la residencia: </b>{{ alquiler.codigo_residencia.ubicacion }}<br>
-                                    <b class="texto_detalle">Fecha alquiler: </b>{{ alquiler.fecha }}<br>
-                                    {% if alquiler.precio != 0 %}
-                                        <b class="texto_detalle">Precio de alquiler: </b>{{alquiler.precio}}<br>
-                                    {% endif %}
+                                        <b class="texto_detalle">Ubicacion de la residencia: </b>{{ alquiler.codigo_residencia.ubicacion }}<br>
+                                        <b class="texto_detalle">Fecha alquiler: </b>{{ alquiler.fecha }}<br>
+                                        {% if alquiler.precio != 0 %}
+                                            <b class="texto_detalle">Precio de alquiler: </b>{{alquiler.precio}}<br>
+                                        {% else %}
+                                            <b class="texto_detalle">Alquiler realizado de modo Premium.</b><br>
+                                        {% endif %}
+                                        {% if alquiler.cancelado %}
+                                            <div class="alert alert-dismissable alert-danger">   
+                                                <strong>Este alquiler fue cancelado.</strong>
+                                            </div>
+                                        {% elif not alquiler.fecha > fecha %}
+                                            <div class="alert alert-dismissable alert-info">   
+                                                <strong>La semana de alquiler ya paso.</strong>
+                                            </div>
+                                        {% elif request.user == usuario %}
+                                            <div class="button-container" id="detalleResidencia">
+                                                <a href="{% url 'confirmar_cancelacion_alquiler' pk=alquiler.pk %}"> <button class="boton-detalle"> Cancelar alquiler. </button> </a>
+                                            </div>
+                                        {% endif %}
+                                </div>
                             </div>
-                        </div>
 
-                    </div>
+                        </div>
+                    {% endif %}
                 {% endfor %}
             {% else %}
                 <div class="row container-detalles">

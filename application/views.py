@@ -216,6 +216,24 @@ def confirmar_alquiler(request):
         messages.success(request, 'La reserva fue realizada con éxito.')
         return redirect("/")
 
+
+def confirmar_cancelacion_alquiler(request, pk):
+    alquiler=get_object_or_404(Alquila, pk=pk)
+    fecha= date.today()
+    if (request.user == alquiler.email_usuario) and (not alquiler.cancelado):
+        if request.method == "POST":
+            if 'btnCancelarAlq' in request.POST:
+                #Aca estaria el codigo que retorna la plata al usuario.
+                alquiler.cancelado = True
+                alquiler.save()
+                messages.success(request, 'El alquiler ha sido cancelado correctamente.')
+            else:
+                messages.success(request, 'El alquiler no ha sido cancelado.')
+            return redirect('/usuario/'+str(alquiler.email_usuario.pk))
+    else:
+        return redirect("/")
+    return (render(request, 'confirmar_cancelacion_alquiler.html', {'alquiler':alquiler, "fecha": fecha}))
+
 def confirmar_hotsale(request):
     if request.method == "POST":
         residencia = Residencia.objects.get(codigo=request.POST.get('codigo'))
@@ -266,7 +284,8 @@ def detalle_usuario (request, pk):
     vencimiento_cred= usuario.date_joined.date()
     aux= vencimiento_cred.year + 1 + (date.today().year - usuario.date_joined.year)
     aux= vencimiento_cred.replace(year = aux)
-    return (render(request, "detalle_usuario.html", {"usuario": usuario, "alquileres": alquileres, "marca": marca_tarjeta, "vencimiento_creditos":aux}))
+    fecha= date.today()
+    return (render(request, "detalle_usuario.html", {"usuario": usuario, "alquileres": alquileres, "marca": marca_tarjeta, "vencimiento_creditos":aux, "fecha":fecha}))
 
 
 
