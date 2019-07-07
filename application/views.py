@@ -14,7 +14,7 @@ from creditcards import types
 
 from django.contrib.auth import update_session_auth_hash
 from .forms import ResidenciaForm, UsuarioForm, Variables_sistemaForm, UsuarioFormOtro, UsuarioFormContraseña
-from datetime import date, timedelta, datetime
+from datetime import date, timedelta, datetime, time
 # Create your views here.
 
 def next_weekday(d, weekday):
@@ -30,27 +30,36 @@ def calcularFecha():
     return lunesEn6Meses
 
 def allmondays(fecha, hasta):
-   d = datetime.strptime(fecha, '%Y-%m-%d')
-   d = next_weekday(d, 1)
-   end =  datetime.strptime(hasta, '%Y-%m-%d')
-   aux = []
-   while d <= end:
-       aux.append(d.date())
-       d = d + timedelta(days = 7)
-   return aux
+    if type(fecha) == str:
+        d = datetime.strptime(fecha, '%Y-%m-%d')
+    else:
+        d = datetime.combine(fecha, time())
+    d = d + timedelta(days=-1)
+    d = next_weekday(d, 1)
+    if type(hasta) == str:
+        end = datetime.strptime(hasta, '%Y-%m-%d')
+    else:
+        end = datetime.combine(hasta, time())
+    aux = []
+    while d <= end:
+        aux.append(d.date())
+        d = d + timedelta(days = 7)
+    return aux
 
 
 def index(request):
     residencias = Residencia.objects.filter(borrado_logico=False)
     subastas = Subasta.objects.all()
+    criteria = None
+    parametro = None
     if request.method == 'GET': # If the form is submitted
         if request.GET.get('parametro'):
             criteria = request.GET.get('criteria')
             parametro = request.GET.get('parametro')
             if criteria == "nombre":
-                residencias = residencias.filter(nombre=parametro)
+                residencias = residencias.filter(nombre__icontains=parametro)
             if criteria == "ubicacion":
-                residencias = residencias.filter(ubicacion=parametro)
+                residencias = residencias.filter(ubicacion__icontains=parametro)
 
         if request.GET.get('enSubasta'):
             codigos_subasta = []
@@ -59,14 +68,16 @@ def index(request):
             residencias = residencias.filter(codigo__in=codigos_subasta)
 
         if request.GET.get('fecha') or request.GET.get('hasta'):
-            fecha_desde = date.today()
-            fecha_hasta = calcularFecha()
 
             if request.GET.get('fecha'):
                 fecha_desde = request.GET.get('fecha')
+            else:
+                fecha_desde = date.today()
 
             if request.GET.get('hasta'):
                 fecha_hasta = request.GET.get('hasta')
+            else:
+                fecha_hasta = calcularFecha()
 
             todosLosLunes = allmondays(fecha_desde, fecha_hasta)
             resultado = []
@@ -78,9 +89,23 @@ def index(request):
                         if residencia not in resultado:
                             resultado.append(residencia)
             residencias = resultado
+
     primer_lunes = calcularFecha()
     fecha_busqueda = primer_lunes.strftime('%Y-%m-%d')
-    return render(request, "index.html", {"residencias": residencias, "subastas": subastas, "comienzo_busqueda": fecha_busqueda})
+    if request.GET.get('fecha'):
+        fecha_desde = request.GET.get('fecha')
+    else:
+        fecha_desde = None
+
+    if request.GET.get('hasta'):
+        fecha_hasta = request.GET.get('hasta')
+    else:
+        fecha_hasta = None
+    subastaOn = None
+    if request.GET.get('enSubasta'):
+        subastaOn = 'on'
+
+    return render(request, "index.html", {"residencias": residencias, "subastas": subastas, "comienzo_busqueda": fecha_busqueda , "criteria": criteria, "parametro": parametro, "desde": fecha_desde, "hasta": fecha_hasta, "subastaOn": subastaOn})
 
 # Create your views here.
 def test(request):

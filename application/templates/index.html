@@ -21,17 +21,29 @@
            <a class="nav-link"><span>Buscar por: </span></a>
           </li>
           <li class="nav-item spacing">
-              <select name="criteria" id="criteria" class="browser-default custom-select">
+                <select name="criteria" id="criteria" class="browser-default custom-select">
                   <option value="nombre">nombre</option>
-                  <option value="ubicacion">ubicacion</option>
+                  {% if criteria == 'ubicacion' %}
+                    <option value="ubicacion" selected>ubicacion</option>
+                  {% else %}
+                    <option value="ubicacion">ubicacion</option>
+                  {% endif %}
               </select>
           </li>
-          <input name="parametro" id="parametro" class="form-control" type="text" placeholder="Buscar" aria-label="Search">
+            {% if parametro %}
+                <input name="parametro" id="parametro" class="form-control" type="text" placeholder={{ parametro }} aria-label="Search">
+            {% else %}
+                <input name="parametro" id="parametro" class="form-control" type="text" placeholder="Buscar" aria-label="Search">
+            {% endif %}
         <li class="nav-item">
            <a class="nav-link"><span>Disponible desde: </span></a>
         </li>
         <li>
-            <input class="form-control" name="fecha" id="fecha" value="" />
+            {% if desde %}
+                <input class="form-control" name="fecha" id="fecha" value={{ desde }} />
+            {% else %}
+                <input class="form-control" name="fecha" id="fecha" value="" />
+            {% endif %}
             <script>
                 $(document).ready(function() {
                     $('#fecha').datepicker({
@@ -50,7 +62,11 @@
            <a class="nav-link"><span>Hasta: </span></a>
         </li>
         <li>
-            <input class="form-control" name="hasta" id="hasta" value="" />
+            {% if hasta %}
+                <input class="form-control" name="hasta" id="hasta" value={{ hasta }} />
+            {% else %}
+                <input class="form-control" name="hasta" id="hasta" value="" />
+            {% endif %}
             <script>
                 $(document).ready(function() {
                     $('#hasta').datepicker({
@@ -70,7 +86,11 @@
            <a class="nav-link"><span>En subasta?</span></a>
           </li>
           <li class="nav-item active">
-            <a  class="nav-link"><input name="enSubasta" id="enSubasta" type="checkbox"/></a>
+              {% if subastaOn == 'on' %}
+                  <a  class="nav-link"><input name="enSubasta" id="enSubasta" type="checkbox" checked/></a>
+              {% else %}
+                  <a  class="nav-link"><input name="enSubasta" id="enSubasta" type="checkbox"/></a>
+              {% endif %}
           </li>
         <li class="nav-item active">
             <button class="boton-puja" id="search_submit" type="submit">Buscar</button>
