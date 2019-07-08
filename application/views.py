@@ -310,6 +310,16 @@ def detalle_usuario (request, pk):
     aux= vencimiento_cred.year + 1 + (date.today().year - usuario.date_joined.year)
     aux= vencimiento_cred.replace(year = aux)
     fecha= date.today()
+    if request.method == "POST":
+        if 'btnHacerPremium' in request.POST:
+            usuario.type = "premium"
+            usuario.save()
+            messages.success(request, "El usuario es ahora premium")
+        elif 'btnHacerComun' in request.POST:
+            usuario.type = "comun"
+            usuario.save()
+            messages.success(request, "El usuario es ahora común")
+
     return (render(request, "detalle_usuario.html", {"usuario": usuario, "alquileres": alquileres, "marca": marca_tarjeta, "vencimiento_creditos":aux, "fecha":fecha}))
 
 

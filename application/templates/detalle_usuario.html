@@ -63,6 +63,22 @@
                         </div>
                     {% endif %}
                     {% endif %}
+                    {% if request.user.type == "admin" and usuario.type == 'comun' %}
+                    <form method="post">
+                    {% csrf_token %}
+                    <button type='submit' class="boton-detalle" name="btnHacerPremium" onclick="return confirm('Está seguro que desea cambiar el tipo de subscripcion de este usuario?')">Hacer premium</button>
+
+                    </form>
+                    {% endif %}
+
+                    {% if request.user.type == "admin" and usuario.type == 'premium' %}
+                    <form method="post">
+                    {% csrf_token %}
+                    <button type='submit' class="boton-detalle" name="btnHacerComun" onclick="return confirm('Está seguro que desea cambiar el tipo de subscripcion de este usuario?')">Hacer comun</button>
+
+                    </form>
+                    {% endif %}
+
                 </div>
                 </div>
             </div>
