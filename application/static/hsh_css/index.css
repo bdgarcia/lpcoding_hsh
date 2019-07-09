@@ -38,6 +38,12 @@
     right: 2%;
     bottom: 6%;
 }
+
+.hotsale-container {
+    position: absolute;
+    right: -10px;
+    top: 2%;
+}
 .boton-detalle {
     padding-right: 5px;
     background-color: dodgerblue;
