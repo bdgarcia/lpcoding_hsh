@@ -52,8 +52,8 @@
                     $('#fecha').datepicker({
                         uiLibrary: 'bootstrap4',
                         format: 'yyyy-mm-dd',
-                        startDate: '0',
                         autoclose: true,
+                        startDate: "{{ comienzo_busqueda }}",
                     }).on('changeDate', function (selected) {
                         var minDate = new Date(selected.date.valueOf());
                         $('#hasta').datepicker('setStartDate', minDate);
@@ -76,7 +76,7 @@
                         uiLibrary: 'bootstrap4',
                         format: 'yyyy-mm-dd',
                         autoclose: true,
-                        startDate: '0',
+                        startDate: "{{ comienzo_busqueda }}",
                         useCurrent: false
                     }).on('changeDate', function (selected) {
                         var minDate = new Date(selected.date.valueOf());
@@ -102,33 +102,6 @@
     </form>
 </nav>
 <!--/.Navbar-->
-<div class="container container-catalogo">
-{% if hotsale %}
-    <div class=row>
-        <div class="col-md-12">
-            <div class="alert alert-info">
-                Hay hotsales en este momento! hace <a href="{% url 'catalogo_hotsales' %}" class="alert-link">click acá</a> para ver las mejores ofertas!.
-            </div>
-        </div>
-    </div>
-{% endif %}
-    <div class=row>
-        {% if messages %}
-            {% for message in messages %}
-                <div class="col-md-12">
-                    {% if message.tags == "success" %} 
-                        <!--No muestra los mensajes de error con el alert de tipo success. Hacer un else que muestre los de error.-->
-                        <div class="alert alert-dismissable alert-success">   
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                ×
-                            </button>
-                            <strong>{{ message }}</strong>
-                        </div>
-                    {% endif %}
-                </div>
-            {% endfor %}
-        {% endif %}
-    </div>
 
 {% for residencia in residencias %}
     <div class="container-cards">
