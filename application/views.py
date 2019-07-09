@@ -473,8 +473,11 @@ def listado_subastas (request):
     return render (request, "subastas.html", {"subastas": subastas})
 
 def listado_hotsales(request):
-    hotsales=HotSale.objects.all()
-    return render (request, "listado_hotsales.html", {"hotsales": hotsales})
+    if (not request.user.is_authenticated) or request.user.type != "admin":
+        return redirect("/")
+    else:
+        hotsales=HotSale.objects.all()
+        return render (request, "listado_hotsales.html", {"hotsales": hotsales})
 
 def run_cerrar_subastas (request):
     from django.http import HttpResponseRedirect
