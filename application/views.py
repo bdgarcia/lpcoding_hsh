@@ -472,6 +472,10 @@ def listado_subastas (request):
     subastas = Subasta.objects.all()
     return render (request, "subastas.html", {"subastas": subastas})
 
+def listado_hotsales(request):
+    hotsales=HotSale.objects.all()
+    return render (request, "listado_hotsales.html", {"hotsales": hotsales})
+
 def run_cerrar_subastas (request):
     from django.http import HttpResponseRedirect
     from django.urls import reverse

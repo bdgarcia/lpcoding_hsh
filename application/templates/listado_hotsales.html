@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'hsh_css/index.css' %}"/>
+<style type="text/css">
+.spacing {
+    margin-top: 50px
+}
+</style>
+<div class="container-fluid spacing">
+	<div class="row">
+		<div class="col-md-12">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>
+							Codigo de propiedad
+						</th>
+						<th>
+							Nombre
+						</th>
+						<th>
+                            Precio
+                        </th>
+                        <th>
+                            Fecha
+                        </th>
+                        <th>
+                        </th>
+					</tr>
+				</thead>
+				<tbody>
+                {% for hotsale in hotsales %}
+					<tr>
+						<td>
+							{{ hotsale.codigo_residencia.codigo }}
+						</td>
+						<td>
+                            <a href="{% url 'detalle_residencia' cod=hotsale.codigo_residencia.pk %}">
+                                <b>{{ hotsale.codigo_residencia.nombre }}</b>
+                            </a>
+                        </td>
+                        <td>
+                            {{ hotsale.precio }}
+                        </td>
+                        <td>
+                            {{ hotsale.fecha }}
+                        </td>
+                        <td>
+                            <!--<form action="cerrar_subasta/" method="post">
+                                
+                                {% csrf_token %}
+                                <button type="submit" id="cerrarSubasta" class="boton-detalle-tabla">Cancelar subasta</button>-->
+                            <button class="boton-detalle-tabla">Cancelar Hotsale</button>
+                            </form>
+						</td>
+					</tr>
+                {% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+{% endblock %}
