@@ -48,9 +48,9 @@
                         {% if request.user == usuario or request.user.type == 'admin' %}
                             <b class="texto_detalle"> Fecha de Nacimiento: </b> {{ usuario.fecha_nacimiento }}<br>
                             {% if usuario.type != 'admin' %}
-                                <b class="texto_detalle"> Número tarjeta de crédito: </b> {{ usuario.numero_tarjeta }}<br>
-                                <b class="texto_detalle"> Marca de tarjeta de crédito: </b> {{ marca }}<br>
                                 {% if request.user == usuario %}
+                                    <b class="texto_detalle"> Número tarjeta de crédito: </b> {{ usuario.numero_tarjeta }}<br>
+                                    <b class="texto_detalle"> Marca de tarjeta de crédito: </b> {{ marca }}<br>
                                     <b class="texto_detalle"> Fecha de vencimiento de tarjeta de crédito: </b> {{ usuario.vencimiento_tarjeta }}<br>
                                     <b class="texto_detalle"> Código de tarjeta de crédito: </b> {{ usuario.codigo_tarjeta }}<br>
                                 {% endif %}
