@@ -127,4 +127,38 @@ class UsuarioFormContraseña(forms.ModelForm):
             raise forms.ValidationError("Las contraseñas no coinciden.")
 
 
-   
+class AdminForm(forms.ModelForm):
+    confirm_password = forms.CharField(widget=forms.PasswordInput() ,label="Repita la contraseña")
+    class Meta:
+        model=Usuario
+        fields=('email', 'nombre', 'apellido', 'fecha_nacimiento', 'password')
+        labels= {
+            "fecha_nacimiento": "Fecha de nacimiento",
+        }
+        widgets={
+            "password": forms.PasswordInput(),
+            "fecha_nacimiento":forms.SelectDateWidget(years=range(date.today().year, 1920, -1))
+        }
+        error_messages = {
+            'email': {
+                'unique': "Ya existe un usuario con este email."
+            }
+        }
+    def clean(self):
+        cleaned_data = super(AdminForm, self).clean()
+        contraseña= cleaned_data["password"]
+        confirmacion= cleaned_data["confirm_password"]
+        if contraseña!=confirmacion:
+            raise forms.ValidationError("Las contraseñas no coinciden.")
+
+
+    def clean_fecha_nacimiento(self): 
+        fecha_n= self.cleaned_data["fecha_nacimiento"]
+        today=date.today()
+        age = today.year - fecha_n.year - ((today.month, today.day) < (fecha_n.month, fecha_n.day))
+        if (age<18):
+            raise forms.ValidationError("Debe ser mayor de 18 años.")
+        return fecha_n
+    
+    def super_clean(self):
+        super().clean()

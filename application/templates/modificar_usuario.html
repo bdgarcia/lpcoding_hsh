@@ -115,8 +115,9 @@
 
                     <button type='submit' class="container-widget submitButton" name="btnModificar" onclick="return confirm('¿Desea guardar los cambios realizados?')">Guardar cambios</button>
                     <button type='submit' class="container-widget submitButton" name="btnDescartar" onclick="return confirm('¿Desea descartar los cambios realizados?')">Descartar cambios</button>
-                    <button type='submit' class="container-widget btn-danger btn " name="btnEliminarCuenta" onclick="return confirm('¿Está segure que desea eliminar su cuenta?')">Eliminar cuenta</button>
-
+                    {% if request.user.pk == usuario.pk %}
+                        <button type='submit' class="container-widget submitButton" style="background-color:#dc3545" name="btnEliminarCuenta" onclick="return confirm('¿Está segure que desea eliminar su cuenta?')">Eliminar cuenta</button>
+                    {% endif %}
             </form>
         </div>
 {% endif %}

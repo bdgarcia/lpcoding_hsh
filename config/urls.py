@@ -27,6 +27,7 @@ urlpatterns = [
     path("usuario/<int:pk>", application.views.detalle_usuario, name="detalle_usuario"),
     path("administracion/configuracion/", application.views.configurar_tarifas, name="configurar_tarifas"),
     path("usuario/crear", application.views.alta_usuario, name="alta_usuario"),
+    path("usuario/crearAdmin", application.views.alta_admin, name="alta_admin"),
     path("test/", application.views.test, name="test"),
     path("admin/", admin.site.urls),
     path("auth/", include('django.contrib.auth.urls')),

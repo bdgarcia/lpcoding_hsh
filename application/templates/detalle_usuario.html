@@ -61,30 +61,42 @@
                         <b class="texto_detalle"> Tipo de Usuario:</b> {{ usuario.type}}
                     </p>
                 <div class="button-container">
-                    {% if request.user == usuario or request.user.type == "admin" %}
-                        <div>
-                        <a href="/editar_usuario/{{ usuario.pk }}" role="button"><button class="boton-detalle">Editar datos</button></a>
-                        </div>
-                    {% if request.user == usuario %}
-                        <div>
-                        <a href="/cambiar_contraseña/{{ usuario.pk }}" role="button"><button class="boton-detalle">Cambiar contraseña</button></a>
-                        </div>
-                    {% endif %}
-                    {% endif %}
-                    {% if request.user.type == "admin" and usuario.type == 'comun' %}
-                    <form method="post">
-                    {% csrf_token %}
-                    <button type='submit' class="boton-detalle" name="btnHacerPremium" onclick="return confirm('Está seguro que desea cambiar el tipo de subscripcion de este usuario?')">Hacer premium</button>
+                    {% if usuario.is_active %}
+                        {% if request.user == usuario or request.user.type == "admin" %}
+                            <div>
+                            <a href="/editar_usuario/{{ usuario.pk }}" role="button"><button class="boton-detalle">Editar datos</button></a>
+                            </div>
+                        {% if request.user == usuario %}
+                            <div>
+                            <a href="/cambiar_contraseña/{{ usuario.pk }}" role="button"><button class="boton-detalle" >Cambiar contraseña</button></a>
+                            </div>
+                        {% endif %}
+                        {% endif %}
+                    
+                        {% if request.user.type == "admin" and usuario.type == 'comun' %}
+                        <form method="post">
+                        {% csrf_token %}
+                        <button type='submit' class="boton-detalle" name="btnHacerPremium" onclick="return confirm('Está seguro que desea cambiar el tipo de subscripcion de este usuario?')">Hacer premium</button>
 
-                    </form>
-                    {% endif %}
+                        </form>
+                        {% endif %}
 
-                    {% if request.user.type == "admin" and usuario.type == 'premium' %}
-                    <form method="post">
-                    {% csrf_token %}
-                    <button type='submit' class="boton-detalle" name="btnHacerComun" onclick="return confirm('Está seguro que desea cambiar el tipo de subscripcion de este usuario?')">Hacer comun</button>
+                        {% if request.user.type == "admin" and usuario.type == 'premium' %}
+                        <form method="post">
+                        {% csrf_token %}
+                        <button type='submit' class="boton-detalle" name="btnHacerComun" onclick="return confirm('Está seguro que desea cambiar el tipo de subscripcion de este usuario?')">Hacer comun</button>
 
-                    </form>
+                        </form>
+                        {% endif %}
+
+                        {% if request.user.type == "admin" and usuario.type == 'admin' and request.user.pk != usuario.pk %}
+                        <form method="post">
+                        {% csrf_token %}
+                        <button type='submit' class="boton-detalle btn btn-danger" name="btnBajaAdmin" style="background-color:#dc3545" onclick="return confirm('¿Estás seguro que deseas dar de baja este usuario?')">Dar de baja</button>
+
+                        </form>
+                        {% endif %}
+
                     {% endif %}
 
                 </div>

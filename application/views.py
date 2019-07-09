@@ -12,9 +12,11 @@ from modelos.models import Variables_sistema
 from django.contrib.auth import login
 from django.contrib.auth import logout
 from creditcards import types
+from django.http import HttpResponseRedirect
+
 
 from django.contrib.auth import update_session_auth_hash
-from .forms import ResidenciaForm, UsuarioForm, Variables_sistemaForm, UsuarioFormOtro, UsuarioFormContraseña
+from .forms import ResidenciaForm, UsuarioForm, Variables_sistemaForm, UsuarioFormOtro, UsuarioFormContraseña, AdminForm
 from datetime import date, timedelta, datetime, time
 # Create your views here.
 
@@ -158,6 +160,24 @@ def alta_usuario(request):
             else:
                     form=UsuarioForm
             return (render(request, "alta_usuario.html", {"form":form, "subscripcion": subscripcion}))
+
+
+def alta_admin(request):
+    if request.user.is_authenticated and request.user.type == "admin":
+        if request.method=="POST":
+            form=AdminForm(request.POST, request.FILES)
+            if form.is_valid():
+                usuario=form.save(commit=False)
+                usuario.username=usuario.email
+                usuario.type="admin"
+                usuario.set_password(usuario.password)
+                usuario.save()
+                messages.success(request, 'El usuario fue creado correctamente')
+                return redirect("/usuario/"+str(usuario.pk))
+        else:
+                form=AdminForm
+        return (render(request, "alta_admin.html", {"form":form}))
+    return redirect("/")
 
 
 
@@ -320,6 +340,12 @@ def detalle_usuario (request, pk):
             usuario.type = "comun"
             usuario.save()
             messages.success(request, "El usuario es ahora común")
+        elif 'btnBajaAdmin' in request.POST:
+            usuario.is_active = False
+            usuario.save()
+            messages.success(request, "El usuario " + usuario.nombre + " " + usuario.apellido + " ha sido eliminado")
+            return redirect("/administracion/")
+
 
     return (render(request, "detalle_usuario.html", {"usuario": usuario, "alquileres": alquileres, "marca": marca_tarjeta, "vencimiento_creditos":aux, "fecha":fecha}))
 
