@@ -48,6 +48,16 @@ def allmondays(fecha, hasta):
 
 
 def index(request):
+    allHotsales = HotSale.objects.filter()
+    hotsale_list = []
+    hotsale_aux = []
+    hotsale_dates = []
+    for hotsale in allHotsales:
+        if hotsale.codigo_residencia not in hotsale_list:
+            hotsale_list.append(hotsale.codigo_residencia)
+            hotsale_aux.append(hotsale.codigo_residencia.codigo)
+            hotsale_dates.append(hotsale.fecha)
+
     residencias = Residencia.objects.filter(borrado_logico=False)
     subastas = Subasta.objects.all()
     criteria = None
@@ -68,7 +78,7 @@ def index(request):
             residencias = residencias.filter(codigo__in=codigos_subasta)
 
         if request.GET.get('fecha') or request.GET.get('hasta'):
-
+            lunesEn6Meses = datetime.combine(calcularFecha(), time())
             if request.GET.get('fecha'):
                 fecha_desde = request.GET.get('fecha')
             else:
@@ -77,17 +87,47 @@ def index(request):
             if request.GET.get('hasta'):
                 fecha_hasta = request.GET.get('hasta')
             else:
-                fecha_hasta = calcularFecha()
+                fecha_hasta = lunesEn6Meses
 
-            todosLosLunes = allmondays(fecha_desde, fecha_hasta)
+            if type(fecha_desde) == str:
+                desde = datetime.strptime(fecha_desde, '%Y-%m-%d')
+            else:
+                desde = fecha_desde
+
+            if type(fecha_hasta) == str:
+                hasta = datetime.strptime(fecha_hasta, '%Y-%m-%d')
+            else:
+                hasta = fecha_hasta
+
+            if desde < lunesEn6Meses:
+                fecha_busqueda_normal = lunesEn6Meses
+            else:
+                fecha_busqueda_normal = desde
+
             resultado = []
-            for residencia in residencias:
-                for unLunes in todosLosLunes:
-                    alquileres = Alquila.objects.filter(codigo_residencia=residencia)
-                    isRented = alquileres.filter(fecha=unLunes)
-                    if (not isRented.exists()):
-                        if residencia not in resultado:
-                            resultado.append(residencia)
+            if fecha_busqueda_normal < hasta:
+                todosLosLunes = allmondays(fecha_busqueda_normal, hasta)
+                for residencia in residencias:
+                    for unLunes in todosLosLunes:
+                        alquileres = Alquila.objects.filter(codigo_residencia=residencia)
+                        isRented = alquileres.filter(fecha=unLunes)
+                        if (not isRented.exists()):
+                            if residencia not in resultado:
+                                resultado.append(residencia)
+
+            if desde < lunesEn6Meses:
+                fecha_busqueda_hotsale = desde
+            else:
+                fecha_busqueda_hotsale = lunesEn6Meses
+
+            if fecha_busqueda_hotsale < datetime.combine(calcularFecha(), time()):
+                todosLosLunes = allmondays(fecha_busqueda_hotsale, hasta)
+                for hotsale in allHotsales:
+                    for unLunes in todosLosLunes:
+                        if unLunes in hotsale_dates:
+                            if hotsale.codigo_residencia not in resultado:
+                                resultado.append(hotsale.codigo_residencia)
+
             residencias = resultado
 
     primer_lunes = calcularFecha()
@@ -105,7 +145,133 @@ def index(request):
     if request.GET.get('enSubasta'):
         subastaOn = 'on'
 
-    return render(request, "index.html", {"residencias": residencias, "subastas": subastas, "comienzo_busqueda": fecha_busqueda , "criteria": criteria, "parametro": parametro, "desde": fecha_desde, "hasta": fecha_hasta, "subastaOn": subastaOn})
+    hotsale = None
+    if allHotsales:
+        hotsale = 'true'
+
+    hotsale_list = []
+    for hotsale in allHotsales:
+        if hotsale.codigo_residencia not in hotsale_list:
+            hotsale_list.append(hotsale.codigo_residencia)
+
+    return render(request, "index.html", {"residencias": residencias, "subastas": subastas, "comienzo_busqueda": fecha_busqueda , "criteria": criteria, "parametro": parametro, "desde": fecha_desde, "hasta": fecha_hasta, "subastaOn": subastaOn, "hotsale": hotsale, "hotsales": allHotsales, "hotsale_list": hotsale_list})
+
+def catalogo_hotsales(request):
+    subastas = Subasta.objects.all()
+    allHotsales = HotSale.objects.filter()
+    hotsale_list = []
+    hotsale_aux = []
+    hotsale_dates = []
+    for hotsale in allHotsales:
+        if hotsale.codigo_residencia not in hotsale_list:
+            hotsale_list.append(hotsale.codigo_residencia)
+            hotsale_aux.append(hotsale.codigo_residencia.codigo)
+            hotsale_dates.append(hotsale.fecha)
+
+    hotsale_list = []
+    hotsale_aux = []
+    for hotsale in allHotsales:
+        if hotsale.codigo_residencia not in hotsale_list:
+            hotsale_list.append(hotsale.codigo_residencia)
+            hotsale_aux.append(hotsale.codigo_residencia.codigo)
+
+    residencias = Residencia.objects.filter(borrado_logico=False, codigo__in=hotsale_aux)
+    criteria = None
+    parametro = None
+    if request.method == 'GET': # If the form is submitted
+        if request.GET.get('parametro'):
+            criteria = request.GET.get('criteria')
+            parametro = request.GET.get('parametro')
+            if criteria == "nombre":
+                residencias = residencias.filter(nombre__icontains=parametro)
+            if criteria == "ubicacion":
+                residencias = residencias.filter(ubicacion__icontains=parametro)
+
+        if request.GET.get('enSubasta'):
+            codigos_subasta = []
+            for subasta in subastas:
+                codigos_subasta.append(subasta.codigo_residencia.codigo)
+            residencias = residencias.filter(codigo__in=codigos_subasta)
+
+        if request.GET.get('fecha') or request.GET.get('hasta'):
+            lunesEn6Meses = datetime.combine(calcularFecha(), time())
+            if request.GET.get('fecha'):
+                fecha_desde = request.GET.get('fecha')
+            else:
+                fecha_desde = date.today()
+
+            if request.GET.get('hasta'):
+                fecha_hasta = request.GET.get('hasta')
+            else:
+                fecha_hasta = lunesEn6Meses
+
+            if type(fecha_desde) == str:
+                desde = datetime.strptime(fecha_desde, '%Y-%m-%d')
+            else:
+                desde = fecha_desde
+
+            if type(fecha_hasta) == str:
+                hasta = datetime.strptime(fecha_hasta, '%Y-%m-%d')
+            else:
+                hasta = fecha_hasta
+
+            if desde < lunesEn6Meses:
+                fecha_busqueda_normal = lunesEn6Meses
+            else:
+                fecha_busqueda_normal = desde
+
+            resultado = []
+            if fecha_busqueda_normal < hasta:
+                todosLosLunes = allmondays(fecha_busqueda_normal, hasta)
+                for residencia in residencias:
+                    for unLunes in todosLosLunes:
+                        alquileres = Alquila.objects.filter(codigo_residencia=residencia)
+                        isRented = alquileres.filter(fecha=unLunes)
+                        if (not isRented.exists()):
+                            if residencia not in resultado:
+                                resultado.append(residencia)
+
+            if desde < lunesEn6Meses:
+                fecha_busqueda_hotsale = desde
+            else:
+                fecha_busqueda_hotsale = lunesEn6Meses
+
+            if fecha_busqueda_hotsale < datetime.combine(calcularFecha(), time()):
+                todosLosLunes = allmondays(fecha_busqueda_hotsale, hasta)
+                for hotsale in allHotsales:
+                    for unLunes in todosLosLunes:
+                        if unLunes in hotsale_dates:
+                            if hotsale.codigo_residencia not in resultado:
+                                resultado.append(hotsale.codigo_residencia)
+
+            residencias = resultado
+
+    primer_lunes = calcularFecha()
+    fecha_busqueda = primer_lunes.strftime('%Y-%m-%d')
+    if request.GET.get('fecha'):
+        fecha_desde = request.GET.get('fecha')
+    else:
+        fecha_desde = None
+
+    if request.GET.get('hasta'):
+        fecha_hasta = request.GET.get('hasta')
+    else:
+        fecha_hasta = None
+    subastaOn = None
+    if request.GET.get('enSubasta'):
+        subastaOn = 'on'
+
+    hotsale = None
+    if allHotsales:
+        hotsale = 'true'
+
+    hotsale_list = []
+    for hotsale in allHotsales:
+        if hotsale.codigo_residencia not in hotsale_list:
+            hotsale_list.append(hotsale.codigo_residencia)
+
+    return render(request, "index.html", {"residencias": residencias, "subastas": subastas, "comienzo_busqueda": fecha_busqueda , "criteria": criteria, "parametro": parametro, "desde": fecha_desde, "hasta": fecha_hasta, "subastaOn": subastaOn, "hotsale": hotsale, "hotsales": allHotsales, "hotsale_list": hotsale_list})
+
 
 # Create your views here.
 def test(request):
