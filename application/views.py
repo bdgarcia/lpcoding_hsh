@@ -10,6 +10,7 @@ from modelos.models import Alquila
 from modelos.models import HotSale
 from modelos.models import Variables_sistema
 from django.contrib.auth import login
+from django.contrib.auth import logout
 from creditcards import types
 
 from django.contrib.auth import update_session_auth_hash
@@ -378,6 +379,18 @@ def editar_usuario(request, pk):
                     return redirect("/usuario/"+str(pk))
                 else:
                     return (render (request, "modificar_usuario.html", {"form": form,  "usuario": usuario}))
+            elif 'btnEliminarCuenta' in request.POST:
+                if  Alquila.objects.all().filter(email_usuario = usuario.pk):
+                
+                    messages.error(request, "Su cuenta no puede ser eliminada porque posee alquileres pendientes")
+                    return redirect("/usuario/"+str(pk))
+                else:
+                    usuario.is_active = False
+                    usuario.save()
+                    logout(request)
+                    messages.success(request, "Su cuenta ha sido eliminada")
+
+
         else:
             form = UsuarioFormOtro(instance=usuario)
             return (render (request, "modificar_usuario.html", {"form": form,  "usuario": usuario}))
