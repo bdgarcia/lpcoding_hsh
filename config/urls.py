@@ -8,7 +8,6 @@ import application.views
 
 from django.contrib.auth import views as auth_views
 
-from application.forms import MySetPasswordForm
 
 
 
@@ -51,7 +50,7 @@ urlpatterns = [
     # path("auth/", include('django.contrib.auth.urls')),
     # path('auth/password_reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='password_reset_done.html'), name = "password_reset_done"),
     # path('password_reset/', auth_views.PasswordResetView.as_view(template_name='password_reset_form.html'),),
-    path('auth/reset/<str:uidb64>/<str:token>/', auth_views.PasswordResetConfirmView.as_view(name='password_reset_confirm'),),
+    # path('auth/reset/<str:uidb64>/<str:token>/', auth_views.PasswordResetConfirmView.as_view(),),
     # path('auth/reset/<str:uidb64>/<str:token>/', application.views.update_password, name='password_reset_confirm'),
 
     

@@ -708,21 +708,3 @@ def faq_premium(request):
     finally:
         return render(request, "faq_premium.html", {'subscripcion':subscripcion})
 
-
-def update_password(request, uid, token):
-    user = validate_signed_token(uid, token)
-    if not user:
-        return HttpResponseForbidden()  # Just straight up forbid this request, looking fishy already!
-    if request.method == 'POST':
-        form = SetPasswordForm(user, data=request.POST)
-        if form.is_valid():
-            form.save()
-            Token.objects.filter(user_id__exact=user.pk).delete()
-            return redirect(reverse('mhacks-login') + '?username=' + user.email)
-    elif request.method == 'GET':
-        form = SetPasswordForm(user)
-    else:
-        return HttpResponseNotAllowed(permitted_methods=['GET', 'POST'])
-    form.fields['new_password2'].label = 'Confirm New Password'
-    form.fields['new_password2'].longest = True
-    return render(request, 'password_reset.html', {'form': form, 'type': 'reset', 'uid': uid, 'token': token}) 
