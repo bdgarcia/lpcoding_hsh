@@ -3,6 +3,8 @@ from modelos.models import Residencia, Usuario, Variables_sistema
 from django.core.exceptions import NON_FIELD_ERRORS
 from datetime import date, timedelta
 from django.contrib import messages
+from django.contrib.auth.forms import (PasswordResetForm, SetPasswordForm)
+
 
 
 class ResidenciaForm(forms.ModelForm):
@@ -162,3 +164,4 @@ class AdminForm(forms.ModelForm):
     
     def super_clean(self):
         super().clean()
+

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "application",
     "modelos",
+
 ]
 
 MIDDLEWARE = [
@@ -70,6 +71,10 @@ TEMPLATES = [
         },
     }
 ]
+
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR, 'application/templates/'),
+)
 
 WSGI_APPLICATION = "config.wsgi.application"
 
@@ -128,3 +133,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'application', 'static', 'media')
 MEDIA_URL = '/media/'
 
 django_heroku.settings(locals())
+
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'homeswitchhomeingsoft@gmail.com'
+EMAIL_HOST_PASSWORD = 'michimichi123'
+
