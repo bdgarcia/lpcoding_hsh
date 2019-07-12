@@ -463,6 +463,13 @@ def confirmar_cancelacion_alquiler(request, pk):
         return redirect("/")
     return (render(request, 'confirmar_cancelacion_alquiler.html', {'alquiler':alquiler, "fecha": fecha}))
 
+def cancelar_hotsale(request):
+    if request.method=="POST":
+        hotsale=HotSale.objects.get(pk=request.POST.get('codigo'))
+        hotsale.delete()
+        messages.success(request, "HotSale cancelado con exito.")
+        return redirect(request.POST.get("path"))
+
 def confirmar_hotsale(request):
     if request.method == "POST":
         residencia = Residencia.objects.get(codigo=request.POST.get('codigo'))

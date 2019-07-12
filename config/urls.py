@@ -43,5 +43,6 @@ urlpatterns = [
     path("administracion/hotsales", application.views.listado_hotsales, name="listado_hotsales"),
     path("hotsale/catalogo/", application.views.catalogo_hotsales, name="catalogo_hotsales"),
     path("residencia/<int:pk>/crear_hotsale", application.views.crear_hotsale, name="crear_hotsale"),
+    path("hotsale/cancelar/", application.views.cancelar_hotsale, name="cancelar_hotsale")
 ]
 
