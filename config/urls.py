@@ -40,7 +40,8 @@ urlpatterns = [
     path("hotsale/alquilar/", application.views.alquilar_hotsale, name="alquilar_hotsale"),
     path("residencia/hotsale/confirmar/", application.views.confirmar_hotsale, name="confirmar_hotsale"),
     path("residencia/alquiler/<int:pk>/cancelar/", application.views.confirmar_cancelacion_alquiler, name="confirmar_cancelacion_alquiler"),
-    path("administracion/hotsales", application.views.listado_hotsales, name="listado_hotsales")
+    path("administracion/hotsales", application.views.listado_hotsales, name="listado_hotsales"),
     path("hotsale/catalogo/", application.views.catalogo_hotsales, name="catalogo_hotsales"),
+    path("residencia/<int:pk>/crear_hotsale", application.views.crear_hotsale, name="crear_hotsale"),
 ]
 

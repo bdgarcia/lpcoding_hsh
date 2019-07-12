@@ -166,7 +166,8 @@
                 {% if user.is_authenticated %}
                     {% if user.type == "admin" %}
                         <div id="detalleResidencia">
-                            <a href="{% url 'mod_residencia' pk=residencia.pk %}"> <button class="boton-detalle"> Editar Residencia </button> </a>
+                            <a href="{% url 'mod_residencia' pk=residencia.pk %}"> <button class="boton-detalle"> Editar Residencia </button> </a><br>
+                            <a href="{% url 'crear_hotsale' pk=residencia.pk %}" > <button class="boton-detalle"> Crear HotSale </button> </a>  
                         </div>
                     {% endif %}
                 {% endif %}
