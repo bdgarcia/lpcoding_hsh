@@ -10,10 +10,13 @@ from modelos.models import Alquila
 from modelos.models import HotSale
 from modelos.models import Variables_sistema
 from django.contrib.auth import login
+from django.contrib.auth import logout
 from creditcards import types
+from django.http import HttpResponseRedirect
+
 
 from django.contrib.auth import update_session_auth_hash
-from .forms import ResidenciaForm, UsuarioForm, Variables_sistemaForm, UsuarioFormOtro, UsuarioFormContraseña
+from .forms import ResidenciaForm, UsuarioForm, Variables_sistemaForm, UsuarioFormOtro, UsuarioFormContraseña, AdminForm
 from datetime import date, timedelta, datetime, time
 # Create your views here.
 
@@ -325,6 +328,24 @@ def alta_usuario(request):
             return (render(request, "alta_usuario.html", {"form":form, "subscripcion": subscripcion}))
 
 
+def alta_admin(request):
+    if request.user.is_authenticated and request.user.type == "admin":
+        if request.method=="POST":
+            form=AdminForm(request.POST, request.FILES)
+            if form.is_valid():
+                usuario=form.save(commit=False)
+                usuario.username=usuario.email
+                usuario.type="admin"
+                usuario.set_password(usuario.password)
+                usuario.save()
+                messages.success(request, 'El usuario fue creado correctamente')
+                return redirect("/usuario/"+str(usuario.pk))
+        else:
+                form=AdminForm
+        return (render(request, "alta_admin.html", {"form":form}))
+    return redirect("/")
+
+
 
 
 # Formulario modificacion/baja de residencia
@@ -476,6 +497,22 @@ def detalle_usuario (request, pk):
     aux= vencimiento_cred.year + 1 + (date.today().year - usuario.date_joined.year)
     aux= vencimiento_cred.replace(year = aux)
     fecha= date.today()
+    if request.method == "POST":
+        if 'btnHacerPremium' in request.POST:
+            usuario.type = "premium"
+            usuario.save()
+            messages.success(request, "El usuario es ahora premium")
+        elif 'btnHacerComun' in request.POST:
+            usuario.type = "comun"
+            usuario.save()
+            messages.success(request, "El usuario es ahora común")
+        elif 'btnBajaAdmin' in request.POST:
+            usuario.is_active = False
+            usuario.save()
+            messages.success(request, "El usuario " + usuario.nombre + " " + usuario.apellido + " ha sido eliminado")
+            return redirect("/administracion/")
+
+
     return (render(request, "detalle_usuario.html", {"usuario": usuario, "alquileres": alquileres, "marca": marca_tarjeta, "vencimiento_creditos":aux, "fecha":fecha}))
 
 
@@ -534,6 +571,18 @@ def editar_usuario(request, pk):
                     return redirect("/usuario/"+str(pk))
                 else:
                     return (render (request, "modificar_usuario.html", {"form": form,  "usuario": usuario}))
+            elif 'btnEliminarCuenta' in request.POST:
+                if  Alquila.objects.all().filter(email_usuario = usuario.pk):
+                
+                    messages.error(request, "Su cuenta no puede ser eliminada porque posee alquileres pendientes")
+                    return redirect("/usuario/"+str(pk))
+                else:
+                    usuario.is_active = False
+                    usuario.save()
+                    logout(request)
+                    messages.success(request, "Su cuenta ha sido eliminada")
+
+
         else:
             form = UsuarioFormOtro(instance=usuario)
             return (render (request, "modificar_usuario.html", {"form": form,  "usuario": usuario}))
@@ -665,3 +714,4 @@ def faq_premium(request):
         subscripcion = 0
     finally:
         return render(request, "faq_premium.html", {'subscripcion':subscripcion})
+

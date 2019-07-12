@@ -6,6 +6,11 @@ admin.autodiscover()
 
 import application.views
 
+from django.contrib.auth import views as auth_views
+
+
+
+
 # To add a new path, first import the app:
 # import blog
 #
@@ -15,6 +20,7 @@ import application.views
 # Learn more here: https://docs.djangoproject.com/en/2.1/topics/http/urls/
 
 urlpatterns = [
+    path('accounts/', include('django.contrib.auth.urls')),
     path("", application.views.index, name="index"),
     path("detalle_residencia/<int:cod>", application.views.detalle_residencia, name= "detalle_residencia"),
     path("detalle_residencia/", application.views.detalle_residencia_solo, name= "detalle_residencia_solo"),
@@ -27,9 +33,9 @@ urlpatterns = [
     path("usuario/<int:pk>", application.views.detalle_usuario, name="detalle_usuario"),
     path("administracion/configuracion/", application.views.configurar_tarifas, name="configurar_tarifas"),
     path("usuario/crear", application.views.alta_usuario, name="alta_usuario"),
+    path("usuario/crearAdmin", application.views.alta_admin, name="alta_admin"),
     path("test/", application.views.test, name="test"),
     path("admin/", admin.site.urls),
-    path("auth/", include('django.contrib.auth.urls')),
 #    path("usuarios/", application.views.listado_usuarios, name="usuarios"),
     path("subastas/", application.views.listado_subastas, name="subastas"),
     path("subastas/cerrar_subasta/", application.views.run_cerrar_subastas, name="cerrar_subastas"),
@@ -42,5 +48,11 @@ urlpatterns = [
     path("residencia/alquiler/<int:pk>/cancelar/", application.views.confirmar_cancelacion_alquiler, name="confirmar_cancelacion_alquiler"),
     path("administracion/hotsales", application.views.listado_hotsales, name="listado_hotsales")
     path("hotsale/catalogo/", application.views.catalogo_hotsales, name="catalogo_hotsales"),
-]
+    # path("auth/", include('django.contrib.auth.urls')),
+    # path('auth/password_reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='password_reset_done.html'), name = "password_reset_done"),
+    # path('password_reset/', auth_views.PasswordResetView.as_view(template_name='password_reset_form.html'),),
+    # path('auth/reset/<str:uidb64>/<str:token>/', auth_views.PasswordResetConfirmView.as_view(),),
+    # path('auth/reset/<str:uidb64>/<str:token>/', application.views.update_password, name='password_reset_confirm'),
 
+    
+]
