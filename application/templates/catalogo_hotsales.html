@@ -34,7 +34,7 @@
               </select>
           </li>
             {% if parametro %}
-                <input name="parametro" id="parametro" class="form-control" type="text" placeholder={{ parametro }} aria-label="Search">
+                <input name="parametro" id="parametro" class="form-control" type="text" value={{ parametro }} aria-label="Search">
             {% else %}
                 <input name="parametro" id="parametro" class="form-control" type="text" placeholder="Buscar" aria-label="Search">
             {% endif %}
