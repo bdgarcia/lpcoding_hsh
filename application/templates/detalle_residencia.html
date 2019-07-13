@@ -219,7 +219,7 @@
                                 {% csrf_token %}
                                 <input type="hidden" name="codigo" value="{{ hotsale.pk }}">
                                 <input type="hidden" name="path" value="{{ request.path }}">
-                                <button type="submit" id="cancelar_hotsale" class="boton-detalle">Cancelar HotSale</button>
+                                <button type="submit" id="cancelar_hotsale" class="boton-detalle" onclick="return confirm('¿Cancelar HotSale?')">Cancelar HotSale</button>
                             </form>
                         </div>
                     {% endif %}
