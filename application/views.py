@@ -537,29 +537,30 @@ def get_CC_type(codigo):
 
 def detalle_usuario (request, pk):
     usuario= get_object_or_404(Usuario,pk=pk)
-    alquileres = Alquila.objects.filter(email_usuario = pk)
-    marca_tarjeta= get_CC_type(types.get_type(usuario.numero_tarjeta))
-    vencimiento_cred= usuario.date_joined.date()
-    aux= vencimiento_cred.year + 1 + (date.today().year - usuario.date_joined.year)
-    aux= vencimiento_cred.replace(year = aux)
-    fecha= date.today()
-    if request.method == "POST":
-        if 'btnHacerPremium' in request.POST:
-            usuario.type = "premium"
-            usuario.save()
-            messages.success(request, "El usuario es ahora premium")
-        elif 'btnHacerComun' in request.POST:
-            usuario.type = "comun"
-            usuario.save()
-            messages.success(request, "El usuario es ahora común")
-        elif 'btnBajaAdmin' in request.POST:
-            usuario.is_active = False
-            usuario.save()
-            messages.success(request, "El usuario " + usuario.nombre + " " + usuario.apellido + " ha sido eliminado")
-            return redirect("/administracion/")
-
-
-    return (render(request, "detalle_usuario.html", {"usuario": usuario, "alquileres": alquileres, "marca": marca_tarjeta, "vencimiento_creditos":aux, "fecha":fecha}))
+    if (not request.user.is_authenticated) or (request.user!=usuario and request.user.type!="admin"):
+        return redirect("/")
+    else:
+        alquileres = Alquila.objects.filter(email_usuario = pk)
+        marca_tarjeta= get_CC_type(types.get_type(usuario.numero_tarjeta))
+        vencimiento_cred= usuario.date_joined.date()
+        aux= vencimiento_cred.year + 1 + (date.today().year - usuario.date_joined.year)
+        aux= vencimiento_cred.replace(year = aux)
+        fecha= date.today()
+        if request.method == "POST":
+            if 'btnHacerPremium' in request.POST:
+                usuario.type = "premium"
+                usuario.save()
+                messages.success(request, "El usuario es ahora premium")
+            elif 'btnHacerComun' in request.POST:
+                usuario.type = "comun"
+                usuario.save()
+                messages.success(request, "El usuario es ahora común")
+            elif 'btnBajaAdmin' in request.POST:
+                usuario.is_active = False
+                usuario.save()
+                messages.success(request, "El usuario " + usuario.nombre + " " + usuario.apellido + " ha sido eliminado")
+                return redirect("/administracion/")
+        return (render(request, "detalle_usuario.html", {"usuario": usuario, "alquileres": alquileres, "marca": marca_tarjeta, "vencimiento_creditos":aux, "fecha":fecha}))
 
 
 
