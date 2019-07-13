@@ -619,8 +619,8 @@ def editar_usuario(request, pk):
                 else:
                     return (render (request, "modificar_usuario.html", {"form": form,  "usuario": usuario}))
             elif 'btnEliminarCuenta' in request.POST:
-                if  Alquila.objects.all().filter(email_usuario = usuario.pk):
-                
+                # if  Alquila.objects.all().filter(email_usuario = usuario.pk, cancelado= False, fecha ):
+                if  [i for i in Alquila.objects.all().filter(email_usuario = usuario.pk, cancelado = False) if i.fecha >= date.today()]:
                     messages.error(request, "Su cuenta no puede ser eliminada porque posee alquileres pendientes")
                     return redirect("/usuario/"+str(pk))
                 else:
