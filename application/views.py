@@ -356,6 +356,13 @@ def mod_residencia(request, pk):
                 form = ResidenciaForm(instance=residencia)
             return (render(request, 'alta_residencia.html', {'form': form, "subasta": subasta}))
 
+def agregarDias(listaSemanas, listaDias):
+    for semana in listaSemanas:
+        elLunes = semana.fecha
+        for x in range(0, 7):
+            dia = elLunes + timedelta(days=x)
+            listaDias.append(str(dia))
+
 def crear_hotsale(request, pk):
     if (not request.user.is_authenticated) or request.user.type != "admin":
         return redirect("/")
@@ -363,21 +370,15 @@ def crear_hotsale(request, pk):
         residencia=get_object_or_404(Residencia, pk=pk)
         lunesActual = (date.today() - timedelta(days=date.today().weekday()))
         fecha_inicial = (lunesActual + timedelta(7)).strftime('%Y-%m-%d')
-        fecha_final = calcularFecha()
+        fecha_final = calcularFecha() - timedelta(1)
         fecha_final = fecha_final.strftime('%Y-%m-%d')
         diasOcupados= []
         semanasAlquiladas=Alquila.objects.filter(codigo_residencia=residencia)
-        for semana in semanasAlquiladas:
-            elLunes = semana.fecha
-            for x in range(0, 7):
-                dia = elLunes + timedelta(days=x)
-                diasOcupados.append(str(dia))
+        #Rechaza los alquileres cancelados
+        semanasAlquiladas=filter(lambda x: x.cancelado==False, semanasAlquiladas)
+        agregarDias(semanasAlquiladas, diasOcupados)
         semanasHotSales=HotSale.objects.filter(codigo_residencia=residencia)
-        for semana in semanasHotSales:
-            elLunes = semana.fecha
-            for x in range(0, 7):
-                dia = elLunes + timedelta(days=x)
-                diasOcupados.append(str(dia))
+        agregarDias(semanasHotSales, diasOcupados)
     if request.method == "POST":
         monto = request.POST.get("monto")
         if monto == "" or int(monto) < 1:  
