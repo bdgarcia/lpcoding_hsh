@@ -46,13 +46,14 @@ urlpatterns = [
     path("hotsale/alquilar/", application.views.alquilar_hotsale, name="alquilar_hotsale"),
     path("residencia/hotsale/confirmar/", application.views.confirmar_hotsale, name="confirmar_hotsale"),
     path("residencia/alquiler/<int:pk>/cancelar/", application.views.confirmar_cancelacion_alquiler, name="confirmar_cancelacion_alquiler"),
-    path("administracion/hotsales", application.views.listado_hotsales, name="listado_hotsales")
+    path("administracion/hotsales", application.views.listado_hotsales, name="listado_hotsales"),
     path("hotsale/catalogo/", application.views.catalogo_hotsales, name="catalogo_hotsales"),
     # path("auth/", include('django.contrib.auth.urls')),
     # path('auth/password_reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='password_reset_done.html'), name = "password_reset_done"),
     # path('password_reset/', auth_views.PasswordResetView.as_view(template_name='password_reset_form.html'),),
     # path('auth/reset/<str:uidb64>/<str:token>/', auth_views.PasswordResetConfirmView.as_view(),),
     # path('auth/reset/<str:uidb64>/<str:token>/', application.views.update_password, name='password_reset_confirm'),
-
-    
+    path("residencia/<int:pk>/crear_hotsale", application.views.crear_hotsale, name="crear_hotsale"),
+    path("hotsale/cancelar/", application.views.cancelar_hotsale, name="cancelar_hotsale")
 ]
+

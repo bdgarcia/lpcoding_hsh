@@ -377,6 +377,45 @@ def mod_residencia(request, pk):
                 form = ResidenciaForm(instance=residencia)
             return (render(request, 'alta_residencia.html', {'form': form, "subasta": subasta}))
 
+def agregarDias(listaSemanas, listaDias):
+    for semana in listaSemanas:
+        elLunes = semana.fecha
+        for x in range(0, 7):
+            dia = elLunes + timedelta(days=x)
+            listaDias.append(str(dia))
+
+def crear_hotsale(request, pk):
+    if (not request.user.is_authenticated) or request.user.type != "admin":
+        return redirect("/")
+    else: 
+        residencia=get_object_or_404(Residencia, pk=pk)
+        lunesActual = (date.today() - timedelta(days=date.today().weekday()))
+        fecha_inicial = (lunesActual + timedelta(7)).strftime('%Y-%m-%d')
+        fecha_final = calcularFecha() - timedelta(1)
+        fecha_final = fecha_final.strftime('%Y-%m-%d')
+        diasOcupados= []
+        semanasAlquiladas=Alquila.objects.filter(codigo_residencia=residencia)
+        #Rechaza los alquileres cancelados
+        semanasAlquiladas=filter(lambda x: x.cancelado==False, semanasAlquiladas)
+        agregarDias(semanasAlquiladas, diasOcupados)
+        semanasHotSales=HotSale.objects.filter(codigo_residencia=residencia)
+        agregarDias(semanasHotSales, diasOcupados)
+    if request.method == "POST":
+        monto = request.POST.get("monto")
+        if monto == "" or int(monto) < 1:  
+            messages.error(request, "El precio del HotSale debe ser mayor a 0.")
+        else:
+            monto= int(monto)
+            hotsale=HotSale()
+            fecha = request.POST.get('week-picker').split()[0].replace("/", "-")
+            fecha_inicial = datetime.strptime(fecha, '%Y-%m-%d')
+            hotsale.fecha = (fecha_inicial - timedelta(days=fecha_inicial.weekday()))
+            hotsale.codigo_residencia=residencia
+            hotsale.precio=int(monto)
+            hotsale.save()
+            messages.success(request, "HotSale creado exitosamente.")
+            return redirect ("/detalle_residencia/"+ str(residencia.pk))
+    return (render(request, "crear_hotsale.html", {"residencia":residencia, "diasOcupados": diasOcupados, "comienzo_busqueda":fecha_inicial, "fin_busqueda": fecha_final}))
 
 def alquilar_residencia(request):
     if (not request.user.is_authenticated) or request.user.type != "premium":
@@ -445,6 +484,13 @@ def confirmar_cancelacion_alquiler(request, pk):
     else:
         return redirect("/")
     return (render(request, 'confirmar_cancelacion_alquiler.html', {'alquiler':alquiler, "fecha": fecha}))
+
+def cancelar_hotsale(request):
+    if request.method=="POST":
+        hotsale=HotSale.objects.get(pk=request.POST.get('codigo'))
+        hotsale.delete()
+        messages.success(request, "HotSale cancelado con exito.")
+        return redirect(request.POST.get("path"))
 
 def confirmar_hotsale(request):
     if request.method == "POST":

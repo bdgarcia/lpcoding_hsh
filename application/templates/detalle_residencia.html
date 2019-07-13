@@ -162,7 +162,8 @@
                         {% if user.type == "admin" %}
                     <div class="button-container">
                         <div id="detalleResidencia">
-                            <a href="{% url 'mod_residencia' pk=residencia.pk %}" > <button class="boton-detalle"> Modificar Residencia </button> </a>
+                            <a href="{% url 'mod_residencia' pk=residencia.pk %}" > <button class="boton-detalle"> Modificar Residencia </button> </a> <br>
+                            <a href="{% url 'crear_hotsale' pk=residencia.pk %}" > <button class="boton-detalle"> Crear HotSale </button> </a>                        
                         </div>
                     </div>
                 {% endif %}
@@ -202,22 +203,23 @@
                 {% endif %}
                 {% for hotsale in hotsales %}
                     <div class="row container-detalles container-puja">
-                        <h3>Porpiedad en hotsale para la semana del: {{ hotsale.fecha }}, aprovecha esta oferta antes que nadie!</h3>
-                        <h4 class="texto_detalle"> Precio del hotsale: <b>${{ hotsale.precio }}</b></h4>
+                        <h3>Propiedad en HotSale para la semana del: {{ hotsale.fecha }} ¡Aprovecha esta oferta antes que nadie!</h3>
+                        <h4 class="texto_detalle"> Precio del HotSale: <b>${{ hotsale.precio }}</b></h4>
                     {% if user.type == "comun" or user.type == "premium" %}
                             <form action='/hotsale/alquilar/' method='post'>{% csrf_token %}
                                 </br></br>
                                 <input type="hidden" name="codigo" value="{{ hotsale.pk }}">
-                                <button type='submit' class="container-widget boton-detalle" name="btnGuardar" >Alquilar!</button>
+                                <button type='submit' class="container-widget boton-detalle" name="btnGuardar" >¡Alquilar!</button>
                             </form>
                         </div>
                     {% endif %}
                     {% if user.type == "admin" %}
                         <div class="button-container">
-                            <form action="/hotsale/cerrar_hotsale/" method="post">
+                            <form action="/hotsale/cancelar/" method="post">
                                 {% csrf_token %}
                                 <input type="hidden" name="codigo" value="{{ hotsale.pk }}">
-                                <button type="submit" id="cerrarSubasta" class="boton-detalle">Cerrar Hotsale</button>
+                                <input type="hidden" name="path" value="{{ request.path }}">
+                                <button type="submit" id="cancelar_hotsale" class="boton-detalle">Cancelar HotSale</button>
                             </form>
                         </div>
                     {% endif %}

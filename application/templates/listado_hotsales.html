@@ -10,6 +10,20 @@
 <div class="container-fluid spacing">
 	<div class="row">
 		<div class="col-md-12">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="col-md-12">
+                        {% if message.tags == "success" %} 
+                        <div class="alert alert-dismissable alert-success">   
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                                ×
+                            </button>
+                            <strong>{{ message }}</strong>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
 			<table class="table">
 				<thead>
 					<tr>
@@ -47,11 +61,11 @@
                             {{ hotsale.fecha }}
                         </td>
                         <td>
-                            <!--<form action="cerrar_subasta/" method="post">
-                                
+                            <form action="/hotsale/cancelar/" method="post">
                                 {% csrf_token %}
-                                <button type="submit" id="cerrarSubasta" class="boton-detalle-tabla">Cancelar subasta</button>-->
-                            <button class="boton-detalle-tabla">Cancelar Hotsale</button>
+                                <input type="hidden" name="codigo" value="{{ hotsale.pk }}">
+                                <input type="hidden" name="path" value="{{ request.path }}">
+                                <button type="submit" id="cancelar_hotsale" class="boton-detalle-tabla">Cancelar HotSale</button>
                             </form>
 						</td>
 					</tr>
